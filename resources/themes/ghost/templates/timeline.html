@@ -10,7 +10,23 @@
     background: #ffffff;
     border-radius: 5px;
   }
-
+  
+  .editor-btns {
+	background: #280a66;
+	border-radius: 5px;
+  }
+  
+	.post-tags, .post-tags-box {
+	border: 1px solid #280a66; 
+	border-radius: 3px;
+	color: #000000;
+	}
+	
+	.post-tags:active {
+	background: #280a66;
+	color: #ffffff;
+	}
+	
   .mb-textarea {
     border: none;
     font-size: 18px;
@@ -196,14 +212,40 @@
                                                              class="mb-icon-link upload_link">
                     <i class="fas fa-video d-block icon-video mx-auto"></i>
                     <span> Video </span> </a></div>
-
                 </div>
               </div>
-              <div class="post-btn mt-3 text-right w-100">
-                <button class="btn btn-mb-post text-center float-right px-5 d-block ">Cancel</button>
-                <button class="btn btn-mb-post text-center float-right px-5 d-block ">Save Draft</button>
-                <button class="btn btn-mb-post text-center float-right px-5 d-block">Post</button>
-              </div>
+			  <div class="my-2 justify-content-space-around">
+                    <div class="btn-group btn-group-toggle post-tags-box" data-toggle="buttons">
+					  <label class="btn btn-sm btn-outline-primary post-tags">
+						<input type="checkbox" name="options" id="option1" autocomplete="off"> Politics
+					  </label>
+					  <label class="btn btn-sm btn-outline-primary post-tags">
+						<input type="checkbox" name="options" id="option2" autocomplete="off"> Sports
+					  </label>
+					  <label class="btn btn-sm btn-outline-primary post-tags">
+						<input type="checkbox" name="options" id="option3" autocomplete="off"> Health
+					  </label>
+					  <label class="btn btn-sm btn-outline-primary post-tags">
+						<input type="checkbox" name="options" id="option4" autocomplete="off"> Technology
+					  </label>
+					  <label class="btn btn-sm btn-outline-primary post-tags">
+						<input type="checkbox" name="options" id="option5" autocomplete="off"> News/Lifestyle
+					  </label>
+					  <label class="btn btn-sm btn-outline-primary post-tags">
+						<input type="checkbox" name="options" id="option6" autocomplete="off"> Movies
+					  </label>
+					  <label class="btn btn-sm btn-outline-primary post-tags">
+						<input type="checkbox" name="options" id="option7" autocomplete="off"> Music
+					  </label>
+					  <label class="btn btn-sm btn-outline-primary post-tags">
+						<input type="checkbox" name="options" id="option8" autocomplete="off"> Fitness
+					  </label>
+					</div>
+					  <div class="btn-group mt-3 float-right w-50 editor-btns" role="group" aria-label="Editor Options">
+						  <button type="button" class="btn" style="color: white;">Cancel</button>
+						  <button type="button" class="btn" style="color: white;">Save Draft</button>
+						  <button type="button" class="btn" style="color: white;">Post</button>
+					  </div>
             </div>
             </div>
             <!-- Micro Blog Editor Ends Here -->

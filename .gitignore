@@ -1,9 +1,10 @@
 composer.phar
+/storage/
 /vendor/
 /src/config/settings.json
 /src/config/auth.json
 /src/config/app.json
-/storage/rss/
+/storage/rss/rss.xml
 composer.dev.*
 node_modules/
 build/

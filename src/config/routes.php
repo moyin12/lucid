@@ -414,7 +414,7 @@ Router::get('/subscribers', function ($request) {
     $fcount = $count->fcount();
     $count = $count->count();
 
-    return $this->template->render('subscriber.html', ['sub' => $list, 'count' => $count, 'fcount' => $fcount]);
+    return $this->template->render('subscribers.html', ['sub' => $list, 'count' => $count, 'fcount' => $fcount]);
 });
 Router::get('/unsubscribe', function ($request) {
     $user = new Ziki\Core\Auth();

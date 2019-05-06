@@ -58,7 +58,7 @@ class Document
             foreach ($image as $key => $value) {
                 $decoded = base64_decode($image[$key]);
                 $url = "./storage/images/" . $key;
-                FileSystem::write($url, $decoded);
+                Ziki\Core\FileSystem::write($url, $decoded);
             }
         }
 
@@ -80,7 +80,7 @@ class Document
         $file = $this->file;
         $dir = $file . $unix . ".md";
         //return $dir; die();
-        $doc = FileSystem::write($dir, $yaml);
+        $doc = Ziki\Core\FileSystem::write($dir, $yaml);
         if (!$extra) {
             if ($doc) {
                 $result = array("error" => false, "message" => "Post published successfully");

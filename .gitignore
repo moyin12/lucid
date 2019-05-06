@@ -1,5 +1,6 @@
 composer.phar
 /vendor/
+/storage/
 /src/config/settings.json
 /src/config/auth.json
 /src/config/app.json

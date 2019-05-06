@@ -43,6 +43,31 @@
       $('#sidebar-collapse-2').toggleClass('visible fas fa-arrow-circle-right fa-2x');
     });
   });
+
+
+  // Code for editor switching.... 
+  var content_id = 'editor';  
+
+  max = 50;
+
+  //binding keyup/down events on the contenteditable div
+  $('#'+content_id).keyup(function(e){ check_charcount(content_id, max, e); });
+  $('#'+content_id).keydown(function(e){ check_charcount(content_id, max, e); });
+
+  function check_charcount(content_id, max, e)
+  {   
+    if($('#'+content_id).text().length > max)
+    {
+      // e.preventDefault();
+      $('#new-post-title').addClass('form-control show');
+      document.getElementById("num_char").innerHTML = "Full Blog Mode";
+    }else{
+      $('#new-post-title').removeClass('form-control show');
+      document.getElementById("num_char").innerHTML = "Micro-blog Mode";
+    }
+  }
+
+  // code for editormode switching ends here..
 </script>
 
 <!--Email login modal (uncomment this code for modal to work, but then, the side war won't work-->
@@ -66,7 +91,7 @@
 
     let param = $$('.email-input').value;
     let host = $$('.host').value;
-    let url = `https://auth.techteel.com/api/login/email?address=${param}?domain=${host}`;
+    let url = `https://auth.techteel.com/api/login/email?address=${param}&domain=${host}`;
     fetch(url)
       .then((res) => { return res.json() })
       .then((data) => {
@@ -110,8 +135,7 @@
 <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
 <script src="https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js"></script>
 <!-- convert to markdown script ends -->
-
-
+ 
 <script>
   // added by sleekX
   var form = document.querySelector('.timeline-editor');
@@ -128,6 +152,11 @@
     const formData = new FormData(document.querySelector('#editor-form'));
     const blogBody = document.querySelector('.ql-editor').innerHTML;
 
+    const title = document.querySelector("#new-post-title").value;
+    if(title != ""){
+      formData.set('title', title);
+    }
+    
     // convert to markdown
     const turndownService = new TurndownService({ codeBlockStyle: 'fenced' });
     const gfm = turndownPluginGfm.gfm;

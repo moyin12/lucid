@@ -16,30 +16,32 @@
 
 			<div class="row mt-5">
 				<div class="col-12">
-						{% for key, list in sub %}
-				<div class="row pt-4 pb-4">
+					{% for key, list in sub %}
+					<div class="row pt-4 pb-4">
 						<div class="col-2 col-sm-2">
 							<img src="{{list.img | raw }}" alt="ziki logo" class="img-fluid rounded-circle blogger-image" />
 						</div>
 						<div class="col-8 col-sm-8">
 							<div class="row second">
 								<div class="col-12">
-									<a href="{{list.rss | raw }}"><h5 class="purple"><b>{{list.name | raw }}</b></h5></a>
+									<a href="{{list.link | raw }}">
+									<h5 class="purple"><b>{{list.name | raw }}</b></h5>
 									<p>{{list.desc | raw }}</p>
+									</a>
 								</div>
 							</div>
 						</div>
 
 						<div class="col-2 col-sm-2">
-							<a href="javascript:unsubscribe('{{list.name | raw }}','{{list.time | raw }}')">
 							<button type="button" class="not-following-button btn text-nowrap mb-3" data-toggle="modal"
                                     data-target="#unfollow">
 								Unfollow
 							</button>
-							</a>
 						</div>
 					</div>
-			{% endfor %}
+
+					{% endfor %}
+
 				</div>
 			</div>
 

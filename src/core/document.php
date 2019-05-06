@@ -117,16 +117,14 @@ class Document
                 $body = $document->getContent();
                 //$document = FileSystem::read($this->file);
                 $parsedown  = new Parsedown();
-                if (!isset($yaml['tags'])) {
-                    continue;
-                }
-                $tags = $yaml['tags'];
-                $title = $parsedown->text($yaml['title']);
+                $tags = isset($yaml['tags'])?$yaml['tags']:'';
+                $title = isset($yaml['title'])?$parsedown->text($yaml['title']):'';
                 $slug = $parsedown->text($yaml['slug']);
                 $image = isset($yaml['image'])?$parsedown->text($yaml['image']):'';
                 $slug = preg_replace("/<[^>]+>/", '', $slug);
                 $image = preg_replace("/<[^>]+>/", '', $image);
                 $bd = $parsedown->text($body);
+                ////
                 preg_match('/<img[^>]+src="((\/|\w|-)+\.[a-z]+)"[^>]*\>/i', $bd, $matches);
                 $first_img = false;
                 if (isset($matches[1])) {
@@ -291,7 +289,7 @@ class Document
 
         $finder = new Finder();
         $finder->files()->in($this->file);
-
+//print_r($finder->hasResults());
         if ($finder->hasResults()) {
             foreach ($finder as $file) {
                 $document = $file->getContents();
@@ -301,14 +299,14 @@ class Document
                 $body = $document->getContent();
 
                 $parsedown  = new Parsedown();
-                if (!isset($yaml['tags'])) {
-                    continue;
-                }
-                $tags = $yaml['tags'];
+
                 $title = $parsedown->text($yaml['title']);
                 $slug = $parsedown->text($yaml['slug']);
+                $image = isset($yaml['image'])?$parsedown->text($yaml['image']):'';
                 $slug = preg_replace("/<[^>]+>/", '', $slug);
+                $image = preg_replace("/<[^>]+>/", '', $image);
                 $bd = $parsedown->text($body);
+
                 preg_match('/<img[^>]+src="((\/|\w|-)+\.[a-z]+)"[^>]*\>/i', $bd, $matches);
                 $first_img = false;
                 if (isset($matches[1])) {
@@ -322,7 +320,7 @@ class Document
 
                 $newItem = $Feed->createNewItem();
                 $newItem->setTitle(strip_tags($title));
-                $newItem->setLink($slug);
+                $newItem->setLink("/post/".strtolower($slug));
                 $newItem->setDescription(substr(strip_tags($bd), 0, 100));
                 $newItem->setDate(date(DATE_RSS, time()));
 
@@ -470,7 +468,7 @@ class Document
                 $slug = $parsedown->text($yaml['slug']);
                 $slug = preg_replace("/<[^>]+>/", '', $slug);
                 if ($slug == $id) {
-                    $title = $parsedown->text($yaml['title']);
+                    $title = isset($yaml['title'])?$parsedown->text($yaml['title']):'';;
                     $bd = $parsedown->text($body);
                     $time = $parsedown->text($yaml['timestamp']);
                     $url = $parsedown->text($yaml['post_dir']);
@@ -487,7 +485,7 @@ class Document
     //end of get a post function
 
     // post
-    public function update($id)
+    public function tagPosts($id)
     {
         $finder = new Finder();
         // find all files in the current directory
@@ -606,18 +604,16 @@ class Document
                 $yaml = $document->getYAML();
                 $body = $document->getContent();
                 $parsedown  = new Parsedown();
-                if (!isset($yaml['tags'])) {
-                    continue;
-                }
+                $yamlTag = isset($yaml['tags'])?$yaml['tags']:[];
                 $tags=[];
-                foreach($yaml['tags'] as $tag)
+                foreach($yamlTag as $tag)
                 {
                     $removeHashTag = explode('#',$tag);
                     $tags[]=trim(end($removeHashTag));
                 }
                 $slug = $parsedown->text($yaml['slug']);
                 $slug = preg_replace("/<[^>]+>/", '', $slug);
-                $title = $parsedown->text($yaml['title']);
+                $title = isset($yaml['title'])?$parsedown->text($yaml['title']):'';
                 $bd = $parsedown->text($body);
                 $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);
@@ -642,12 +638,12 @@ class Document
 
     public function getRelatedPost($limit=4,$tags,$skip_post)
     {
-        
+
         $finder = new Finder();
         // find post in the current directory
         $finder->files()->in($this->file)->notName($skip_post.'.md')->contains($tags);
         $posts=[];
-        if ($finder->hasResults()) 
+        if ($finder->hasResults())
         {
             foreach ($finder as $file)
             {

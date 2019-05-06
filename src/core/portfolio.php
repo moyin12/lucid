@@ -12,7 +12,7 @@ use KzykHys\FrontMatter\Document as Doc;
  *
  */
 
-class Document
+class Portfolio
 {
     //define an instance of the symfony clss
     //define an instance of the frontMatter class

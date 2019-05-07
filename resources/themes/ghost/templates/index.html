@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col-12">
       {% for feed in posts %}
-      {% if feed.image is not same as (" ") %}
+      {% if feed.image %}
       <div class="row pt-4 pb-4">
         <div class="col-12 col-sm-3 col-md-3 col-lg-3">
           <img src="{{feed.image | raw}}" alt="{{feed.title | raw}}" class="img-fluid post-image" />
@@ -34,7 +34,7 @@
         <div class="col-12 col-sm-11 col-md-11 col-lg-10">
           <div class="second">
             <h6 class="purple"><b>{{feed.date | raw}}</b></h6>
-            <a href="blog-details/{{feed.link}}">
+            <a href="{{feed.link}}">
               <h3><b>{{feed.title | raw}}</b></h3>
             </a>
             <p>{{feed.desc | raw}}</p>

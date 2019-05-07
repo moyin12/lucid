@@ -140,7 +140,7 @@ class Document
                 $content['url'] = $url;
                 $content['timestamp'] = $time;
                 $content['tags'] = $tags;
-                $content['slug'] = $slug;
+                $content['slug'] = $this->clean($slug);
                 $content['preview_img'] = $first_img;
                 //content['slug'] = $slug;
                 $file = explode("-", $slug);
@@ -175,6 +175,12 @@ class Document
 
         return $string;
     }
+    ///use to clean slug special chars problem solved
+   public function clean($string) {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+     }
 
     public function fetchAllRss()
     {
@@ -233,8 +239,8 @@ class Document
     public function fetchRss()
     {
         $xml = file_get_contents("./storage/rss/rss.xml");
-         
-        if(strlen($xml != "") ){
+
+        if(strlen($xml !==false) ){
             $feed = [];
         $rss = new \DOMDocument();
         $user = file_get_contents("src/config/auth.json");
@@ -242,7 +248,7 @@ class Document
         $urlArray = array(
             array('name' => $user['name'], 'url' => 'storage/rss/rss.xml', 'img' => $user['image']),
         );
-        
+
         foreach ($urlArray as $url) {
             $rss->load($url['url']);
 
@@ -272,7 +278,7 @@ class Document
         $user = file_get_contents("src/config/auth.json");
         $user = json_decode($user, true);
 
-        date_default_timezone_set('UTC');
+      //  date_default_timezone_set('UTC');
         $Feed = new RSS2;
         // Setting some basic channel elements. These three elements are mandatory.
         $Feed->setTitle($user['name']);
@@ -324,14 +330,13 @@ class Document
                     // strip all images from the text
                     $bd = preg_replace("/<img[^>]+\>/i", "", $bd);
                 }
-                $time = $parsedown->text(time());
+                $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);
-
                 $newItem = $Feed->createNewItem();
                 $newItem->setTitle(strip_tags($title));
                 $newItem->setLink("/post/".strtolower($slug));
                 $newItem->setDescription(substr(strip_tags($bd), 0, 100));
-                $newItem->setDate(date(DATE_RSS, time()));
+                $newItem->setDate(date(\DateTime::RSS, strtotime($yaml['timestamp'])));
 
                 $newItem->setAuthor($user['name'], $user['email']);
                 $newItem->setId($url, true);
@@ -687,7 +692,7 @@ class Document
                 $content['url'] = $url;
                 $content['timestamp'] = $time;
                 $content['tags'] = str_replace('#','',implode(',',$tags));
-                $content['slug'] = $slug;
+                $content['slug'] = $this->clean($slug);
                 $content['preview_img'] = $first_img;
                 //content['slug'] = $slug;
                 $file = explode("-", $slug);

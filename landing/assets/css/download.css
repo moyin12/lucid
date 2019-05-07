@@ -301,7 +301,50 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Small Devices (≥768px) */
 @media screen and (min-width: 768px) {
-  
+    .banner-text-container {
+        margin-top: 5rem;
+        text-align: center;
+    }
+    .banner-text {
+        /* font-size: 40px;
+        line-height: 45px; */
+        font-size: 70px;
+        line-height: 67px;
+    }
+    .features-section-content-container {
+        padding-right: 1em;
+        padding-left: 1em;
+    }
+    .testimonial-container {
+        height: auto;
+    }
+    .testimonial-container > p {
+        min-height: auto;
+        padding: 2em;
+    }
+    .profile-info {
+        padding: 2em;
+    }
+    .footer-section {
+        text-align: center;
+    }
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+        padding-top: 0;
+    }
+    .footer-link {
+        margin-right: 0
+    }
+    .footer-bottom {
+        padding: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-form {
+        justify-content: center !important;
+        margin-top: 2rem;
+    }
 }
 
 /* Medium Devices (≥992px) */

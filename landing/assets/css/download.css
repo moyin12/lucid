@@ -17,7 +17,7 @@
 }
 
 .navbar-nav > li {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
 .navbar-nav > li:last-of-type {
@@ -167,6 +167,30 @@
 
 .footer-input {
     width: 200px;
+}
+
+.footer-input::-webkit-input-placeholder {
+    font-size: 14px;
+}
+
+.footer-input  ::-moz-placeholder {
+    font-size: 14px;
+}
+
+.footer-input:-ms-input-placeholder {
+    font-size: 14px;
+}
+
+.footer-input::placeholder {
+    font-size: 14px;
+}
+
+.footer-bottom {
+    padding: 1rem;
+}
+
+.footer-links {
+    padding-top: 0.4rem;
 }
 
 h1, h2, h3, h4, h5, h6 {

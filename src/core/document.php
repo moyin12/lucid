@@ -222,9 +222,7 @@ class Document
                 array_push($feed, $item);
             }
         }
-        usort($feed, function ($a, $b) {
-            return strtotime($b['date']) - strtotime($a['date']);
-        });
+        krsort($feed);
         return $feed;
     }
     else{
@@ -235,8 +233,9 @@ class Document
     public function fetchRss()
     {
         $xml = file_get_contents("./storage/rss/rss.xml");
-         $feed = [];
-        if(strlen($xml != " ") ){
+         
+        if(strlen($xml != "") ){
+            $feed = [];
         $rss = new \DOMDocument();
         $user = file_get_contents("src/config/auth.json");
         $user = json_decode($user, true);
@@ -260,9 +259,7 @@ class Document
                 array_push($feed, $item);
             }
         }
-        usort($feed, function ($a, $b) {
-            return strtotime($b['date']) - strtotime($a['date']);
-        });
+        krsort($feed);
         return $feed;
     }
     else{

@@ -222,9 +222,7 @@ class Document
                 array_push($feed, $item);
             }
         }
-        usort($feed, function ($a, $b) {
-            return strtotime($b['date']) - strtotime($a['date']);
-        });
+        krsort($feed);
         return $feed;
     }
     else{
@@ -260,9 +258,7 @@ class Document
                 array_push($feed, $item);
             }
         }
-        usort($feed, function ($a, $b) {
-            return strtotime($b['date']) - strtotime($a['date']);
-        });
+        krsort($feed);
         return $feed;
     }
     else{

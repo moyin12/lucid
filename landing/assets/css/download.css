@@ -306,8 +306,6 @@ h1, h2, h3, h4, h5, h6 {
         text-align: center;
     }
     .banner-text {
-        /* font-size: 40px;
-        line-height: 45px; */
         font-size: 70px;
         line-height: 67px;
     }
@@ -349,7 +347,29 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Medium Devices (≥992px) */
 @media screen and (min-width: 992px) {
-  
+    .testimonial-container {
+        height: 400px;
+    }
+    .testimonial-container > p {
+        padding: 1em;
+        min-height: 200px;
+    }
+    .profile-info {
+        padding: 1em;
+    }
+    .footer-bottom {
+        /* padding: 0; */
+        flex-direction: row;
+        /* align-items: center; */
+    }
+    .footer-links {
+        /* display: flex; */
+        flex-direction: row;
+        margin-top: 2rem;
+    }
+    .footer-link {
+        margin-right: 1rem;
+    }
 }
 
 /* Medium Devices (≥1200px) */

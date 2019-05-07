@@ -215,9 +215,9 @@ Router::get('/portfolio-expanded', function ($request) {
 // ahmzyjazzy add this (^_^) : setting page
 Router::get('/settings', function ($request) {
     $user = new Ziki\Core\Auth();
-    // if (!$user->is_logged_in()) {
-    //     return $user->redirect('/');
-    // }
+    if (!$user->is_logged_in()) {
+        return $user->redirect('/');
+    }
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();

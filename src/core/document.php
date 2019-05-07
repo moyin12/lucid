@@ -178,8 +178,10 @@ class Document
 
     public function fetchAllRss()
     {
-        $rss = new \DOMDocument();
+        $xml = file_get_contents("./storage/rss/rss.xml");
         $feed = [];
+        if(strlen($xml != 0) ){
+        $rss = new \DOMDocument();
         $user = file_get_contents("src/config/auth.json");
         $user = json_decode($user, true);
         $data = file_get_contents("storage/rss/subscription.json");
@@ -225,9 +227,15 @@ class Document
         });
         return $feed;
     }
+    else{
+        return false;
+    }
+    }
     //RSS designed By DMAtrix;
     public function fetchRss()
     {
+        $xml = file_get_contents("./storage/rss/rss.xml");
+        if(strlen($xml != 0) ){
         $rss = new \DOMDocument();
         $feed = [];
         $user = file_get_contents("src/config/auth.json");
@@ -235,7 +243,7 @@ class Document
         $urlArray = array(
             array('name' => $user['name'], 'url' => 'storage/rss/rss.xml', 'img' => $user['image']),
         );
-
+        
         foreach ($urlArray as $url) {
             $rss->load($url['url']);
 
@@ -257,6 +265,11 @@ class Document
         });
         return $feed;
     }
+    else{
+        $feed = "<p> You have no post here, start posting something Awesome..</p>";
+        return $feed;
+    }
+}
     //store rss By DMAtrix
     public function createRSS()
     {

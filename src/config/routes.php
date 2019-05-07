@@ -218,8 +218,6 @@ Router::get('/settings', function ($request) {
     if (!$user->is_logged_in()) {
         return $user->redirect('/');
     }
-    $setting = new Ziki\Core\Setting();
-    $settings = $setting->getSetting();
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();

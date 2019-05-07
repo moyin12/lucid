@@ -140,7 +140,7 @@ class Document
                 $content['url'] = $url;
                 $content['timestamp'] = $time;
                 $content['tags'] = $tags;
-                $content['slug'] = $slug;
+                $content['slug'] = $this->clean($slug);
                 $content['preview_img'] = $first_img;
                 //content['slug'] = $slug;
                 $file = explode("-", $slug);
@@ -175,6 +175,12 @@ class Document
 
         return $string;
     }
+    ///use to clean slug special chars problem solved
+   public function clean($string) {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+     
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+     }
 
     public function fetchAllRss()
     {
@@ -687,7 +693,7 @@ class Document
                 $content['url'] = $url;
                 $content['timestamp'] = $time;
                 $content['tags'] = str_replace('#','',implode(',',$tags));
-                $content['slug'] = $slug;
+                $content['slug'] = $this->clean($slug);
                 $content['preview_img'] = $first_img;
                 //content['slug'] = $slug;
                 $file = explode("-", $slug);

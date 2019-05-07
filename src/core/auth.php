@@ -58,37 +58,43 @@ class Auth {
     }
     public static function setup ($data)
     {
-        $check_settings = self::isInstalled();
-        if($check_settings == true) {
-            $s_file = "./src/config";
-            $data['name'] = $data['firstname']." ".$data['lastname'];
-            $site_url = $data['domainName'].$data['domain'];
-            $data['image'] = "https://res.cloudinary.com/dc9kfp5gt/image/upload/v1556862782/business-color_business-contact-86_icon-icons.com_53469_ckkqq7.png";
-            $save = json_encode($data);
-            $doc = FileSystem::write("{$s_file}/auth.json", $save);
-            $destination = $data['email'];
-            $mail_check = self::sendMail($destination, $data['name'], $site_url);
-            
-            /*$url = "https://auth.techteel.com/api/login/email?address={$data['email']}?domain={$site_url}";
-            $ch = curl_init();
-            //Set the URL that you want to GET by using the CURLOPT_URL option.
-            curl_setopt($ch, CURLOPT_URL, $url);
-            
-            //Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            
-            //Set CURLOPT_FOLLOWLOCATION to true to follow redirects.
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            
-            //Execute the request.
-            $result = curl_exec($ch);
-            
-            //Close the cURL handle.
-            curl_close($ch);*/
-             return $mail_check;
+        if($data['email'] =='' || $data['firstname'] =='' || $data['lastname'] =='' || $data['acceptTerms'] == '') {
+            $failed = array('error' => true, 'message' => 'Compulsory fields are not filled [email, firstname, lastname, and terms].');
+            die(json_encode($failed));
         }
         else{
-            return false;
+            $check_settings = self::isInstalled();
+            if($check_settings == true) {
+                $s_file = "./src/config";
+                $data['name'] = $data['firstname']." ".$data['lastname'];
+                $site_url = $data['domainName'].$data['domain'];
+                $data['image'] = "https://res.cloudinary.com/dc9kfp5gt/image/upload/v1556862782/business-color_business-contact-86_icon-icons.com_53469_ckkqq7.png";
+                $save = json_encode($data);
+                $doc = FileSystem::write("{$s_file}/auth.json", $save);
+                $destination = $data['email'];
+                $mail_check = self::sendMail($destination, $data['name'], $site_url);
+                
+                /*$url = "https://auth.techteel.com/api/login/email?address={$data['email']}?domain={$site_url}";
+                $ch = curl_init();
+                //Set the URL that you want to GET by using the CURLOPT_URL option.
+                curl_setopt($ch, CURLOPT_URL, $url);
+                
+                //Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                
+                //Set CURLOPT_FOLLOWLOCATION to true to follow redirects.
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                
+                //Execute the request.
+                $result = curl_exec($ch);
+                
+                //Close the cURL handle.
+                curl_close($ch);*/
+                return $mail_check;
+            }
+            else{
+                return false;
+            }
         }
     }
     public static function getAuth($data, $role){

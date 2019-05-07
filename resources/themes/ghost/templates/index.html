@@ -12,7 +12,7 @@
   <!-- Feed listing -->
   <div class="row">
     <div class="col-12">
-{% for key, feed in posts %}
+{% for feed in posts %}
 {% if feed.image is not same as (" ") %}
       <div class="row pt-4 pb-4">
         <div class="col-12 col-sm-3 col-md-3 col-lg-3">
@@ -42,14 +42,15 @@
         </div>
       </div>
       {% endif %}
-      {% else %}
+      
+     {% else %}
       <div class="row">
         <div class="no-post-alert mx-auto my-4">
             <p class="text-grey">
                 You have no published posts yet. Click <a href="/timeline" style="color:#280A66;">here</a> to start publishing.
             </p>
         </div>
-    </div>
+    </div> 
   {% endfor %}
     </div>
   </div>

@@ -24,7 +24,7 @@
 						<div class="col-8 col-sm-8">
 							<div class="row second">
 								<div class="col-12">
-									<a href="{{list.link | raw }}">
+									<a href="/">
 									<h5 class="purple"><b>{{list.name | raw }}</b></h5>
 									<p>{{list.desc | raw }}</p>
 									</a>
@@ -33,8 +33,9 @@
 						</div>
 
 						<div class="col-2 col-sm-2">
-							<button type="button" class="not-following-button btn text-nowrap mb-3">
-								Following
+							<button type="button" class="following-button btn text-nowrap mb-3" data-toggle="modal"
+                                    data-target="#unfollow">
+								Follow
 							</button>
 						</div>
 					</div>

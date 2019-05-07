@@ -10,7 +10,7 @@ class Config
 	 */
 	 
 	public static function json($file) {
-		
+	/** */	
 		if (file_exists($file)) {
 			foreach (json_decode(file_get_contents($file), true) as $name => $value) {
 				define($name, $value);	

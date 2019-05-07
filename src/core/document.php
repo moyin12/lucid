@@ -233,8 +233,9 @@ class Document
     public function fetchRss()
     {
         $xml = file_get_contents("./storage/rss/rss.xml");
-         $feed = [];
-        if(strlen($xml != " ") ){
+         
+        if(strlen($xml != "") ){
+            $feed = [];
         $rss = new \DOMDocument();
         $user = file_get_contents("src/config/auth.json");
         $user = json_decode($user, true);

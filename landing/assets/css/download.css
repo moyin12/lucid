@@ -17,7 +17,7 @@
 }
 
 .navbar-nav > li {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
 .navbar-nav > li:last-of-type {
@@ -108,13 +108,13 @@
 .profile-details {
     display: flex;
     flex-direction: column;
-    padding-left: 2em;
-    padding-top: 4em;
+    /* padding-left: 2em; */
+    padding-top: 2em;
 }
 
 .profile-details > p:first-of-type {
     font-size: 18px;
-    line-height: 0.1rem;
+    /* line-height: 0.1rem; */
     font-weight: 500;
 }
 
@@ -167,6 +167,30 @@
 
 .footer-input {
     width: 200px;
+}
+
+.footer-input::-webkit-input-placeholder {
+    font-size: 14px;
+}
+
+.footer-input::-moz-placeholder {
+    font-size: 14px;
+}
+
+.footer-input:-ms-input-placeholder {
+    font-size: 14px;
+}
+
+.footer-input::placeholder {
+    font-size: 14px;
+}
+
+.footer-bottom {
+    padding: 1rem;
+}
+
+.footer-links {
+    padding-top: 0.4rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -233,9 +257,59 @@ h1, h2, h3, h4, h5, h6 {
     color: #000;
 }
 
-@media screen and (max-width: 768px) {
+/* Extra small devices (<767px) */
+@media screen and (max-width: 767px) {
     .footer-form {
-      justify-content: flex-start !important;
-      margin-top: 1rem;
+      justify-content: center !important;
+      margin-top: 2rem;
     }
-  }
+    .banner-text-container {
+        margin-top: 5rem;
+        text-align: center;
+    }
+    .banner-text {
+        font-size: 40px;
+        line-height: 45px;
+    }
+    .features-section-content-container {
+        padding-right: 1em;
+        padding-left: 1em;
+    }
+    .footer-section {
+        text-align: center;
+    }
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+        padding-top: 0;
+    }
+    .footer-link {
+        margin-right: 0
+    }
+    .footer-bottom {
+        padding: 0
+    }
+    .download-section-heading {
+        font-size: 35px;
+        line-height: 45px;
+        margin-bottom: 2rem;
+    }
+    .download-section-content {
+        text-align: center;
+    }
+}
+
+/* Small Devices (≥768px) */
+@media screen and (min-width: 768px) {
+  
+}
+
+/* Medium Devices (≥992px) */
+@media screen and (min-width: 992px) {
+  
+}
+
+/* Medium Devices (≥1200px) */
+@media screen and (min-width: 1200px) {
+  
+}

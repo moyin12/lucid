@@ -565,12 +565,19 @@ Router::post('/setup', function ($request) {
 
 Router::get('/install', function ($request) {
     $user = new Ziki\Core\Auth();
+    $system = new Ziki\Core\System();
     if ($user::isInstalled() == false) {
         return $user->redirect('/');
     } else {
         $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
         $host = $user->hash($url);
-        return $this->installer->render('install.html', ['host' => $host, 'domain' => $url]);
+        $checks = $system->checkSystem();
+        if($checks){
+            return $this->installer->render('install.html', ['host' => $host, 'domain' => $url]);
+        }
+        else{
+            die(json_encode($checks));
+        }
     }
 });
 

@@ -180,7 +180,7 @@ class Document
     {
         $xml = file_get_contents("./storage/rss/rss.xml");
         $feed = [];
-        if(strlen($xml != 0) ){
+        if(strlen($xml != "") ){
         $rss = new \DOMDocument();
         $user = file_get_contents("src/config/auth.json");
         $user = json_decode($user, true);
@@ -235,9 +235,9 @@ class Document
     public function fetchRss()
     {
         $xml = file_get_contents("./storage/rss/rss.xml");
-        if(strlen($xml != 0) ){
+         $feed = [];
+        if(strlen($xml != " ") ){
         $rss = new \DOMDocument();
-        $feed = [];
         $user = file_get_contents("src/config/auth.json");
         $user = json_decode($user, true);
         $urlArray = array(
@@ -266,8 +266,7 @@ class Document
         return $feed;
     }
     else{
-        $feed = "<p> You have no post here, start posting something Awesome..</p>";
-        return $feed;
+        return false;
     }
 }
     //store rss By DMAtrix

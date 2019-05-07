@@ -235,8 +235,12 @@ class Document
     public function fetchRss()
     {
         $xml = file_get_contents("./storage/rss/rss.xml");
+<<<<<<< HEAD
          $feed = [];
         if(strlen($xml != " ") ){
+=======
+        if(strlen($xml != 0) ){
+>>>>>>> cd518c7cc5f919bcc15ae56832a1a67ba38b13ea
         $rss = new \DOMDocument();
         $user = file_get_contents("src/config/auth.json");
         $user = json_decode($user, true);
@@ -266,7 +270,12 @@ class Document
         return $feed;
     }
     else{
+<<<<<<< HEAD
         return false;
+=======
+        $feed = "<p> You have no post here, start posting something Awesome..</p>";
+        return $feed;
+>>>>>>> cd518c7cc5f919bcc15ae56832a1a67ba38b13ea
     }
 }
     //store rss By DMAtrix

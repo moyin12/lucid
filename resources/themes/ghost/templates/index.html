@@ -12,8 +12,8 @@
   <!-- Feed listing -->
   <div class="row">
     <div class="col-12">
-{% for feed in posts %}
-{% if feed.image is not same as (" ") %}
+      {% for feed in posts %}
+      {% if feed.image %}
       <div class="row pt-4 pb-4">
         <div class="col-12 col-sm-3 col-md-3 col-lg-3">
           <img src="{{feed.image | raw}}" alt="{{feed.title | raw}}" class="img-fluid post-image" />
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-{% else %}
+      {% else %}
       <div class="row pt-4 pb-4">
         <div class="col-12 col-sm-11 col-md-11 col-lg-10">
           <div class="second">
@@ -47,11 +47,11 @@
       <div class="row">
         <div class="no-post-alert mx-auto my-4">
             <p class="text-grey">
-                You have no published posts yet. Click <a href="/timeline" style="color:#280A66;">here</a> to start publishing.
+                You have no published posts yet. Click <a href="/timeline" style="color:#280A66;"><span class="badge badge-info">here</span></a> to start publishing.
             </p>
         </div>
-    </div> 
-  {% endfor %}
+      </div>
+    {% endfor %}
     </div>
   </div>
   <!-- Feed section ends here -->

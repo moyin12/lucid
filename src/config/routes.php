@@ -1,6 +1,8 @@
 <?php
 use Ziki\Http\Router;
 
+require_once "/home/kuforiji/lucid/src/core/portfolio.php";
+
 session_start();
 Router::get('/', function ($request) {
     $user = new Ziki\Core\Auth();
@@ -211,7 +213,10 @@ Router::get('/portfolio-expanded', function ($request) {
     $count = $count->count();
     return $this->template->render('portfolio-expanded.html');
 });
+// End- Portfolio_expanded
 
+
+// route to create-portfolio page
 Router::get('/new-portfolio', function ($request) {
     $user = new Ziki\Core\Auth();
     if (!$user->is_logged_in()) {
@@ -223,7 +228,34 @@ Router::get('/new-portfolio', function ($request) {
     return $this->template->render('create-portfolio.html');
 });
 
-// End- Portfolio_expanded
+// logic for creating a new portfolio 
+Router::post('/newportfolio', function ($request) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in()) {
+        return $user->redirect('/');
+    }
+    $directory = "./storage/portfolio/";
+    $data = $request->getBody();
+    $title = $data['title'];
+    $body = $data['postVal'];
+    $tags = $data['tags'];
+    // filter out non-image data
+    $initial_images = array_filter($data, function ($key) {
+        return preg_match('/^img-\w*$/', $key);
+    }, ARRAY_FILTER_USE_KEY);
+    // PHP automatically converts the '.' of the extension to an underscore
+    // undo this
+    $images = [];
+    foreach ($initial_images as $key => $value) {
+        $newKey = preg_replace('/_/', '.', $key);
+        $images[$newKey] = $value;
+    }
+    //return json_encode([$images]);
+    $ziki = new Ziki\Core\Portfolio($directory);
+    $result = $ziki->createportfolio($title, $body, $images);
+    return $this->template->render('portfolio.html');
+});
+
 // Kuforiji' codes end here
 
 

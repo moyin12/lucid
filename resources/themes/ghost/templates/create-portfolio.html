@@ -290,7 +290,7 @@
     formData.set('tags', selectedTags);
 
     // send the form data
-    fetch(newPostIsBeingCreated ? '/new-portfolio' : '/portfolio-Draft', {
+    fetch(newPostIsBeingCreated ? '/newportfolio' : '/portfolio-Draft', {
       method: 'POST',
       body: formData
     }).then(res => res.text()).then((res) => {

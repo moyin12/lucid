@@ -1,9 +1,11 @@
 {% set title = "About"%} {% extends 'layout.html' %} {% block page_content %}
 <div class="container-fluid px-5" id="content">
         <div class="row d-block">
+            {% if about %}
             <div class="mb-4">
                 <h3 class="about__heading">About</h3>
             </div>
+            {% endif %}
             <div class="w-100">
                 <p class="text-justify about-text">{{ about | raw }}</p>
             </div>

@@ -87,19 +87,12 @@
     <div class="container main-body">
       <!-- Page body goes here -->
       <div class="row">
-  
-  
-        <div class="col-lg-11 col-md-11 col-sm-12 col-xs-12 body-of-blog mt-5 p-3">
-          <!-- SleekX's code goes here.. -->
-          <div class="row">
-            <div class="col-12">
-              <h4>{{ title }}</h4>
-              <hr />
-            </div>
-          </div>
-  
-          <!-- editor -->
-        <div class="row">
+        <div class="col-12">
+          <h4>{{ title }}</h4>
+          <hr />
+        </div>
+      </div>
+      <div class="row">
           <div class="col-12">
             <!-- The editor code goes here -->
             <div id="form-container">
@@ -116,29 +109,47 @@
                         <label for="new-post-title" class="sr-only">Title</label>
                         <input type="text" id="new-post-title" class="form-control hide" placeholder="Title"/>
                       </div>
-                      <div class="col-12"><div id="editor"></div></div>
+                      <div class="col-12">
+                        <div id="editor">{{ post.body|raw }}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div class="row pt-5">
                   <div class="col-12">
                   <div class="row">
-                    <div class="col-12 collapse" id="collapseExample">
+                    <div class="col-12 pb-5 collapse" id="collapseExample">
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                        <label class="form-check-label" for="inlineCheckbox1">1</label>
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Politics">
+                        <label class="form-check-label" for="inlineCheckbox1">Politics</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                        <label class="form-check-label" for="inlineCheckbox2">2</label>
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Sports">
+                        <label class="form-check-label" for="inlineCheckbox1">Sports</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                        <label class="form-check-label" for="inlineCheckbox1">1</label>
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Health">
+                        <label class="form-check-label" for="inlineCheckbox1">Health</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                        <label class="form-check-label" for="inlineCheckbox2">2</label>
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Technology">
+                        <label class="form-check-label" for="inlineCheckbox1">Technology</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Music">
+                        <label class="form-check-label" for="inlineCheckbox1">Music</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#News/Lifestyle">
+                        <label class="form-check-label" for="inlineCheckbox1">News/Lifestyle</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Movies">
+                        <label class="form-check-label" for="inlineCheckbox1">Movies</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Fitness">
+                        <label class="form-check-label" for="inlineCheckbox1">Fitness</label>
                       </div>
                     </div>
                   </div>
@@ -166,9 +177,7 @@
             </div>
           </div>
         </div>
-        </div>
       </div>
-    </div>
     <!-- modal begins here -->
     <div id="cancelModal" class="modal fade" role="dialog">
       <div class="modal-dialog modal-dialog-centered">
@@ -193,10 +202,6 @@
       </div>
     </div>
   
-    <!--
-    This produces the dark area when the side bar is activated.. Don't touch
-  -->
-    <div class="overlay"></div>
   </div>
   <script>
     const title = document.querySelector("#new-post-title");
@@ -224,7 +229,6 @@
     }
   
   </script>
-  <div class="overlay"></div>
   </div>
   </div>
   </div>

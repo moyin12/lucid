@@ -35,18 +35,21 @@
                                     fill="black" />
                             </svg><span class="font-weight-bold pl-3">Feeds</span></p>
                     </div>
-                    <!--<button type="button" class="rss-subcription-btn base-fs fw-b" data-toggle="modal"
-                                data-target="#subscribe-here">
-                            Subscribe
-                        </button>-->
+
                 </div>
+<div class="d-flex p-3">
 
                 <form action="" method="get" class="form-inline w-75">
                         <div class="w-100">
                             <input class="form-control w-100" type="text" placeholder="Search by website or RSS link">
+                            <input type="submit" name="Search" value="Search">
                         </div>
                 </form>
-
+              </div>
+                <button type="button" class="rss-subcription-btn base-fs fw-b btn-primary" data-toggle="modal"
+                            data-target="#subscribe-here">
+                        Subscribe
+                    </button>
 
                 {% for key, list in sub %}
                 <div class="row justify-content-between mx-0 my-4 w-75 p-0">

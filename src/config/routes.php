@@ -564,6 +564,11 @@ Router::post('/setup', function ($request) {
     }
 });
 
+Router::post('/setup/email/login/{address}', function ($request) {
+    $user = new Ziki\Core\Auth();
+    die("good");
+});
+
 Router::get('/install', function ($request) {
     $user = new Ziki\Core\Auth();
     $system = new Ziki\Core\System();

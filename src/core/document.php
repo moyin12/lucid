@@ -188,9 +188,9 @@ class Document
         $feed = [];
         if(strlen($xml != "") ){
         $rss = new \DOMDocument();
-        $user = file_get_contents("src/config/auth.json");
+        $user = file_get_contents("./src/config/auth.json");
         $user = json_decode($user, true);
-        $data = file_get_contents("storage/rss/subscription.json");
+        $data = file_get_contents("./storage/rss/subscription.json");
         $urlArray = json_decode($data, true);
 
         $urlArray2 = array(array('name' => $user['name'], 'rss' => 'storage/rss/rss.xml','desc' => '', 'link' => '', 'img' => $user['image'], 'time' => ''),
@@ -243,10 +243,10 @@ class Document
         if(strlen($xml !==false) ){
             $feed = [];
         $rss = new \DOMDocument();
-        $user = file_get_contents("src/config/auth.json");
+        $user = file_get_contents("./src/config/auth.json");
         $user = json_decode($user, true);
         $urlArray = array(
-            array('name' => $user['name'], 'url' => 'storage/rss/rss.xml', 'img' => $user['image']),
+            array('name' => $user['name'], 'url' => './storage/rss/rss.xml', 'img' => $user['image']),
         );
 
         foreach ($urlArray as $url) {
@@ -275,7 +275,7 @@ class Document
     //store rss By DMAtrix
     public function createRSS()
     {
-        $user = file_get_contents("src/config/auth.json");
+        $user = file_get_contents("./src/config/auth.json");
         $user = json_decode($user, true);
 
       //  date_default_timezone_set('UTC');
@@ -347,7 +347,7 @@ class Document
                 $Feed->addItem($newItem);
             }
             $myFeed = $Feed->generateFeed();
-            $handle = "storage/rss/rss.xml";
+            $handle = "./storage/rss/rss.xml";
             $doc = FileSystem::write($handle, $myFeed);
             //        fwrite($handle, $myFeed);
             //      fclose($handle);
@@ -360,7 +360,7 @@ class Document
     //RSS designed By DMAtrix;
     public function getRss()
     {
-        $user = file_get_contents("src/config/auth.json");
+        $user = file_get_contents("./src/config/auth.json");
         $user = json_decode($user, true);
 
         date_default_timezone_set('UTC');
@@ -427,7 +427,7 @@ class Document
     }
     public function subscriber()
     {
-        $db = "storage/rss/subscriber.json";
+        $db = "./storage/rss/subscriber.json";
         $file = FileSystem::read($db);
         $data = json_decode($file, true);
         if (count($data) >= 1) {
@@ -447,7 +447,7 @@ class Document
     }
     public function subscription()
     {
-        $db = "storage/rss/subscription.json";
+        $db = "./storage/rss/subscription.json";
         $file = FileSystem::read($db);
         $data = json_decode($file, true);
         unset($file);

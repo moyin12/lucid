@@ -1,48 +1,128 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule">
 <channel>
-<title>Elijah Okokon</title>
+<title>Austin Asoluka</title>
 <link>http://localhost:8000/</link>
 <description><![CDATA[]]></description>
-<image><title>Elijah Okokon</title>
+<image><title>Austin Asoluka</title>
 <link></link>
-<url>https://lh4.googleusercontent.com/-Sft-MftI38Q/AAAAAAAAAAI/AAAAAAAADho/4sp40SN0sTc/photo.jpg</url>
+<url>https://res.cloudinary.com/dc9kfp5gt/image/upload/v1556862782/business-color_business-contact-86_icon-icons.com_53469_ckkqq7.png</url>
 </image>
 <language>en-US</language>
-<lastBuildDate>Tue, 07 May 2019 20:32:58 +0200</lastBuildDate>
+<lastBuildDate>Wed, 08 May 2019 01:41:09 +0200</lastBuildDate>
 <pubDate>Sat, 06 Apr 2013 00:00:00 +0200</pubDate>
 <atom:link href="http://localhost:8000/storage/rss/rss.xml" rel="self" type="application/rss+xml"></atom:link>
 <atom:link href="http://pubsubhubbub.appspot.com" rel="hub"></atom:link>
 <creativeCommons:license>http://www.creativecommons.org/licenses/by/1.0</creativeCommons:license>
 <generator>Ziki</generator>
 <item>
-<title>timestamp working </title>
-<link>/post/timestamp-working--1557249600</link>
-<description><![CDATA[ths is a wonderful app and ther weouhdnmva weoaoiaibja ewena]]></description>
-<pubDate>Tue, 07 May 2019 19:20:00 +0200</pubDate>
-<author>okoelijah@gmail.com (Elijah Okokon)</author>
-<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557249600&quot;&gt;http://localhost:8000//storage/contents/1557249600&lt;/a&gt;&lt;/p&gt;</guid>
-<source url="http://localhost:8000/">Elijah Okokon's page</source>
-<image>/storage/images/img-z27mfrn75c.jpeg</image>
+<title>I Like how quiet this page looks ATM</title>
+<link>/post/i-like-how-quiet-this-page-looks-atm-1557225332</link>
+<description><![CDATA[I am trying to make a decent post here.. It&#39;s nice to see this working..]]></description>
+<pubDate>Tue, 07 May 2019 12:35:32 +0200</pubDate>
+<author>austin@silkydev.com.ng (Austin Asoluka)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557225332&quot;&gt;http://localhost:8000//storage/contents/1557225332&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000/">Austin Asoluka's page</source>
+<image></image>
 </item>
 <item>
-<title>Working update by Dmatrix.</title>
-<link>/post/working-update-by-dmatrix.-1557253397</link>
-<description><![CDATA[working update on the post feature by Dmatrix and this feature is working feature by Dmatrix and thi]]></description>
-<pubDate>Tue, 07 May 2019 20:23:17 +0200</pubDate>
-<author>okoelijah@gmail.com (Elijah Okokon)</author>
-<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557253397&quot;&gt;http://localhost:8000//storage/contents/1557253397&lt;/a&gt;&lt;/p&gt;</guid>
-<source url="http://localhost:8000/">Elijah Okokon's page</source>
-<image>/storage/images/img-tpngvzy96g.jpeg</image>
+<title>This is the best Heading I can cook up.</title>
+<link>/post/this-is-the-best-heading-i-can-cook-up.-1557234829</link>
+<description><![CDATA[I just noticed i was given four followers by default.. Lucid wado oh...]]></description>
+<pubDate>Tue, 07 May 2019 15:13:49 +0200</pubDate>
+<author>austin@silkydev.com.ng (Austin Asoluka)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557234829&quot;&gt;http://localhost:8000//storage/contents/1557234829&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000/">Austin Asoluka's page</source>
+<image></image>
 </item>
 <item>
-<title>ookjplkm ok that an error</title>
-<link>/post/ookjplkm-ok-that-an-error-1557253978</link>
-<description><![CDATA[jhjjjiuyhgnkljhggvbnm,kjohbnkjb ohvkohbnm osvgdbaiuwba]]></description>
-<pubDate>Tue, 07 May 2019 20:32:58 +0200</pubDate>
-<author>okoelijah@gmail.com (Elijah Okokon)</author>
-<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557253978&quot;&gt;http://localhost:8000//storage/contents/1557253978&lt;/a&gt;&lt;/p&gt;</guid>
-<source url="http://localhost:8000/">Elijah Okokon's page</source>
+<title></title>
+<link>/post/-1557235206</link>
+<description><![CDATA[I am about to try our micro-blog]]></description>
+<pubDate>Tue, 07 May 2019 15:20:06 +0200</pubDate>
+<author>austin@silkydev.com.ng (Austin Asoluka)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557235206&quot;&gt;http://localhost:8000//storage/contents/1557235206&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000/">Austin Asoluka's page</source>
+<image></image>
+</item>
+<item>
+<title></title>
+<link>/post/-1557261237</link>
+<description><![CDATA[]]></description>
+<pubDate>Tue, 07 May 2019 22:33:57 +0200</pubDate>
+<author>austin@silkydev.com.ng (Austin Asoluka)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557261237&quot;&gt;http://localhost:8000//storage/contents/1557261237&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000/">Austin Asoluka's page</source>
+<image></image>
+</item>
+<item>
+<title></title>
+<link>/post/-1557261309</link>
+<description><![CDATA[]]></description>
+<pubDate>Tue, 07 May 2019 22:35:09 +0200</pubDate>
+<author>austin@silkydev.com.ng (Austin Asoluka)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557261309&quot;&gt;http://localhost:8000//storage/contents/1557261309&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000/">Austin Asoluka's page</source>
+<image></image>
+</item>
+<item>
+<title></title>
+<link>/post/-1557261316</link>
+<description><![CDATA[]]></description>
+<pubDate>Tue, 07 May 2019 22:35:16 +0200</pubDate>
+<author>austin@silkydev.com.ng (Austin Asoluka)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557261316&quot;&gt;http://localhost:8000//storage/contents/1557261316&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000/">Austin Asoluka's page</source>
+<image></image>
+</item>
+<item>
+<title></title>
+<link>/post/-1557261322</link>
+<description><![CDATA[]]></description>
+<pubDate>Tue, 07 May 2019 22:35:22 +0200</pubDate>
+<author>austin@silkydev.com.ng (Austin Asoluka)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557261322&quot;&gt;http://localhost:8000//storage/contents/1557261322&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000/">Austin Asoluka's page</source>
+<image></image>
+</item>
+<item>
+<title></title>
+<link>/post/-1557261421</link>
+<description><![CDATA[]]></description>
+<pubDate>Tue, 07 May 2019 22:37:01 +0200</pubDate>
+<author>austin@silkydev.com.ng (Austin Asoluka)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557261421&quot;&gt;http://localhost:8000//storage/contents/1557261421&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000/">Austin Asoluka's page</source>
+<image></image>
+</item>
+<item>
+<title>This is me </title>
+<link>/post/this-is-me--1557272217</link>
+<description><![CDATA[Trying to post again after it failed the first time..]]></description>
+<pubDate>Wed, 08 May 2019 01:36:57 +0200</pubDate>
+<author>austin@silkydev.com.ng (Austin Asoluka)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557272217&quot;&gt;http://localhost:8000//storage/contents/1557272217&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000/">Austin Asoluka's page</source>
+<image></image>
+</item>
+<item>
+<title></title>
+<link>/post/-1557272381</link>
+<description><![CDATA[Let&#39;s try lucid once more.. and see]]></description>
+<pubDate>Wed, 08 May 2019 01:39:41 +0200</pubDate>
+<author>austin@silkydev.com.ng (Austin Asoluka)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557272381&quot;&gt;http://localhost:8000//storage/contents/1557272381&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000/">Austin Asoluka's page</source>
+<image></image>
+</item>
+<item>
+<title>This is the best Heading I can cook up.</title>
+<link>/post/this-is-the-best-heading-i-can-cook-up.-1557272468</link>
+<description><![CDATA[Owkay.. If this goes, then lucid doen&#39;t post images yet..]]></description>
+<pubDate>Wed, 08 May 2019 01:41:08 +0200</pubDate>
+<author>austin@silkydev.com.ng (Austin Asoluka)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000//storage/contents/1557272468&quot;&gt;http://localhost:8000//storage/contents/1557272468&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000/">Austin Asoluka's page</source>
 <image></image>
 </item>
 </channel>

@@ -21,7 +21,20 @@ window.onload = function() {
     });
 
   // make sure accept terms and conditions is checked before enabling install button
-  document.querySelector("#acceptTerms").addEventListener("change", function() {
-    document.getElementById("installButton").toggleAttribute("disabled");
+  let acceptTermsButton = document.querySelector("#acceptTerms");
+  let installButton = document.getElementById("installButton");
+
+  acceptTermsButton.addEventListener("change", function() {
+    installButton.toggleAttribute("disabled");
+  });
+
+  installButton.addEventListener("click", function() {
+    if (!acceptTermsButton.checked && !installButton.hasAttribute("disabled")) {
+      event.preventDefault();
+      document.getElementById("validateTerms").textContent =
+        "Kindly accept terms& conditions";
+    } else {
+      document.getElementById("validateTerms").textContent = "";
+    }
   });
 };

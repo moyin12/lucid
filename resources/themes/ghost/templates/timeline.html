@@ -1,11 +1,8 @@
 {% set title = "Timeline"%} {% extends 'layout.html' %} {% block page_content %}
 
 <style>
-  .btn.btn-primary.canel-post{background-color: transparent !important; border: 1px solid red; color: red; padding: 6px 20px;}
-  .btn.btn-primary.publish-post{background-color: #280a66 !important; border: 1px solid #280a66; padding: 6px 20px;}
-  .btn.btn-primary.save-draft{background-color: #280a66 !important; border: 1px solid #280a66; padding: 6px 20px;}
-  .btn.btn-primary.canel-post, .btn.btn-primary.publish-post{margin-left: 7px;}
-  .btn.btn-primary.canel-post, .btn.btn-primary.save-draft{margin-left: 7px;}
+  .btn.btn-primary.canel-post{background-color: transparent !important; border: 1px solid red; color: red; padding: 6px 5px;}
+  .btn.btn-primary.publish-post, .btn.btn-primary.save-draft, .btn.btn-primary.add-tags{background-color: #280a66 !important; border: 1px solid #280a66; padding: 6px 5px; color: #fff;}
 
   .main-content{padding-top: 30px; padding-bottom: 30px;}
 
@@ -14,6 +11,7 @@
   .hide{display: none !important;}
   .show{display: block !important;}
 
+  .form-check-label{padding-right: 10px;}
   .mb-editor-area {
     background: #f5f5f5;
     border-radius: 5px;
@@ -25,10 +23,30 @@
   }
   
   .editor-btns {
-	background: #280a66;
-	border-radius: 5px;
+  background: #280a66;
+  border-radius: 5px;
   }
-	
+  
+  /*Tag styles*/
+  .tags {padding-right: 10px;}
+  .btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show>.btn-outline-primary.dropdown-toggle {
+    color: #fff !important;
+    background-color: #280a66 !important;
+    border-color: #280a66 !important;
+  }
+
+  .btn-outline-primary {
+    color: #280a66 !important;
+    border-color: #280a66 !important;
+  }
+
+  .btn-outline-primary:hover {
+    color: #fff !important;
+    background-color: #280a66 !important;
+    border-color: #280a66 !important;
+  }
+
+  /*tag styples end here..*/
   .mb-textarea {
     border: none;
     font-size: 18px;
@@ -192,25 +210,73 @@
                     <span id="num_char" class="badge badge-warning">Micro-Blog Mode</span>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row pt-3 pb-2">
                   <div class="col-12">
                     <div class="row form-group">
-                      <div class="col-12 py-3" id="titleBox">
+                      <div class="col-12" id="titleBox">
                         <label for="new-post-title" class="sr-only">Title</label>
                         <input type="text" id="new-post-title" class="form-control hide" placeholder="Title"/>
                       </div>
-                      <div class="col-12"><div id="editor"></div></div>
+                      <div class="col-12">
+                        <div id="editor">{{ post.body|raw }}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
-
                 <div class="row pt-5">
                   <div class="col-12">
-                    <div class="row pt-3">
-                      <div class="col-12 col-sm-12 text-right">
-                        <input type="reset" class="btn-sm btn btn-primary canel-post" value="Cancel">
-                        <input type="submit" class="btn-sm btn btn-primary publish-post" value="Publish">
-                        <input type="button" class="btn-sm btn btn-primary save-draft" value="Save Draft"/>
+                  <div class="row">
+                    <div class="col-12 collapse" id="collapseExample">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Politics">
+                        <label class="form-check-label" for="inlineCheckbox1">Politics</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Sports">
+                        <label class="form-check-label" for="inlineCheckbox1">Sports</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Health">
+                        <label class="form-check-label" for="inlineCheckbox1">Health</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Technology">
+                        <label class="form-check-label" for="inlineCheckbox1">Technology</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Music">
+                        <label class="form-check-label" for="inlineCheckbox1">Music</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#News/Lifestyle">
+                        <label class="form-check-label" for="inlineCheckbox1">News/Lifestyle</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Movies">
+                        <label class="form-check-label" for="inlineCheckbox1">Movies</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Fitness">
+                        <label class="form-check-label" for="inlineCheckbox1">Fitness</label>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+                <div class="row pt-2">
+                  <div class="col-12">
+                    <div class="row form-row flex-row-reverse">
+                      <div class="col-3 col-sm-1">
+                        <input type="reset" class="form-control btn-sm btn btn-primary canel-post" value="Cancel">
+                      </div>
+                      <div class="col-3 col-sm-1">
+                        <input type="button" class="form-control btn-sm btn btn-primary save-draft" value="Save Draft"/>
+                      </div>
+                      <div class="col-3 col-sm-1">
+                        <input type="submit" class="form-control btn-sm btn btn-primary publish-post" value="Publish">
+                      </div>
+                      <div class="col-3 col-sm-1">
+                        <input class="form-control btn-sm btn btn-primary add-tags" type="button" data-toggle="collapse" data-target="  #collapseExample"   aria-expanded="false" aria-controls="collapseExample" value="Add Tags">
                       </div>
                     </div>
                   </div>
@@ -225,10 +291,11 @@
         <div class="row pt-4 pb-4">
           <div class="col-12">
             <div class="row pt-4 pb-4">
-              <div class="col-2 col-sm-2 text-right">
-                <img src="{{feed.img | raw}}" alt="{{feed.title | raw}}" class=" blogger-image" />
+              <div class="col-12 col-sm-1 text-right"></div>
+              <div class="col-2 col-sm-1 text-right">
+                <img src="{{feed.img | raw}}" alt="{{feed.title | raw}}" class="blogger-image img-fluid" />
               </div>
-              <div class="col-9 col-sm-9">
+              <div class="col-10 col-sm-9">
                 <div class="row second">
                   <div class="col-12">
                     <h6 class="purple"><b>{{feed.date | raw}}</b></h6>
@@ -244,16 +311,11 @@
                 </div>
               </div>
             </div>
-            
-            {% endfor %}
           </div>
         </div>
+        {% endfor %}
         <!-- Feed section ends here -->
 
-        <div class="mb-pagination mt-5 text-center">
-          <a href="" class="text-right">Next>>></a>
-          <a href="" class="d-none text-left"><<< Prev </a>
-        </div> <!--Micro Blog Posts Ends here -->
       </div>
 
       </div>

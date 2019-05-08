@@ -140,7 +140,7 @@ class Document
                 $content['url'] = $url;
                 $content['timestamp'] = $time;
                 $content['tags'] = $tags;
-                $content['slug'] = $slug;
+                $content['slug'] = $this->clean($slug);
                 $content['preview_img'] = $first_img;
                 //content['slug'] = $slug;
                 $file = explode("-", $slug);
@@ -175,6 +175,12 @@ class Document
 
         return $string;
     }
+    ///use to clean slug special chars problem solved
+   public function clean($string) {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+     }
 
     public function fetchAllRss()
     {
@@ -182,9 +188,9 @@ class Document
         $feed = [];
         if(strlen($xml != "") ){
         $rss = new \DOMDocument();
-        $user = file_get_contents("src/config/auth.json");
+        $user = file_get_contents("./src/config/auth.json");
         $user = json_decode($user, true);
-        $data = file_get_contents("storage/rss/subscription.json");
+        $data = file_get_contents("./storage/rss/subscription.json");
         $urlArray = json_decode($data, true);
 
         $urlArray2 = array(array('name' => $user['name'], 'rss' => 'storage/rss/rss.xml','desc' => '', 'link' => '', 'img' => $user['image'], 'time' => ''),
@@ -233,16 +239,16 @@ class Document
     public function fetchRss()
     {
         $xml = file_get_contents("./storage/rss/rss.xml");
-         
-        if(strlen($xml != "") ){
+
+        if(strlen($xml !==false) ){
             $feed = [];
         $rss = new \DOMDocument();
-        $user = file_get_contents("src/config/auth.json");
+        $user = file_get_contents("./src/config/auth.json");
         $user = json_decode($user, true);
         $urlArray = array(
-            array('name' => $user['name'], 'url' => 'storage/rss/rss.xml', 'img' => $user['image']),
+            array('name' => $user['name'], 'url' => './storage/rss/rss.xml', 'img' => $user['image']),
         );
-        
+
         foreach ($urlArray as $url) {
             $rss->load($url['url']);
 
@@ -269,10 +275,10 @@ class Document
     //store rss By DMAtrix
     public function createRSS()
     {
-        $user = file_get_contents("src/config/auth.json");
+        $user = file_get_contents("./src/config/auth.json");
         $user = json_decode($user, true);
 
-        date_default_timezone_set('UTC');
+      //  date_default_timezone_set('UTC');
         $Feed = new RSS2;
         // Setting some basic channel elements. These three elements are mandatory.
         $Feed->setTitle($user['name']);
@@ -324,14 +330,13 @@ class Document
                     // strip all images from the text
                     $bd = preg_replace("/<img[^>]+\>/i", "", $bd);
                 }
-                $time = $parsedown->text(time());
+                $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);
-
                 $newItem = $Feed->createNewItem();
                 $newItem->setTitle(strip_tags($title));
                 $newItem->setLink("/post/".strtolower($slug));
                 $newItem->setDescription(substr(strip_tags($bd), 0, 100));
-                $newItem->setDate(date(DATE_RSS, time()));
+                $newItem->setDate(date(\DateTime::RSS, strtotime($yaml['timestamp'])));
 
                 $newItem->setAuthor($user['name'], $user['email']);
                 $newItem->setId($url, true);
@@ -342,7 +347,7 @@ class Document
                 $Feed->addItem($newItem);
             }
             $myFeed = $Feed->generateFeed();
-            $handle = "storage/rss/rss.xml";
+            $handle = "./storage/rss/rss.xml";
             $doc = FileSystem::write($handle, $myFeed);
             //        fwrite($handle, $myFeed);
             //      fclose($handle);
@@ -355,7 +360,7 @@ class Document
     //RSS designed By DMAtrix;
     public function getRss()
     {
-        $user = file_get_contents("src/config/auth.json");
+        $user = file_get_contents("./src/config/auth.json");
         $user = json_decode($user, true);
 
         date_default_timezone_set('UTC');
@@ -422,7 +427,7 @@ class Document
     }
     public function subscriber()
     {
-        $db = "storage/rss/subscriber.json";
+        $db = "./storage/rss/subscriber.json";
         $file = FileSystem::read($db);
         $data = json_decode($file, true);
         if (count($data) >= 1) {
@@ -442,7 +447,7 @@ class Document
     }
     public function subscription()
     {
-        $db = "storage/rss/subscription.json";
+        $db = "./storage/rss/subscription.json";
         $file = FileSystem::read($db);
         $data = json_decode($file, true);
         unset($file);
@@ -620,10 +625,16 @@ class Document
                     $removeHashTag = explode('#',$tag);
                     $tags[]=trim(end($removeHashTag));
                 }
+                
                 $slug = $parsedown->text($yaml['slug']);
                 $slug = preg_replace("/<[^>]+>/", '', $slug);
                 $title = isset($yaml['title'])?$parsedown->text($yaml['title']):'';
                 $bd = $parsedown->text($body);
+                preg_match('/<img[^>]+src="((\/|\w|-)+\.[a-z]+)"[^>]*\>/i', $bd, $matches);
+                $first_img = '';
+                if (isset($matches[1])) {
+                    $first_img = $matches[1];
+                }
                 $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);
                 $content['tags'] = $tags;
@@ -632,6 +643,8 @@ class Document
                 $content['url'] = $url;
                 $content['timestamp'] = $time;
                 $content['date'] = date('d M Y ', $post);
+                $content['crawlerImage'] = $first_img;
+                $content['slug'] = $this->clean($slug);
 
             }
             return $content;
@@ -687,7 +700,7 @@ class Document
                 $content['url'] = $url;
                 $content['timestamp'] = $time;
                 $content['tags'] = str_replace('#','',implode(',',$tags));
-                $content['slug'] = $slug;
+                $content['slug'] = $this->clean($slug);
                 $content['preview_img'] = $first_img;
                 //content['slug'] = $slug;
                 $file = explode("-", $slug);

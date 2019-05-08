@@ -250,15 +250,17 @@
   }
 
   #sidebar ul li a {
-    padding: 10px;
     font-size: 1.1em;
     display: block;
+  }
+
+  #sidebar ul li span {
+    padding: 10px 10px;
   }
 
   #sidebar ul li span:hover {
     color: #fff;
     background: #280A66;
-    padding: 10px 25px;
     border-radius: 10px;
   }
 
@@ -406,8 +408,6 @@
 
   /*Css for timeline page*/
   .blogger-image {
-    width: 80px;
-    height: 80px;
     border-radius: 50%;
   }
 
@@ -775,7 +775,8 @@
                 </a></li>
               <ul class="list-unstyled CTAs d-flex justify-content-center">
                 <li>
-                  <a href="#"><button class="btn btn-light">Follow Me</button></a>
+                  <button type="button" data-toggle="modal"
+                              data-target="#follow-me" class="btn btn-light">Follow Me</button>
                 </li>
               </ul>
               {% endif %}
@@ -790,3 +791,4 @@
           </div>
         </div>
       </div>
+  {% include "follow-me.html" %}

@@ -34,6 +34,8 @@ Router::get('/post/{post_id}', function ($request, $post_id) {
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();
+    if (isset($_GET['d'])) {
+
     $url = isset($_GET['d'])?$_GET['d']:'';
     //echo $url;
     $url = isset($_GET['d'])?trim(base64_decode($_GET['d'])):"";
@@ -41,6 +43,7 @@ Router::get('/post/{post_id}', function ($request, $post_id) {
     $url = $url ."storage/rss/rss.xml";
     $rss = Ziki\Core\Subscribe::subc($url);
 //echo $url;
+}
     $post_id = explode('-',$post_id);
     $post = end($post_id);
     $post_details=$ziki->getPost($post);
@@ -218,8 +221,6 @@ Router::get('/settings', function ($request) {
     if (!$user->is_logged_in()) {
         return $user->redirect('/');
     }
-    $setting = new Ziki\Core\Setting();
-    $settings = $setting->getSetting();
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();

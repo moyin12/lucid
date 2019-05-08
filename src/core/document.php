@@ -625,10 +625,16 @@ class Document
                     $removeHashTag = explode('#',$tag);
                     $tags[]=trim(end($removeHashTag));
                 }
+                
                 $slug = $parsedown->text($yaml['slug']);
                 $slug = preg_replace("/<[^>]+>/", '', $slug);
                 $title = isset($yaml['title'])?$parsedown->text($yaml['title']):'';
                 $bd = $parsedown->text($body);
+                preg_match('/<img[^>]+src="((\/|\w|-)+\.[a-z]+)"[^>]*\>/i', $bd, $matches);
+                $first_img = '';
+                if (isset($matches[1])) {
+                    $first_img = $matches[1];
+                }
                 $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);
                 $content['tags'] = $tags;
@@ -637,6 +643,8 @@ class Document
                 $content['url'] = $url;
                 $content['timestamp'] = $time;
                 $content['date'] = date('d M Y ', $post);
+                $content['crawlerImage'] = $first_img;
+                $content['slug'] = $this->clean($slug);
 
             }
             return $content;

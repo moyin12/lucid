@@ -6,7 +6,7 @@
                 {% for item in navigation %}
                 {% if current_page == item.href %}
                 <li class="px-0 py-3 mr-3 active">
-                    <a href="/{{ item.href }}" class="profile-top-link text-capitalise">
+                    <a href="/{{ item.href }}" class="profile-top-link text-uppercase">
                         {%if item.count %}
                         <span class="follow-numbers">{{ item.count }}</span>
                         {{ item.caption }}</a>
@@ -17,7 +17,7 @@
                 </li>
                 {% else %}
                 <li class="px-0 py-3 mr-3">
-                    <a href="/{{ item.href }}" class="profile-top-link text-capitalise">
+                    <a href="/{{ item.href }}" class="profile-top-link text-uppercase">
                         {%if item.count %}
                         <span class="follow-numbers">{{ item.count }}</span>
                         {{ item.caption }}</a>

@@ -217,7 +217,9 @@
                         <label for="new-post-title" class="sr-only">Title</label>
                         <input type="text" id="new-post-title" class="form-control hide" placeholder="Title"/>
                       </div>
-                      <div class="col-12"><div id="editor"></div></div>
+                      <div class="col-12">
+                        <div id="editor">{{ post.body|raw }}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -273,10 +275,11 @@
         <div class="row pt-4 pb-4">
           <div class="col-12">
             <div class="row pt-4 pb-4">
-              <div class="col-2 col-sm-2 text-right">
-                <img src="{{feed.img | raw}}" alt="{{feed.title | raw}}" class=" blogger-image" />
+              <div class="col-12 col-sm-1 text-right"></div>
+              <div class="col-2 col-sm-1 text-right">
+                <img src="{{feed.img | raw}}" alt="{{feed.title | raw}}" class="blogger-image img-fluid" />
               </div>
-              <div class="col-9 col-sm-9">
+              <div class="col-10 col-sm-9">
                 <div class="row second">
                   <div class="col-12">
                     <h6 class="purple"><b>{{feed.date | raw}}</b></h6>
@@ -292,8 +295,6 @@
                 </div>
               </div>
             </div>
-            
-            
           </div>
         </div>
         {% endfor %}

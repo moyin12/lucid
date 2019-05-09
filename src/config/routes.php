@@ -196,6 +196,8 @@ Router::get('/portfolio', function ($request) {
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();
+    // This is how to use a class @kuforiji
+    $portfolio = new Ziki\Core\Portfolio(); // Then you can go ahead to use the $portfolio to call other methods inside your class
     return $this->template->render('portfolio.html');
 });
 // End- Portfolio

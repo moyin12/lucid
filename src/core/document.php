@@ -230,6 +230,7 @@ class Document
                 array_push($feed, $item);
             }
         }
+        krsort($feed);
         return $feed;
     }
     else{
@@ -267,6 +268,7 @@ class Document
                 array_push($feed, $item);
             }
         }
+        krsort($feed);
         return $feed;
     }
     else{

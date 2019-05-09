@@ -58,14 +58,14 @@ class Portfolio
         if (!empty($image)) {
             foreach ($image as $key => $value) {
                 $decoded = base64_decode($image[$key]);
-                $url = "./storage/images/portfolio/" . $key;
+                $url = "./storage/portfolio/images/" . $key;
                 FileSystem::write($url, $decoded);
             }
         }
 
         $yamlfile['post_dir'] = SITE_URL . "/storage/portfolio/{$unix}";
         $yamlfile['post_dir'] = SITE_URL . "/storage/portfolio/{$unix}";
-        $yamlfile['image'] = "./storage/images/portfolio/" . $key;
+        $yamlfile['image'] = "./storage/portfolio/images" . $key;
 
 
         // create slug by first removing spaces
@@ -98,7 +98,7 @@ class Portfolio
         return $result;
     }
 
-    //get post
+    //get portfolio
     public function getportfolio()
     {
         $finder = new Finder();
@@ -115,7 +115,7 @@ class Portfolio
                 $body = $document->getContent();
                 //$document = FileSystem::read($this->file);
                 $parsedown  = new Parsedown();
-                $tags = isset($yaml['tags']) ? $yaml['tags'] : '';
+                // $tags = isset($yaml['tags'])?$yaml['tags']:'';
                 $title = isset($yaml['title']) ? $parsedown->text($yaml['title']) : '';
                 $slug = $parsedown->text($yaml['slug']);
                 $image = isset($yaml['image']) ? $parsedown->text($yaml['image']) : '';
@@ -134,11 +134,11 @@ class Portfolio
                 $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);
                 $content['title'] = $title;
-                $content['body'] = $this->trim_words($bd, 200);
+                $content['body'] = $this->trim_wordsP($bd, 200);
                 $content['url'] = $url;
                 $content['timestamp'] = $time;
-                $content['tags'] = $tags;
-                $content['slug'] = $slug;
+                // $content['tags'] = $tags;
+                $content['slug'] = $this->clean($slug);
                 $content['preview_img'] = $first_img;
                 //content['slug'] = $slug;
                 $file = explode("-", $slug);
@@ -155,5 +155,19 @@ class Portfolio
         } else {
             return false;
         }
+    }
+
+    //trim_words used in triming strings by words
+    function trim_wordsP($string, $limit, $break = ".", $pad = "...")
+    {
+        if (strlen($string) <= $limit) return $string;
+
+        if (false !== ($breakpoint = strpos($string, $break, $limit))) {
+            if ($breakpoint < strlen($string) - 1) {
+                $string = substr($string, 0, $breakpoint) . $pad;
+            }
+        }
+
+        return $string;
     }
 }

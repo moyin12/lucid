@@ -104,6 +104,8 @@ class Document
     public function get()
     {
         $finder = new Finder();
+        $finder->sortByModifiedTime();
+        $finder->reverseSorting();
 
         // find all files in the current directory
         $finder->files()->in($this->file);
@@ -152,7 +154,6 @@ class Document
 
                 array_push($posts, $content);
             }
-            krsort($posts);
             return $posts;
         } else {
             return false;
@@ -184,6 +185,9 @@ class Document
 
     public function fetchAllRss()
     {
+        $finder = new Finder();
+        $finder->sortByModifiedTime();
+        $finder->reverseSorting();
         $xml = file_get_contents("./storage/rss/rss.xml");
         $feed = [];
         if(strlen($xml != "") ){
@@ -228,7 +232,6 @@ class Document
                 array_push($feed, $item);
             }
         }
-        krsort($feed);
         return $feed;
     }
     else{
@@ -238,6 +241,9 @@ class Document
     //RSS designed By DMAtrix;
     public function fetchRss()
     {
+        $finder = new Finder();
+        $finder->sortByModifiedTime();
+        $finder->reverseSorting();
         $xml = file_get_contents("./storage/rss/rss.xml");
 
         if(strlen($xml !== "") ){
@@ -265,7 +271,6 @@ class Document
                 array_push($feed, $item);
             }
         }
-        krsort($feed);
         return $feed;
     }
     else{
@@ -523,7 +528,6 @@ class Document
                     // strip away the leading "#" of the tag name
                     if (substr($tags[$i], 1) == $id) {
                         $slug = $parsedown->text($yaml['slug']);
-                        $title = $parsedown->text($yaml['title']);
                         $bd = $parsedown->text($body);
 
                         // get the first image in the post body
@@ -538,7 +542,10 @@ class Document
                         }
                         $time = $parsedown->text($yaml['timestamp']);
                         $url = $parsedown->text($yaml['post_dir']);
-                        $content['title'] = $title;
+                        if(isset($yaml['title'])){
+                            $title = $parsedown->text($yaml['title']);
+                            $content['title'] = $title;
+                            }
                         $content['body'] = $bd;
                         $content['url'] = $url;
                         $content['timestamp'] = $time;
@@ -680,7 +687,7 @@ class Document
                     continue;
                 }
                 $tags = $yaml['tags'];
-                $title = $parsedown->text($yaml['title']);
+            
                 $slug = $parsedown->text($yaml['slug']);
                 $image = isset($yaml['image'])?$parsedown->text($yaml['image']):'';
                 $slug = preg_replace("/<[^>]+>/", '', $slug);
@@ -696,7 +703,10 @@ class Document
                 }
                 $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);
-                $content['title'] = $title;
+                if(isset($yaml['title'])){
+                    $title = $parsedown->text($yaml['title']);
+                    $content['title'] = $title;
+                    }
                 $content['url'] = $url;
                 $content['timestamp'] = $time;
                 $content['tags'] = str_replace('#','',implode(',',$tags));

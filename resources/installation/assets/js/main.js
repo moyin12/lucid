@@ -5,12 +5,30 @@ window.onload = function() {
   let steps = document.getElementsByClassName("step-form");
   let stepOneForm = steps[0];
   let stepTwoForm = steps[1];
+  let stepOneRequired = [...stepOneForm.getElementsByClassName("required")];
+  let stepTwoRequired = [...stepTwoForm.getElementsByClassName("required")];
+
+  function isEmpty(input) {
+    return input.value == null || input.value == "";
+  }
+
   document.getElementById("nextButton").addEventListener("click", function() {
     event.preventDefault();
-    // stepOneForm.classList.add("animated", "fadeOutLeft");
-    stepOneForm.style.display = "none";
-    stepTwoForm.style.display = "initial";
-    // stepTwoForm.classList.add("animated", "fadeInRight");
+    for (let required of stepOneRequired) {
+      if (required.value == null || required.value == "") {
+        required.style.backgroundColor = "#ff9389";
+      }
+    }
+
+    if (stepOneRequired.every(isEmpty)) {
+      let errorMessage = document.querySelector("#errorMessage");
+      errorMessage.textContent = "Please fill all fileds.";
+      errorMessage.style.color = "#ff9389";
+    } else {
+      stepOneForm.style.display = "none";
+      stepTwoForm.style.display = "initial";
+      document.querySelector("#errorMessage").textContent = "";
+    }
   });
   document
     .getElementById("previousButton")
@@ -29,12 +47,24 @@ window.onload = function() {
   });
 
   installButton.addEventListener("click", function() {
+    event.preventDefault();
     if (!acceptTermsButton.checked && !installButton.hasAttribute("disabled")) {
-      event.preventDefault();
       document.getElementById("validateTerms").textContent =
         "Kindly accept terms& conditions";
     } else {
       document.getElementById("validateTerms").textContent = "";
+    }
+    for (let required of stepTwoRequired) {
+      if (required.value == null || required.value == "") {
+        required.style.backgroundColor = "#ff9389";
+      }
+    }
+
+    if (stepTwoRequired.every(isEmpty)) {
+      document.getElementById("validateTerms").textContent =
+        "Please fill all fileds";
+    } else {
+      form.submit();
     }
   });
 };

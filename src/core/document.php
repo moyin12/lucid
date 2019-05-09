@@ -104,6 +104,8 @@ class Document
     public function get()
     {
         $finder = new Finder();
+        $finder->sortByModifiedTime();
+        $finder->reverseSorting();
 
         // find all files in the current directory
         $finder->files()->in($this->file);

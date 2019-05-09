@@ -1,8 +1,6 @@
 <?php
 use Ziki\Http\Router;
 
-require_once "/home/kuforiji/lucid/src/core/portfolio.php";
-
 session_start();
 Router::get('/', function ($request) {
     $user = new Ziki\Core\Auth();
@@ -251,9 +249,21 @@ Router::post('/newportfolio', function ($request) {
         $images[$newKey] = $value;
     }
     //return json_encode([$images]);
-    $ziki = new Ziki\Core\Portfolio($directory);
-    $result = $ziki->createportfolio($title, $body, $images);
+    $portfolio = new Ziki\Core\Portfolio($directory);
+    $result = $portfolio->createportfolio($title, $body, $images);
     return $this->template->render('portfolio.html');
+});
+
+// route to create-portfolio page
+Router::get('/portfolios', function ($request) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in()) {
+        return $user->redirect('/');
+    }
+    $count = new Ziki\Core\Subscribe();
+    $fcount = $count->fcount();
+    $count = $count->count();
+    return $this->template->render('portfolios.html');
 });
 
 // Kuforiji' codes end here

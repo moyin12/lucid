@@ -106,7 +106,10 @@ class Document
         $finder = new Finder();
 
         // find all files in the current directory
+        $finder->sortByModifiedTime();
+        $finder->reverseSorting();
         $finder->files()->in($this->file);
+        
         $posts = [];
         if ($finder->hasResults()) {
             foreach ($finder as $file) {
@@ -152,7 +155,7 @@ class Document
 
                 array_push($posts, $content);
             }
-            krsort($posts);
+            
             return $posts;
         } else {
             return false;

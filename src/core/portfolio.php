@@ -94,7 +94,7 @@ class Portfolio
                 $document = $parser->parse($document);
                 $yaml = $document->getYAML();
                 $body = $document->getContent();
-                //$document = FileSystem::read($this->file);
+                // $document = FileSystem::read($this->file);
                 $parsedown  = new Parsedown();
                 // $tags = isset($yaml['tags'])?$yaml['tags']:'';
                 $title = isset($yaml['title']) ? $parsedown->text($yaml['title']) : '';
@@ -117,9 +117,9 @@ class Portfolio
                 $content['title'] = $title;
                 $content['body'] = $this->trim_wordsP($bd, 200);
                 $content['url'] = $url;
-                $content['timestamp'] = $time;
+                // $content['timestamp'] = $time;
                 // $content['tags'] = $tags;
-                $content['slug'] = $this->clean($slug);
+                $content['slug'] = $this->cleanP($slug);
                 $content['preview_img'] = $first_img;
                 //content['slug'] = $slug;
                 $file = explode("-", $slug);
@@ -131,8 +131,7 @@ class Portfolio
 
                 array_push($portf, $content);
             }
-            krsort($portf);
-            return $portf;
+            return ($portf);
         } else {
             return false;
         }
@@ -153,7 +152,7 @@ class Portfolio
     }
 
     ///use to clean slug special chars problem solved
-    public function clean($string)
+    public function cleanP($string)
     {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
 

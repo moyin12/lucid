@@ -5,10 +5,11 @@
             <div class="add-portfolio-btn">
                 <a class="btn" style="background-color:#871E99; color:#fff" href="/new-portfolio" role="button">+ ADD PORTFOLIO</a>
             </div>
+            {%  for portfolio in portf %}
             <div class="d-grid">
 
                 <!-- Portfolio card 1 -->
-                {%  for portfolio in portf %}
+                
 
             <div class="portfolio-card">
                     <img src="{{ portfolio.preview_img }}" class="portfolio-img" alt="the-image-for-portfolios">
@@ -25,13 +26,12 @@
                             </div>
                         </div>
                     <p>
-                            {{ portfolio.body|raw  }}
+                            {{ portfolio.body|raw }}
                         </p>
                 </div>
-
-                {% endfor %}
-
-            </div>                
+            </div>    
+                            {% endfor %}
+        </div>
         </div>
         {% endblock page_content %}
 

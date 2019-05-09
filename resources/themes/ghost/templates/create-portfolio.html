@@ -271,7 +271,7 @@
           let stillMatching = true;
           while (stillMatching) {
             if (markdown.includes(fullURI)) {
-              markdown = markdown.replace(fullURI, `/storage/portfolio/${newImgName}`);
+              markdown = markdown.replace(fullURI, `/storage/portfolio/images/${newImgName}`);
             } else {
               stillMatching = false;
             }
@@ -285,9 +285,9 @@
     formData.set('postVal', markdown);
 
     // get tags
-    const selected = document.querySelectorAll('#new-post-tags option:checked');
-    const selectedTags = Array.from(selected).map(el => el.value);
-    formData.set('tags', selectedTags);
+    //const selected = document.querySelectorAll('#new-post-tags option:checked');
+    //const selectedTags = Array.from(selected).map(el => el.value);
+    //formData.set('tags', selectedTags);
 
     // send the form data
     fetch(newPostIsBeingCreated ? '/newportfolio' : '/portfolio-Draft', {

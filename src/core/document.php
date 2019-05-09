@@ -104,6 +104,8 @@ class Document
     public function get()
     {
         $finder = new Finder();
+        $finder->sortByModifiedTime();
+        $finder->reverseSorting();
 
         // find all files in the current directory
         $finder->sortByModifiedTime();
@@ -155,7 +157,6 @@ class Document
 
                 array_push($posts, $content);
             }
-            
             return $posts;
         } else {
             return false;

@@ -196,8 +196,9 @@ Router::get('/portfolio', function ($request) {
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();
-    // This is how to use a class @kuforiji
-    $portfolio = new Ziki\Core\Portfolio(); // Then you can go ahead to use the $portfolio to call other methods inside your class
+    $directory = "./storage/portfolio";
+    // Get function to be added here
+    $ziki = new Ziki\Core\Document($directory);
     return $this->template->render('portfolio.html');
 });
 // End- Portfolio
@@ -251,9 +252,21 @@ Router::post('/newportfolio', function ($request) {
         $images[$newKey] = $value;
     }
     //return json_encode([$images]);
-    $ziki = new Ziki\Core\Portfolio($directory);
-    $result = $ziki->createportfolio($title, $body, $images);
+    $portfolio = new Ziki\Core\Portfolio($directory);
+    $result = $portfolio->createportfolio($title, $body, $images);
     return $this->template->render('portfolio.html');
+});
+
+// route to create-portfolio page
+Router::get('/portfolios', function ($request) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in()) {
+        return $user->redirect('/');
+    }
+    $count = new Ziki\Core\Subscribe();
+    $fcount = $count->fcount();
+    $count = $count->count();
+    return $this->template->render('portfolios.html');
 });
 
 // Kuforiji' codes end here

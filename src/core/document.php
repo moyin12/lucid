@@ -185,6 +185,7 @@ class Document
 
     public function fetchAllRss()
     {
+       
         $xml = file_get_contents("./storage/rss/rss.xml");
         $feed = [];
         if(strlen($xml != "") ){
@@ -229,7 +230,6 @@ class Document
                 array_push($feed, $item);
             }
         }
-        krsort($feed);
         return $feed;
     }
     else{
@@ -267,7 +267,6 @@ class Document
                 array_push($feed, $item);
             }
         }
-        krsort($feed);
         return $feed;
     }
     else{

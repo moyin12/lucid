@@ -185,9 +185,6 @@ class Document
 
     public function fetchAllRss()
     {
-        $finder = new Finder();
-        $finder->sortByModifiedTime();
-        $finder->reverseSorting();
         $xml = file_get_contents("./storage/rss/rss.xml");
         $feed = [];
         if(strlen($xml != "") ){
@@ -232,6 +229,7 @@ class Document
                 array_push($feed, $item);
             }
         }
+        krsort($feed);
         return $feed;
     }
     else{
@@ -241,9 +239,7 @@ class Document
     //RSS designed By DMAtrix;
     public function fetchRss()
     {
-        $finder = new Finder();
-        $finder->sortByModifiedTime();
-        $finder->reverseSorting();
+        
         $xml = file_get_contents("./storage/rss/rss.xml");
 
         if(strlen($xml !== "") ){
@@ -271,6 +267,7 @@ class Document
                 array_push($feed, $item);
             }
         }
+        krsort($feed);
         return $feed;
     }
     else{

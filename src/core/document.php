@@ -240,7 +240,7 @@ class Document
     {
         $xml = file_get_contents("./storage/rss/rss.xml");
 
-        if(strlen($xml !==false) ){
+        if(strlen($xml !== "") ){
             $feed = [];
         $rss = new \DOMDocument();
         $user = file_get_contents("./src/config/auth.json");

@@ -152,7 +152,6 @@ class Document
 
                 array_push($posts, $content);
             }
-            krsort($posts);
             return $posts;
         } else {
             return false;

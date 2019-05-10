@@ -15,7 +15,7 @@
       <div class="portfolio-card">
         <img src="{{ portfolio.preview_img }}" class="portfolio-img" alt="the-image-for-portfolios">
         <div class="d-flx j-c-sb al-i-c">
-          <h5 class="portfolio-name"><a href="/portfolio/{{ portfolio.slug |lower }}">{{ portfolio.title|raw  }}</a>
+          <h5 class="portfolio-name"><a href="/portfolio/{{ portfolio.slug |lower }}">{{ portfolio.title|raw }}</a>
           </h5>
           <div>
             <a href="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
@@ -33,16 +33,36 @@
           </div>
         </div>
         <div class="portfolio-content">
-            <p></p>
+            <p>
           {{ portfolio.body|raw }}
           <span> <a href="/portfolio/{{ post.slug |lower }}" class="read-more">Read More</a> </span>
 </p>
-
       </div>
       {% endfor %}
     </div>
-
     </div>
+
+<!-- portfolio card 2 -->
+          <div class="portfolio-card">
+                <img src="resources/themes/ghost/assets/img/portfolio-photo2.png" class="portfolio-img" alt="...">
+                    <div class="d-flx j-c-sb al-i-c">
+                        <h5 class=portfolio-name>HNG Folio</h5>
+                        <div>
+                            <a href="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M296 136c0-22.002-17.998-40-40-40s-40 17.998-40 40 17.998 40 40 40 40-17.998 40-40zm0 240c0-22.002-17.998-40-40-40s-40 17.998-40 40 17.998 40 40 40 40-17.998 40-40zm0-120c0-22.002-17.998-40-40-40s-40 17.998-40 40 17.998 40 40 40 40-17.998 40-40z"/></svg>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="">EDIT</a>
+                                <a class="dropdown-item" href="">DELETE</a>  
+                            </div>
+                        </div>
+                    </div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque aliquam excepturi sapiente voluptatum itaque, corrupti dolorem laudantium iure velit voluptates odit quae omnis libero et...
+                </p>
+            </div> 
+
+
   </div>
 </div>
 <!-- modal begins here -->

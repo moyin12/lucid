@@ -104,11 +104,13 @@ class Document
     public function get()
     {
         $finder = new Finder();
-        $finder->sortByModifiedTime();
-        $finder->reverseSorting();
+        // $finder->sortByModifiedTime();
+        // $finder->reverseSorting();
 
         // find all files in the current directory
+        
         $finder->files()->in($this->file);
+        
         $posts = [];
         if ($finder->hasResults()) {
             foreach ($finder as $file) {
@@ -133,7 +135,7 @@ class Document
                     // there are images
                     $first_img = $matches[1];
                     // strip all images from the text
-                    $bd = preg_replace("/<img[^>]+\>/i", " (image) ", $bd);
+                    $bd = preg_replace("/<img[^>]+\>/i", " ", $bd);
                 }
                 $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);
@@ -151,9 +153,10 @@ class Document
                 //content['timestamp'] = $time;
                 $content['image'] = $image;
                 $content['date'] = date('d M Y ', $filename);
-
+                $content['created_at'] = date('F j, Y, g:i a',$filename);
                 array_push($posts, $content);
             }
+            $this->array_sort_by_column($posts,'created_at');
             return $posts;
         } else {
             return false;
@@ -163,7 +166,7 @@ class Document
     //kjarts code for getting and creating markdown files end here
 
     //trim_words used in triming strings by words
-    function trim_words($string, $limit, $break = ".", $pad = "...")
+   public function trim_words($string,$limit,$break=".",$pad="...")
     {
         if (strlen($string) <= $limit) return $string;
 
@@ -175,9 +178,21 @@ class Document
 
         return $string;
     }
-    ///use to clean slug special chars problem solved
-    public function clean($string)
+/// sort post method added by problemSolved (@porh)
+   public function array_sort_by_column(&$arr,$col,$sortMethod =SORT_DESC )
     {
+        $sort_col = array();
+
+        foreach ($arr as $key=>$row)
+        {
+            $sort_col[$key] = strtotime($row[$col]);
+        }
+
+        array_multisort($sort_col,$sortMethod,$arr);
+    }
+
+    ///use to clean slug special chars by problemSolved
+   public function clean($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
 
         return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
@@ -353,7 +368,7 @@ class Document
             $doc = FileSystem::write($handle, $myFeed);
             //        fwrite($handle, $myFeed);
             //      fclose($handle);
-            $strxml = $Feed->printFeed();
+           // $strxml = $Feed->printFeed();
         } else {
             return false;
         }
@@ -535,7 +550,7 @@ class Document
                             // there are images
                             $first_img = $matches[1];
                             // strip all images from the text
-                            $bd = preg_replace("/<img[^>]+\>/i", " (image) ", $bd);
+                            $bd = preg_replace("/<img[^>]+\>/i", " ", $bd);
                         }
                         $time = $parsedown->text($yaml['timestamp']);
                         $url = $parsedown->text($yaml['post_dir']);
@@ -594,7 +609,8 @@ class Document
             return $this->redirect('/404');
         } else {
             ///coming back for some modifications
-            unlink($this->file . $post . '.md');
+            unlink($this->file.$post.'.md');
+            $this->createRSS();
             return $this->redirect('/published-posts');
         }
     }
@@ -648,6 +664,78 @@ class Document
         }
     }
 
+    public function update_Post($title, $content, $tags, $image, $extra,$post_id)
+    {
+        $time = date(DATE_RSS, time());
+        $unix = strtotime($time);
+        // Write md file
+        $document = FrontMatter::parse($content);
+        $md = new Parser();
+        $markdown = $md->parse($document);
+
+        $yaml = $markdown->getYAML();
+        $html = $markdown->getContent();
+        //$doc = FileSystem::write($this->file, $yaml . "\n" . $html);
+
+        $yamlfile = new Doc();
+        if($title != ""){
+        $yamlfile['title'] = $title;
+        }
+        if ($tags != "") {
+            $tag = explode(",", $tags);
+            $put = [];
+            foreach ($tag as $value) {
+                array_push($put, $value);
+            }
+            $yamlfile['tags'] = $put;
+        }
+        if (!empty($image)) {
+            foreach ($image as $key => $value) {
+                $decoded = base64_decode($image[$key]);
+                $url = "./storage/images/" . $key;
+                FileSystem::write($url, $decoded);
+            }
+        }
+
+        if (!$extra) {
+            $yamlfile['post_dir'] = SITE_URL . "/storage/contents/{$post_id}";
+        } else {
+            $yamlfile['post_dir'] = SITE_URL . "/storage/drafts/{$post_id}";
+            $yamlfile['image'] = "./storage/images/" . $key;
+        }
+
+        // create slug by first removing spaces
+        $striped = str_replace(' ', '-', $title);
+        // then removing encoded html chars
+        $striped = preg_replace("/(&#[0-9]+;)/", "", $striped);
+        $yamlfile['slug'] = $striped . "-{$post_id}";
+        $yamlfile['timestamp'] = $time;
+        $yamlfile->setContent($content);
+        $yaml = FrontMatter::dump($yamlfile);
+        $dir = $this->file.$post_id.'.md';
+        
+        $doc = FileSystem::write($dir, $yaml);
+
+        if (!$extra) {
+            if ($doc) {
+                $result =  array("error" => false, "action"=>"update", "message" => "Post Updated successfully");
+                $this->createRSS();
+            } else {
+                $result = array("error" => true,"action"=>"update", "message" => "Fail while Updating, please try again");
+            }
+        } else {
+            if ($doc) {
+                $result = array("error" => false, "action"=>"save_draft", "message" => "Draft saved successfully");
+            } else {
+                $result = array("error" => true, "action"=>"save_draft", "message" => "Fail while updating, please try again");
+            }
+        }
+
+        return $result;
+
+        
+    }
+
 
     public function redirect($location)
     {
@@ -686,7 +774,7 @@ class Document
                     // there are images
                     $first_img = $matches[1];
                     // strip all images from the text
-                    $bd = preg_replace("/<img[^>]+\>/i", " (image) ", $bd);
+                    $bd = preg_replace("/<img[^>]+\>/i", " ", $bd);
                 }
                 $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);

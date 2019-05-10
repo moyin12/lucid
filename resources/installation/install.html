@@ -33,7 +33,7 @@
       <a class="logo" href="https://ziki.hng.tech">
         <img
           src="https://res.cloudinary.com/softcom/image/upload/v1556381807/softcom%20pen/Vector.png"
-          alt="ziki logo"
+          alt="lucid logo"
           class=""
         />
       </a>
@@ -64,12 +64,14 @@
                 name="firstname"
                 id="firstname"
                 placeholder="FirstName"
+                class="required"
               />
               <input
                 type="text"
                 name="lastname"
                 id="lastname"
                 placeholder="LastName"
+                class="required"
               />
             </div>
 
@@ -81,6 +83,7 @@
                 name="username"
                 id="username"
                 placeholder="UserName"
+                class="required"
               />
               <select name="role" id="role">
                 <option value="admin">Site Administrator</option>
@@ -88,7 +91,7 @@
             </div>
             <div class="d-flex mt-4 mb-4">
               <input
-                class="e-mail"
+                class="e-mail required"
                 type="email"
                 name="email"
                 id="email"
@@ -119,6 +122,9 @@
             <div class="d-flex justify-content-around mt-5 mb-5">
               <button id="nextButton" class="next-button">Next <span class="arrow"><i class="fas fa-arrow-right"></i></span></button>
             </div>
+            <div class="d-flex justify-content-around mb-5">
+              <span id="errorMessage"></span>
+            </div>
           </div>
 
           <!-- step 2 starts here -->
@@ -133,8 +139,8 @@
             <!-- this too -->
             <p>Don’t worry, these settings can always be changed later</p>
             <div class="d-flex justify-content-between mt-4">
-                <input type="url" name="domainName" placeholder="Domain Url" value="{{domain}}" class="domain-name" readonly>
-                <select name="domain" class="domain">
+                <input type="url" name="domainName" placeholder="Domain Url" value="{{domain}}" class="domain-name required" readonly>
+                <select name="domain" class="domain required">
                     <option value=".com">
                         .com
                     </option>
@@ -149,8 +155,8 @@
                     </option>
                 </select>
             </div>
-            <input type="text" name="siteTagline" placeholder="Site Tagline" style="width:100%" class="mt-4 tag">
-            <select name="Language" id=""style="width:100%" class="mt-4">
+            <input title="A short caption for your site." type="text" name="siteTagline" placeholder="Site Tagline" style="width:100%" class="mt-4 tag required">
+            <select name="Language" id=""style="width:100%" class="mt-4 required">
               <option value="" disabled>
                 Language
               </option>
@@ -158,7 +164,7 @@
                 English
               </option>   
             </select>
-            <select name="Country" id="" style="width:100%" class="mt-4 country">
+            <select name="Country" id="" style="width:100%" class="mt-4 country required">
                 <option value="" disabled>
                   Country
                 </option>
@@ -169,15 +175,15 @@
             <div class="terms d-flex mt-5">
               <input type="checkbox" name="acceptTerms" id="acceptTerms" class="check">
               <p>
-                Accept Ziki Terms and Conditions
+                Accept Lucid Terms and Conditions
               </p>
             </div>
            <div class="d-flex justify-content-between mb-5">
               <button id="previousButton" class="previous">
-                  <i class=" arrow fas fa-arrow-left"></i>Back to Profile Information
+                  <i class=" arrow fas fa-arrow-left"></i>Back
               </button>
               <button type="submit" id="installButton" disabled> 
-                  Install Ziki
+                  Install Lucid
               </button>
            </div>
            <div class="d-flex justify-content-around mb-4">

@@ -53,10 +53,42 @@ Router::get('/post/{post_id}', function ($request, $post_id) {
             $tags[] = '#' . $tag;
         }
     }
-
+    $siteUrl = SITE_URL;
     $relatedPosts = $ziki->getRelatedPost(4, $tags, $post);
-    return $this->template->render('blog-details.html', ['result' => $result, 'count' => $count, 'fcount' => $fcount, 'post' => $post_details, 'relatedPosts' => $relatedPosts]);
+    return $this->template->render('blog-details.html', ['result' => $result, 'count' => $count, 'fcount' => $fcount, 'post' => $post_details, 'relatedPosts' => $relatedPosts,'siteUrl'=>$siteUrl]);
 });
+
+Router::post('/edit-post', function ($request) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in()) {
+        return $user->redirect('/');
+    }
+    $directory = "./storage/contents/";
+    $request = $request->getBody();
+    $title = isset($request['title'])?$request['title']:'';
+    $body = $request['postVal'];
+    $tags = $request['tags'];
+    $postSlug = explode('-',$request['postId']);
+    $post_id = end($postSlug);
+    // filter out non-image data
+    $initial_images = array_filter($request, function ($key) {
+        return preg_match('/^img-\w*$/', $key);
+    }, ARRAY_FILTER_USE_KEY);
+    // PHP automatically converts the '.' of the extension to an underscore
+    // undo this
+    
+    $images = [];
+    foreach ($initial_images as $key => $value) {
+        $newKey = preg_replace('/_/', '.', $key);
+        $images[$newKey] = $value;
+    }
+    $extra="";
+    //return json_encode([$images]);
+    $ziki = new Ziki\Core\Document($directory);
+    $result = $ziki->update_Post($title, $body, $tags, $images, $extra,$post_id);
+    return json_encode($result);
+});
+
 Router::get('/timeline', function ($request) {
     $user = new Ziki\Core\Auth();
     if (!$user->is_logged_in()) {
@@ -142,6 +174,10 @@ Router::post('/send', function ($request) {
     return $SendMail->redirect('/about');
 });
 Router::post('/setcontactemail', function ($request) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in()) {
+        return $user->redirect('/');
+    }
     include ZIKI_BASE_PATH . "/src/core/SendMail.php";
     $request = $request->getBody();
     $SetContactEmail = new SendContactMail();
@@ -150,6 +186,10 @@ Router::post('/setcontactemail', function ($request) {
     return $SetContactEmail->redirect('/profile');
 });
 Router::post('/updateabout', function ($request) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in()) {
+        return $user->redirect('/');
+    }
     include ZIKI_BASE_PATH . "/src/core/SendMail.php";
     $request = $request->getBody();
     $updateabout = new SendContactMail();
@@ -158,6 +198,10 @@ Router::post('/updateabout', function ($request) {
     return $updateabout->redirect('/profile');
 });
 Router::get('/deletepost/{postId}', function ($request, $postId) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in()) {
+        return $user->redirect('/');
+    }
     $postid = explode('-', $postId);
     $post = end($postid);
     $directory = "./storage/contents/";

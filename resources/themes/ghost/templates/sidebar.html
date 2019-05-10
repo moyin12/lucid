@@ -664,17 +664,20 @@
           </div>
           <div class="row">
             <div class="col-12 col-sm-12">
-              <h3 class="text-center pt-4 owner-name purple"><b>{{settings.name}}</b></h3>
-              {% if settings.siteTagline|default(null) %}
+              <h3 class="text-center pt-4"><a href="/following" class="pt-4 owner-name purple"><b>{{settings.name}}</b></a></h3>
+
+            {% if settings.siteTagline|default(null) %}
               <h6 class="text-center pt-2 owner-desc">{{settings.siteTagline}}</h6>
               {% endif %}
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6 text-right follows"><a href="/following"><b>{{count}}</b> <span
-                  class="purple">Following</span></a></div>
-            <div class="col-sm-6 text-left follows"><a href="/followers"><b>{{fcount}}</b> <span
-                  class="purple">Followers</span></a></div>
+            <div class="col-sm-6 text-right follows">
+              <a href="/following"><b>{{count}}</b> <span class="purple">Following</span></a>
+            </div>
+            <div class="col-sm-6 text-left follows">
+              <a href="/followers"><b>{{fcount}}</b> <span class="purple">Followers</span></a>
+            </div>
           </div>
           <hr>
           <!-- <strong>BS</strong> -->

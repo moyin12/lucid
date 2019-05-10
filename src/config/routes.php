@@ -187,21 +187,6 @@ Router::get('/published-posts', function ($request) {
 });
 
 // Kuforiji' codes start here
-// Start- Portfolio page
-Router::get('/portfolio', function ($request) {
-    $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
-        return $user->redirect('/');
-    }
-    $count = new Ziki\Core\Subscribe();
-    $fcount = $count->fcount();
-    $count = $count->count();
-    $directory = "./storage/portfolio";
-    // Get function to be added here
-    $ziki = new Ziki\Core\Document($directory);
-    return $this->template->render('portfolio.html');
-});
-// End- Portfolio
 
 // Start- Portfolio_expanded page
 Router::get('/portfolio-expanded', function ($request) {
@@ -239,7 +224,6 @@ Router::post('/newportfolio', function ($request) {
     $data = $request->getBody();
     $title = $data['title'];
     $body = $data['postVal'];
-    $tags = $data['tags'];
     // filter out non-image data
     $initial_images = array_filter($data, function ($key) {
         return preg_match('/^img-\w*$/', $key);
@@ -258,7 +242,7 @@ Router::post('/newportfolio', function ($request) {
 });
 
 // route to create-portfolio page
-Router::get('/portfolios', function ($request) {
+Router::get('/portfolio', function ($request) {
     $user = new Ziki\Core\Auth();
     if (!$user->is_logged_in()) {
         return $user->redirect('/');
@@ -266,7 +250,70 @@ Router::get('/portfolios', function ($request) {
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();
-    return $this->template->render('portfolios.html');
+    $directory = "./storage/portfolio/";
+    $portfolio = new Ziki\Core\Portfolio($directory);
+    $portfolio = $portfolio->getportfolio();
+    return $this->template->render('portfolio.html', ['portf' => $portfolio]);
+});
+
+// get portfolio expanded details
+Router::get('/portfolio/{post_id}', function ($request, $port_id) {
+
+    $directory = "./storage/portfolio/";
+    $portfolio = new Ziki\Core\Portfolio($directory);
+
+    //echo $data;
+    $result = $portfolio->getEachPortfolio($port_id);
+    $count = new Ziki\Core\Subscribe();
+    $fcount = $count->fcount();
+    $count = $count->count();
+    if (isset($_GET['d'])) {
+
+        $url = isset($_GET['d']) ? $_GET['d'] : '';
+        //echo $url;
+        $url = isset($_GET['d']) ? trim(base64_decode($_GET['d'])) : "";
+        //echo $url;
+        $url = $url . "storage/rss/rss.xml";
+        $rss = Ziki\Core\Subscribe::subc($url);
+        //echo $url;
+    }
+    $port_id = explode('-', $port_id);
+    $post = end($port_id);
+    $portfolio_details = $portfolio->getOnePortfolio($post);
+
+    return $this->template->render('portfolio-expanded.html', ['result' => $result, 'count' => $count, 'fcount' => $fcount, 'post' => $portfolio_details]);
+});
+
+Router::get('/deleteportfolio/{postId}', function ($request, $postId) {
+    $postid = explode('-', $postId);
+    $post = end($postid);
+    $directory = "./storage/contents/";
+    $ziki = new Ziki\Core\Document($directory);
+    $ziki->deletePost($post);
+});
+
+Router::get('delete/{id}', function ($request, $id) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in()) {
+        return new RedirectResponse("/");
+    }
+    $directory = "./storage/portfolio/";
+    $portfolio = new Ziki\Core\Portfolio($directory);
+    $result = $portfolio->delete($id);
+    return $this->template->render('portfolio.html', ['delete' => $result]);
+});
+
+Router::get('/portfolio-editor/{postID}', function ($request, $postID) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in()) {
+        return $user->redirect('/');
+    }
+    $postid = explode('-', $postID);
+    $post = end($postid);
+    $directory = "./storage/portfolio/";
+    $portfolio = new Ziki\Core\Portfolio($directory);
+    $portfolio_details = $portfolio->getOnePortfolio($post);
+    return $this->template->render('editor.html', ['portfolio' => $portfolio_details]);
 });
 
 // Kuforiji' codes end here

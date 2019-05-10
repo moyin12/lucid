@@ -26,17 +26,21 @@
                 </svg>
             </a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="/editor/{{ post.slug |lower }}" class="edit-post">EDIT</a>
+              <a class="dropdown-item" href="/portfolio-editor/{{ post.slug |lower }}" class="edit-post">EDIT</a>
               <a class="dropdown-item" data-toggle="modal" id="{{ post.slug |lower }}" onclick="deletePost(this)"
                 data-target="#cancelModal">DELETE</a>
             </div>
           </div>
         </div>
-        <div class="portfolio-body">
+        <div class="portfolio-content">
+            <p>
           {{ portfolio.body|raw }}
-      </div>
+          <span> <a href="/portfolio/{{ post.slug |lower }}" class="read-more">Read More</a> </span>
+</p>
+
       </div>
       {% endfor %}
+    </div>
 
     </div>
   </div>
@@ -71,4 +75,5 @@
     deletePostBtn.setAttribute('href', '/deleteportfolio/' + postSlug);
   }
 </script>
+
 {% endblock page_content %}

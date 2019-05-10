@@ -303,6 +303,19 @@ Router::get('delete/{id}', function ($request, $id) {
     return $this->template->render('portfolio.html', ['delete' => $result]);
 });
 
+Router::get('/portfolio-editor/{postID}', function ($request, $postID) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in()) {
+        return $user->redirect('/');
+    }
+    $postid = explode('-', $postID);
+    $post = end($postid);
+    $directory = "./storage/portfolio/";
+    $portfolio = new Ziki\Core\Portfolio($directory);
+    $portfolio_details = $portfolio->getOnePortfolio($post);
+    return $this->template->render('editor.html', ['portfolio' => $portfolio_details]);
+});
+
 // Kuforiji' codes end here
 
 

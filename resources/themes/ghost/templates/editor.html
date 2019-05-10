@@ -257,13 +257,17 @@
                     <div class="row form-group">
                       <div class="col-12" id="titleBox">
                         <label for="new-post-title" class="sr-only">Title</label>
-                        <input type="text" id="new-post-title" class="form-control hide" placeholder="Title"/>
+                        <input type="text" id="new-post-title" value="{{post.title | striptags}}" class="form-control hide" placeholder="Title"/>
+                        <input type="hidden" id="postid"  value="{{post.slug}}" class="form-control hide"/>
                       </div>
+                      
                       <div class="col-12">
                         <div id="editor">{{ post.body|raw }}</div>
                       </div>
+                      
                     </div>
                   </div>
+                  
                 </div>
                 <div class="row pt-5">
                   <div class="col-12">
@@ -315,7 +319,7 @@
                         <input type="button" class="form-control btn-sm btn btn-primary save-draft" value="Save Draft"/>
                       </div>
                       <div class="col-3 col-sm-1">
-                        <input type="submit" class="form-control btn-sm btn btn-primary publish-post" value="Publish">
+                        <input type="submit" class="form-control btn-sm btn btn-primary publish-post" value="Update">
                       </div>
                       <div class="col-3 col-sm-1">
                         <input class="form-control btn-sm btn btn-primary add-tags" type="button" data-toggle="collapse" data-target="  #collapseExample"   aria-expanded="false" aria-controls="collapseExample" value="Add Tags">
@@ -357,18 +361,44 @@
       </div>
     </div>
   </div>
+
+  <!-- modal begins here -->
+  <div id="UpdateModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content no-border">
+          <!-- <div class="modal-header no-border">
+            <button type="button" class="close" data-dismiss="modal" style="outline: none;">&times;</button>
+          </div> -->
+          <div class="modal-body no-border">
+            <div class="row">
+              <div class="col-4">
+                  <img src="/resources/themes/ghost/assets/img/check.png"
+                  class="img-fluid mx-auto d-block dialog-img" alt="cancel post image" width="130px">
+              </div>
+              <div class="col-8">
+                  <button type="button" class="close" data-dismiss="modal" style="outline: none;">&times;</button>
+                  <p class="cancel-modal-text text-left font-weight-bold">Updated successfully!</p>
+              </div>
+            </div>
+            
+           
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modal ends here -->
   
   <script>
     const title = document.querySelector("#new-post-title");
     const post = document.querySelector("#editor");
     const current = document.querySelector("#current");
     //console.log(post.innerHTML.length);
-    // title.style.display = "none";
+     title.style.display = "none";
     const work = () => {
       let totalText = post.innerText.length;
       if (totalText > 100) {
         // title.style.display = "block";
-        title.value = '{{feed.title | raw}}';
+        title.value = '{{post.title | striptags}}';
         current.style.color = "red";
       } else {
         // title.style.display = "none";
@@ -377,10 +407,15 @@
       return (current.textContent = totalText);
     };
     post.addEventListener("keyup", work);
-
-    window.onload=function()
-    {
-      work();
-    }
+      let post_title = '{{post.title | striptags}}';
+      if(post_title =='')
+      {
+        window.localStorage.setItem('title','empty');
+      }
+      else
+      {
+        window.localStorage.removeItem('title');
+      }
+    
   </script>
 {% endblock page_content %}

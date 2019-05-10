@@ -43,9 +43,13 @@
       $('#sidebar-collapse-2').toggleClass('visible fas fa-arrow-circle-right fa-2x');
     });
   });
-
-
   // Code for editor switching.... 
+  //added the below code just to know what page the user is in 
+  //code kinda stupid tho
+  $(document).ready(function () {
+    window.localStorage.setItem('page',"{{ title | default('Ziki')}}");
+  });
+  
   var content_id = 'editor';  
 
   max = 50;
@@ -68,6 +72,21 @@
   }
 
   // code for editormode switching ends here..
+  // and starts here again by problemSolved
+  window.onload = function()
+  {
+    let currentPage = window.localStorage.getItem('page');
+    let issetTitle=window.localStorage.getItem('title');
+    if(currentPage == 'Edit Post')
+    {
+      if(!issetTitle)
+      {
+        $('#new-post-title').addClass('form-control show');
+      }
+     
+    }
+  }
+  
 </script>
 
 <!--Email login modal (uncomment this code for modal to work, but then, the side war won't work-->
@@ -137,6 +156,7 @@
 <!-- convert to markdown script ends -->
  
 <script>
+  
   // added by sleekX
   var form = document.querySelector('.timeline-editor');
 
@@ -148,13 +168,20 @@
 
   function newPostSubmitHandler(event) {
     event.preventDefault();
-
+    let currentPage = window.localStorage.getItem('page');
     const formData = new FormData(document.querySelector('#editor-form'));
     const blogBody = document.querySelector('.ql-editor').innerHTML;
 
     const title = document.querySelector("#new-post-title").value;
+    
     if(title != ""){
       formData.set('title', title);
+    }
+
+    if(currentPage == 'Edit Post')
+    {
+      const postid = document.querySelector("#postid").value;
+      formData.set('postId', postid);
     }
     
     // convert to markdown
@@ -207,18 +234,43 @@
     formData.set('tags', selectedTags);
 
     // send the form data
-    fetch(newPostIsBeingCreated ? '/publish' : '/saveDraft', {
+    
+    if(currentPage == 'Edit Post')
+    {
+      fetch(newPostIsBeingCreated ? '/edit-post' : '/saveDraft', {
       method: 'POST',
       body: formData
-    }).then(res => res.text()).then((res) => {
-      console.log(res);
-      if (window.confirm(`Check console for response.
-      Redirect to view new post?`)) {
-        window.location = '/timeline';
-      }
-    }).catch((err) => {
-      alert(`Failed with the following message: ${err.message}`);
-    });
+      }).then(res => res.json()).then((res) => {
+        //console.log(JSON.stringify(res));
+
+        if(res.error == false && res.action == 'update')
+        {
+          $('#UpdateModal').modal('show');
+          setTimeout(function(){ 
+            window.location = '/published-posts';
+          }, 2000);
+        }
+        
+      }).catch((err) => {
+        alert(`Failed with the following message: ${err.message}`);
+      });
+    }
+    else
+    {
+      fetch(newPostIsBeingCreated ? '/publish' : '/saveDraft', {
+      method: 'POST',
+      body: formData
+      }).then(res => res.text()).then((res) => {
+        console.log(res);
+        if (window.confirm(`Check console for response.
+        Redirect to view new post?`)) {
+          window.location = '/timeline';
+        }
+      }).catch((err) => {
+        alert(`Failed with the following message: ${err.message}`);
+      });
+    }
+    
   };
   // sleekx code ends here
 

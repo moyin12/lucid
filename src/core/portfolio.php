@@ -43,15 +43,15 @@ class Portfolio
 
         $yaml = $markdown->getYAML();
         $html = $markdown->getContent();
-        //$doc = FileSystem::write($this->file, $yaml . "\n" . $html);
 
         $yamlfile = new Doc();
-        $yamlfile['title'] = $title;
-
+        if ($title != "") {
+            $yamlfile['title'] = $title;
+        }
         if (!empty($image)) {
             foreach ($image as $key => $value) {
                 $decoded = base64_decode($image[$key]);
-                $url = "./storage/portfolio/images/" . $key;
+                $url = "./storage/portfolio-images/" . $key;
                 FileSystem::write($url, $decoded);
             }
         }
@@ -117,15 +117,15 @@ class Portfolio
                 $content['title'] = $title;
                 $content['body'] = $this->trim_wordsP($bd, 200);
                 $content['url'] = $url;
-                // $content['timestamp'] = $time;
+                $content['timestamp'] = $time;
                 // $content['tags'] = $tags;
                 $content['slug'] = $this->cleanP($slug);
                 $content['preview_img'] = $first_img;
-                //content['slug'] = $slug;
+                // content['slug'] = $slug;
                 $file = explode("-", $slug);
                 $filename = $file[count($file) - 1];
                 $content['filename'] = $filename;
-                //content['timestamp'] = $time;
+                // content['timestamp'] = $time;
                 $content['image'] = $image;
                 // $content['date'] = date('d M Y ', $filename);
 
@@ -199,7 +199,7 @@ class Portfolio
         $finder = new Finder();
         // find portfolio in the current directory
         $finder->files()->in($this->file)->name($portf . '.md');
-        $content = [];
+        $contentP = [];
         if (!$finder->hasResults()) {
             return $this->redirect('/404');
         } else {
@@ -210,7 +210,7 @@ class Portfolio
                 $yaml = $document->getYAML();
                 $body = $document->getContent();
                 $parsedown  = new Parsedown();
-                $yamlTag = isset($yaml['tags']) ? $yaml['tags'] : [];
+                // $yamlTag = isset($yaml['tags']) ? $yaml['tags'] : [];
 
                 $slug = $parsedown->text($yaml['slug']);
                 $slug = preg_replace("/<[^>]+>/", '', $slug);
@@ -223,15 +223,15 @@ class Portfolio
                 }
                 $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);
-                $content['title'] = $title;
-                $content['body'] = $bd;
-                $content['url'] = $url;
-                $content['timestamp'] = $time;
-                $content['date'] = date('d M Y ', $portf);
-                $content['crawlerImage'] = $first_img;
-                $content['slug'] = $this->clean($slug);
+                $contentP['title'] = $title;
+                $contentP['body'] = $bd;
+                $contentP['url'] = $url;
+                $contentP['timestamp'] = $time;
+                $contentP['date'] = date('d M Y ', $portf);
+                $contentP['crawlerImage'] = $first_img;
+                $contentP['slug'] = $this->clean($slug);
             }
-            return $content;
+            return $contentP;
         }
     }
 
@@ -252,5 +252,28 @@ class Portfolio
     public function redirect($location)
     {
         header('Location:' . $location);
+    }
+
+    //delete a portfolio
+    public function deletePost($post)
+    {
+        $finder = new Finder();
+        // find post in the current directory
+        $finder->files()->in($this->file)->name($post . '.md');
+        if (!$finder->hasResults()) {
+            return $this->redirect('/404');
+        } else {
+            ///coming back for some modifications
+            unlink($this->file . $post . '.md');
+            return $this->redirect('/portfolio');
+        }
+    }
+
+    ///use to clean slug special chars problem solved
+    public function clean($string)
+    {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
     }
 }

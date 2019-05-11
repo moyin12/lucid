@@ -5,6 +5,7 @@ if hash composer; then
   echo "Composer Already Installed"
   echo "You can find it at $(type -p composer)"
   composer install
+  php -S localhost:8000
   exit
 fi
 

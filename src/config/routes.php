@@ -258,6 +258,17 @@ Router::post('/appsetting', function ($request) {
         }
 });
 
+
+//profile fullname and short bio update
+Router::post('/profile ', function ($request ){
+    include ZIKI_BASE_PATH . "/src/core/profile.php";
+    $Eri = new Person("Erioluwa Amujo");
+    $Divine = new Person("Divine Amujo");
+   
+
+    echo "Your full name is " . $Eri->get_name();
+});
+
 // profile page
 Router::get('/profile', function ($request) {
     ///please don't remove or change the included path

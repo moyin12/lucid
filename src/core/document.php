@@ -713,9 +713,13 @@ class Document
         $yamlfile->setContent($content);
         $yaml = FrontMatter::dump($yamlfile);
         $dir = $this->file.$post_id.'.md';
+        $explodeSChars = explode('&#10;',$yaml);
+        $fopen = fopen($dir,'w');
+        foreach($explodeSChars as $yamlTextContent )
+        {
+            $doc = fwrite($fopen, $yamlTextContent.PHP_EOL);
+        }
         
-        $doc = FileSystem::write($dir, $yaml);
-
         if (!$extra) {
             if ($doc) {
                 $result =  array("error" => false, "action"=>"update", "message" => "Post Updated successfully");

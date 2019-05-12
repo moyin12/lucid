@@ -21,7 +21,8 @@ class Document
 
     public function __construct($file)
     {
-        $this->file       = $file;
+        fileSystem::makeDir($file);
+        $this->file   = $file;
     }
 
     public function file()
@@ -200,7 +201,6 @@ class Document
 
     public function fetchAllRss()
     {
-
         $xml = file_get_contents("./storage/rss/rss.xml");
         $feed = [];
         if (strlen($xml != "")) {
@@ -255,7 +255,7 @@ class Document
     //RSS designed By DMAtrix;
     public function fetchRss()
     {
-
+        
         $xml = file_get_contents("./storage/rss/rss.xml");
 
         if (strlen($xml !== "")) {
@@ -288,6 +288,8 @@ class Document
         } else {
             return false;
         }
+        krsort($feed);
+        return $feed;
     }
     //store rss By DMAtrix
     public function createRSS()

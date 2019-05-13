@@ -406,6 +406,34 @@ Router::post('/appsetting', function ($request) {
     }
 });
 
+
+//profile fullname and short bio update
+Router::post('/sidebar ', function ($request ){
+    include ZIKI_BASE_PATH . "/src/core/profile.php";
+    $user =new Ziki\Core\Auth();
+ $instantiateClass=new Ziki\Core\profileUpdate();
+ $getUserInfo=$instantiateClass->getPage();
+//  $fullName = $this->fullname;
+//  $shortBio = $this->shortbio;
+  //this gets the page content
+//   $getAboutPageContent = $userSiteDetails->getPage();
+  $user = new Ziki\Core\Auth();
+  if (!$user->is_logged_in()) {
+      return $user->redirect('/');
+  }
+  //this for error and successs messages
+  $message = [];
+  if (isset($_SESSION['messages'])) {
+      $message = $_SESSION['messages'];
+      unset($_SESSION['messages']);
+  }
+  $count = new Ziki\Core\Subscribe();
+  $fcount = $count->fcount();
+  $count = $count->count();
+
+    return $this->template->render ('sidebar.html', ['fullName' => $getUserInfo, 'shortBio' => $getUserInfo]);
+ });
+
 // profile page
 Router::get('/profile', function ($request) {
     ///please don't remove or change the included path

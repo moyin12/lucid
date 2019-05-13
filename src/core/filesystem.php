@@ -9,9 +9,8 @@ class FileSystem
     public static function makeDir($path)
     {
         if (!file_exists($path)) {
-            $unmask = unmask(0);
+            //$unmask = unmask(0);
             $return = mkdir($path, true);
-            unmask($unmask);
             return $return;
         }
     }

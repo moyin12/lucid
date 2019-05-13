@@ -21,7 +21,7 @@ class Document
 
     public function __construct($file)
     {
-        fileSystem::makeDir($file);
+        FileSystem::makeDir($file);
         $this->file   = $file;
     }
 

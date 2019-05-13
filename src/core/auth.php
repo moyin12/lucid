@@ -134,6 +134,15 @@ class Auth {
             return $_SESSION;
         }
     }
+    // session checks
+    public function is_admin() {
+        if ($_SESSION['login_user']['role'] == 'admin'){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     // Log out user
     public function log_out() {
         // Destroy and unset active session

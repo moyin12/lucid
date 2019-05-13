@@ -623,11 +623,9 @@ class Document
     {
         $finder = new Finder();
         // find post in the current directory
-        $finder->files()->in($this->file)->name($post . '.md');
+        $finder->files()->in($this->file)->name($post .'.md');
         $content = [];
-        if (!$finder->hasResults()) {
-            return $this->redirect('/404');
-        } else {
+        if ($finder->hasResults()) {
             foreach ($finder as $file) {
                 $document = $file->getContents();
                 $parser = new Parser();

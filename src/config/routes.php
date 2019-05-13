@@ -378,12 +378,6 @@ Router::get('/settings', function ($request) {
 // ahmzyjazzy add this (^_^) : setting api
 Router::post('/appsetting', function ($request) {
 
-    //create middleware to protect api from non auth user
-    //$user = new Ziki\Core\Auth();
-    //if (!$user->is_logged_in()) {
-    //    return json_encode(array("msg" => "Authentication failed, pls login.", "status" => "error", "data" => null));
-    //}
-
     $data = $request->getBody();
     $field = $data['field']; //field to update in  app.json
     $value = $data['value']; //value for setting field in app.json

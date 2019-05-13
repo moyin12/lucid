@@ -43,31 +43,70 @@
       $('#sidebar-collapse-2').toggleClass('visible fas fa-arrow-circle-right fa-2x');
     });
   });
-
-
   // Code for editor switching.... 
+  //added the below code just to know what page the user is in 
+  //code kinda stupid tho
+  $(document).ready(function () {
+    window.localStorage.setItem('page',"{{ title | default('Ziki')}}");
+  });  //Initialize Quill editor
+     // e.preventDefault();
+     var toolbarOptions = [
+    ['bold', 'italic'],
+    ['blockquote'],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    ['link', 'image'],
+    ['clean']
+  ];
+
+  var quill = new Quill('#editor', {
+    theme: 'snow',
+    modules: {
+      toolbar: toolbarOptions
+    },
+    placeholder: 'Compose an epic...'
+  });
+  $(".ql-toolbar").css("display", "none");
   var content_id = 'editor';  
 
   max = 50;
-
   //binding keyup/down events on the contenteditable div
   $('#'+content_id).keyup(function(e){ check_charcount(content_id, max, e); });
   $('#'+content_id).keydown(function(e){ check_charcount(content_id, max, e); });
 
   function check_charcount(content_id, max, e)
-  {   
+  {  
+   
     if($('#'+content_id).text().length > max)
     {
-      // e.preventDefault();
+  
       $('#new-post-title').addClass('form-control show');
       document.getElementById("num_char").innerHTML = "Full Blog Mode";
+      $(".ql-toolbar").css("display", "block");
     }else{
+      $(".ql-toolbar").css("display", "none");
       $('#new-post-title').removeClass('form-control show');
       document.getElementById("num_char").innerHTML = "Micro-blog Mode";
+      
     }
   }
 
   // code for editormode switching ends here..
+  // and starts here again by problemSolved
+  window.onload = function()
+  {
+    let currentPage = window.localStorage.getItem('page');
+    let issetTitle=window.localStorage.getItem('title');
+    if(currentPage == 'Edit Post')
+    {
+      if(!issetTitle)
+      {
+        $('#new-post-title').addClass('form-control show');
+      }
+     
+    }
+  }
+  
 </script>
 
 <!--Email login modal (uncomment this code for modal to work, but then, the side war won't work-->
@@ -137,6 +176,7 @@
 <!-- convert to markdown script ends -->
  
 <script>
+  
   // added by sleekX
   var form = document.querySelector('.timeline-editor');
 
@@ -148,13 +188,20 @@
 
   function newPostSubmitHandler(event) {
     event.preventDefault();
-
+    let currentPage = window.localStorage.getItem('page');
     const formData = new FormData(document.querySelector('#editor-form'));
     const blogBody = document.querySelector('.ql-editor').innerHTML;
 
     const title = document.querySelector("#new-post-title").value;
+    
     if(title != ""){
       formData.set('title', title);
+    }
+
+    if(currentPage == 'Edit Post')
+    {
+      const postid = document.querySelector("#postid").value;
+      formData.set('postId', postid);
     }
     
     // convert to markdown
@@ -207,38 +254,48 @@
     formData.set('tags', selectedTags);
 
     // send the form data
-    fetch(newPostIsBeingCreated ? '/publish' : '/saveDraft', {
+    
+    if(currentPage == 'Edit Post')
+    {
+      fetch(newPostIsBeingCreated ? '/edit-post' : '/saveDraft', {
       method: 'POST',
       body: formData
-    }).then(res => res.text()).then((res) => {
-      console.log(res);
-      if (window.confirm(`Check console for response.
-      Redirect to view new post?`)) {
-        window.location = '/timeline';
-      }
-    }).catch((err) => {
-      alert(`Failed with the following message: ${err.message}`);
-    });
+      }).then(res => res.json()).then((res) => {
+        //console.log(JSON.stringify(res));
+
+        if(res.error == false && res.action == 'update')
+        {
+          $('#UpdateModal').modal('show');
+          setTimeout(function(){ 
+            window.location = '/published-posts';
+          }, 2000);
+        }
+        
+      }).catch((err) => {
+        alert(`Failed with the following message: ${err.message}`);
+      });
+    }
+    else
+    {
+      fetch(newPostIsBeingCreated ? '/publish' : '/saveDraft', {
+      method: 'POST',
+      body: formData
+      }).then(res => res.text()).then((res) => {
+        console.log(res);
+        if (window.confirm(`Check console for response.
+        Redirect to view new post?`)) {
+          window.location = '/timeline';
+        }
+      }).catch((err) => {
+        alert(`Failed with the following message: ${err.message}`);
+      });
+    }
+    
   };
   // sleekx code ends here
 
 
-  //Initialize Quill editor
-  var toolbarOptions = [
-    ['bold', 'italic'],
-    ['blockquote'],
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    ['link', 'image'],
-    ['clean']
-  ];
-  var quill = new Quill('#editor', {
-    theme: 'snow',
-    modules: {
-      toolbar: toolbarOptions
-    },
-    placeholder: 'Compose an epic...'
-  });
+
 </script>
 <script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>
 <footer>

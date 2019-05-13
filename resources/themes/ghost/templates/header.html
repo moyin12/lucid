@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/resources/themes/ghost/assets/main.css" />
     <link rel="stylesheet" href="/resources/themes/ghost/assets/css/profile.css" />
     <link rel="stylesheet" href="/resources/themes/ghost/assets/css/portfolio.css" />
-    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
 
@@ -41,7 +40,9 @@
 
     <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet" />
     <link href="//cdn.quilljs.com/1.0.0/quill.bubble.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
 
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-flat.css" />
     <style>
         /* loader styling starts here */
         #loader-container{
@@ -207,51 +208,7 @@
     <script async defer crossorigin="anonymous"
         src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.3&appId={{ appsettings.FACEBOOK_APP_ID }}&autoLogAppEvents=1"></script>
 
-    <!-- Note that this nav code is recognised as temporary
-      to be replaced by the actual one.. BUT PLEASE DO WELL TO TRANSFER THE
-    BUTTONS HERE>>> THEY ARE USED TO TOGGLE THE SIDE BAR ON OR OFF BOTH ON
-    DESKTOP AND MOBILE SCREENS>>>>-->
-    <div class="temp-nav">
-        <div class="container">
-            <ul class="nav nav-pills">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <button type="button" id="sidebarCollapse" class="btn btn-info top-toggle">
-                            <i class="fas fa-align-left"></i>
-                        </button>
-                    </a>
-                </li>
-
-                {% if user.role == 'admin' %}
-                <li class="nav-item ml-auto">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                        aria-haspopup="true" aria-expanded="false">
-                        <span class="dotted">...</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/settings">SETTINGS</a>
-                        <a class="dropdown-item" href="/logout">LOGOUT</a>
-                    </div>
-                </li>
-                {% elseif user.role == 'guest' %}
-                <li class="nav-item ml-auto">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                        aria-haspopup="true" aria-expanded="false">
-                        <span class="dotted">...</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <span class="dropdown-item">You are logged in as guest</span>
-                        <a class="dropdown-item" href="/logout">LOGOUT</a>
-                    </div>
-                </li>
-                {% else %}
-                <li class="nav-item ml-auto">
-                    <span class="nav-item" data-toggle="modal" data-target="#modalLoginForm">LOGIN</span>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
+    <!-- nav bar was here until mark requested it be removed... -->
 
     <!-- Loader -->
     <div id="loader-container">

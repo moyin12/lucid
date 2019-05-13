@@ -254,16 +254,38 @@ class SendContactMail{
 
         if(empty($this->error))
         {
-            $page = './storage/contents/pages/about.md';
-            if(file_put_contents($page,$this->about))
+            $dir = './storage/page/';
+            if(file_exists($dir))
             {
-                $this->successMsg['success']='Successfully saved';
-                return $this->successMsg;
+                $page = $dir.'about.md';
+                if(file_put_contents($page,$this->about))
+                {
+                    $this->successMsg['success']='Successfully saved';
+                    return $this->successMsg;
+                }
+                else
+                {
+                    return $this->error['serverError'] = 'Settings could not be saved due technical issues! please try again later.';
+                }
             }
             else
             {
-                return $this->error['serverError'] = 'Settings could not be saved due technical issues! please try again later.';
+                if(mkdir($dir))
+                {
+                    $page = $dir.'about.md';
+                    if(file_put_contents($page,$this->about))
+                    {
+                        $this->successMsg['success']='Successfully saved';
+                        return $this->successMsg;
+                    }
+                    else
+                    {
+                        return $this->error['serverError'] = 'Settings could not be saved due technical issues! please try again later.';
+                    }
+                }
             }
+                
+            
         }
         else
         {
@@ -274,7 +296,7 @@ class SendContactMail{
 
     public function getPage()
     {
-        $page = './storage/contents/pages/about.md';
+        $page = './storage/page/about.md';
         if(file_exists($page))
         {
             return file_get_contents($page);

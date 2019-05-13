@@ -4,35 +4,6 @@
   :root {
     --ziki-purple: #280966;
   }
-
-  /* DEMO STYLE*/
-  /*editor code goes here*/
-  .editor-row {
-    margin-bottom: 50px;
-  }
-
-  .ql-toolbar.ql-snow {
-    box-sizing: border-box;
-    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-    padding: 8px;
-    background-color: #f5f5f5;
-    border-radius: 10px 10px 0 0;
-  }
-
-  .ql-editor.ql-blank {
-    box-sizing: border-box;
-    height: 100%;
-    background-color: #fff;
-    border: 0 !important;
-  }
-
-  #editor {
-    min-height: 20vh !important;
-    width: 100%;
-  }
-
-  /**/
-
   p {
     font-size: 1.1em;
     font-weight: 300;
@@ -48,21 +19,8 @@
     transition: all 0.3s;
   }
 
-  .navbar {
-    padding: 15px 10px;
-    background: #fff;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 40px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-  }
-
   .purple {
     color: #280A66;
-  }
-
-  .purple-bg {
-    background-color: #280A66;
   }
 
   .btn-light {
@@ -106,6 +64,10 @@
     padding-bottom: 15px;
   }
 
+  img.footer-logo{
+    width: 90px;
+    height: 30px;
+  }
   /* .lucid {
     color: ;
   } */
@@ -144,16 +106,16 @@
   }
 
   #sidebar {
-    min-width: 350px;
-    max-width: 350px;
+    min-width: 300px;
+    max-width: 300px;
     background: #f8f9fb;
     color: #000;
     transition: all 0.3s;
   }
 
   #sidebar.active {
-    min-width: 90px;
-    max-width: 90px;
+    min-width: 80px;
+    max-width: 80px;
     text-align: center;
   }
 
@@ -259,9 +221,9 @@
   }
 
   #sidebar ul li span:hover {
-    color: #fff;
+    /*color: #fff;
     background: #280A66;
-    border-radius: 10px;
+    border-radius: 10px;*/
   }
 
   #sidebar.active ul li span:hover {
@@ -332,10 +294,18 @@
 
   @media (max-width: 768px) {
     #sidebar {
-      min-width: 90px;
-      max-width: 90px;
+      min-width: 80px;
+      max-width: 80px;
       text-align: center;
-      margin-left: -90px !important;
+      margin-left: -80px !important;
+    }
+
+    #sidebar.active img.profile-pic {
+      border-radius: 50%;
+      height: 60px;
+      min-width: 60px;
+      max-width: 60px;
+      margin-left:  -10px;
     }
 
     .dropdown-toggle::after {
@@ -402,7 +372,7 @@
   /*code for side-bar content*/
   img.profile-pic {
     border-radius: 50%;
-    height: 200px;
+    height: 150px;
   }
 
 
@@ -693,10 +663,10 @@
       <!-- side bar here -->
       <div id="sidebar">
         <div class="text-right collapse-control">
-          <span id="sidebar-Collapse" class="">
+          <!-- <span id="sidebar-Collapse" class="">
             <i id="sidebar-collapse" class="visible fas fa-arrow-circle-left fa-2x"></i>
             <i id="sidebar-collapse-2" class=""></i>
-          </span>
+          </span> -->
         </div>
         <div class="sidebar-header pt-5">
           <div class="row">
@@ -706,17 +676,20 @@
           </div>
           <div class="row">
             <div class="col-12 col-sm-12">
-              <h3 class="text-center pt-4 owner-name purple"><b>{{settings.name}}</b></h3>
-              {% if settings.siteTagline|default(null) %}
+              <h3 class="text-center pt-4"><a href="/following" class="pt-4 owner-name purple"><b>{{settings.name}}</b></a></h3>
+
+            {% if settings.siteTagline|default(null) %}
               <h6 class="text-center pt-2 owner-desc">{{settings.siteTagline}}</h6>
               {% endif %}
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6 text-right follows"><a href="/following"><b>{{count}}</b> <span
-                  class="purple">Following</span></a></div>
-            <div class="col-sm-6 text-left follows"><a href="/followers"><b>{{fcount}}</b> <span
-                  class="purple">Followers</span></a></div>
+            <div class="col-sm-6 text-right follows">
+              <a href="/following"><b>{{count}}</b> <span class="purple">Following</span></a>
+            </div>
+            <div class="col-sm-6 text-left follows">
+              <a href="/followers"><b>{{fcount}}</b> <span class="purple">Followers</span></a>
+            </div>
           </div>
           <hr>
           <!-- <strong>BS</strong> -->
@@ -728,54 +701,71 @@
             <ul class="list-unstyled components text-center">
               {% if user.role == 'admin' %}
               <li><a href="/timeline">
-                  <h6 class="text-center"><span><b>TIMELINE</b></span></h6>
+                  <h6 class="text-center"><span><b>Timeline</b></span></h6>
                 </a></li>
 
               <li><a href="/published-posts">
-                  <h6 class="text-center"><span><b>POSTS</b></span></h6>
+                  <h6 class="text-center"><span><b>Posts</b></span></h6>
                 </a></li>
 
+              <!--{% if appsettings.ENABLE_VIDEOS_PAGE == 'true' %}-->
+              <li><a href="/videos">
+                  <h6 class="text-center"><span><b>Videos</b></span></h6>
+                </a></li>
+              <li><a href="/portfolio">
+                  <h6 class="text-center"><span><b>Portfolio</b></span></h6>
+                </a></li>
+              <!--{% endif %}-->
+              <!--{% if appsettings.ENABLE_PORFOLIO_PAGE == 'true' %}-->
+              <!--<li><a href="/portfolio">-->
+                  <!--<h6 class="text-center"><span><b>PORTFOLIO</b></span></h6>-->
+                <!--</a></li>-->
+              <!--{% endif %}-->
+
+              <li><a href="/about">
+                  <h6 class="text-center"><span><b>About</b></span></h6>
+                </a></li>
+              {% elseif user.role == 'guest' %}
+              <li><a href="/">
+                  <h6 class="text-center"><span><b>Home</b></span></h6>
+                </a></li>
               {% if appsettings.ENABLE_VIDEOS_PAGE == 'true' %}
               <li><a href="/videos">
-                  <h6 class="text-center"><span><b>VIDEOS</b></span></h6>
+                  <h6 class="text-center"><span><b>Video</b></span></h6>
+                </a></li>
+              {% endif %}
+
+              {% if appsettings.ENABLE_PORFOLIO_PAGE == 'true' %}
+              <li><a href="/portfolio">
+                <h6 class="text-center"><span><b>Portfolio</b></span></h6>
+              </a></li>
+              {% endif %}
+
+              <li><a href="/about">
+                  <h6 class="text-center"><span><b>About</b></span></h6>
+                </a>
+              </li>
+
+              {% else %}
+              <li><a href="/">
+                  <h6 class="text-center"><span><b>Home</b></span></h6>
+                </a></li>
+              {% if appsettings.ENABLE_VIDEOS_PAGE == 'true' %}
+              <li><a href="/videos">
+                  <h6 class="text-center"><span><b>Videos</b></span></h6>
                 </a></li>
               {% endif %}
               {% if appsettings.ENABLE_PORFOLIO_PAGE == 'true' %}
               <li><a href="/portfolio">
-                  <h6 class="text-center"><span><b>PORTFOLIO</b></span></h6>
-                </a></li>
+                <h6 class="text-center"><span><b>Porfolio</b></span></h6>
+              </a></li>
               {% endif %}
               <li><a href="/about">
-                  <h6 class="text-center"><span><b>ABOUT</b></span></h6>
-                </a></li>
-              {% elseif user.role == 'guest' %}
-              <li><a href="/">
-                  <h6 class="text-center"><span><b>HOME</b></span></h6>
-                </a></li>
-              {% if appsettings.ENABLE_VIDEOS_PAGE == 'true' %}
-              <li><a href="/videos">
-                  <h6 class="text-center"><span><b>VIDEOS</b></span></h6>
-                </a></li>
-              {% endif %}
-              <li><a href="/about">
-                  <h6 class="text-center"><span><b>ABOUT</b></span></h6>
-                </a></li>
-
-              {% else %}
-              <li><a href="/">
-                  <h6 class="text-center"><span><b>HOME</b></span></h6>
-                </a></li>
-              {% if appsettings.ENABLE_VIDEOS_PAGE == 'true' %}
-              <li><a href="/videos">
-                  <h6 class="text-center"><span><b>VIDEOS</b></span></h6>
-                </a></li>
-              {% endif %}
-              <li><a href="/about">
-                  <h6 class="text-center"><span><b>ABOUT</b></span></h6>
+                  <h6 class="text-center"><span><b>About</b></span></h6>
                 </a></li>
               <ul class="list-unstyled CTAs d-flex justify-content-center">
                 <li>
-                  <a href="#"><button class="btn btn-light">Follow Me</button></a>
+                  <button type="button" data-toggle="modal" data-target="#follow-me" class="btn btn-light">Follow Me</button>
                 </li>
               </ul>
               {% endif %}
@@ -790,3 +780,4 @@
           </div>
         </div>
       </div>
+  {% include "follow-me.html" %}

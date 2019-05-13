@@ -531,17 +531,16 @@ Router::get('/unsubscribe', function ($request) {
     $list = $ziki->unfollow($id);
     return $user->redirect('/subscriptions');
 });
+
 //stupid code by problemSolved
-Router::get('/editor/{postID}', function ($request, $postID) {
+Router::get('/editor/{post_id}', function ($request, $post_id) {
     $user = new Ziki\Core\Auth();
     if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
-    $postid = explode('-', $postID);
-    $post = end($postid);
-    $directory = "./storage/contents/";
+    $directory = "./storage/drafts/";
     $ziki = new Ziki\Core\Document($directory);
-    $post_details = $ziki->getPost($post);
+    $post_details = $ziki->getPost($post_id);
     return $this->template->render('editor.html', ['post' => $post_details]);
 });
 //ends here again;

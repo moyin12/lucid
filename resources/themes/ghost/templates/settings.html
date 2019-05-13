@@ -11,12 +11,13 @@
     <div class="row">
         <div class="col-lg-11 col-md-11 col-sm-12 col-xs-12 mt-3 offset-md-1 offset-lg-1 pr-5">
 
-            {% set navigation = [
-                {'href': 'settings', 'caption': 'Settings'},
-                {'href': 'profile', 'caption': 'Profile'},                
-                {'href': 'subscriptions', 'caption': 'Subscriptions' }
-            ]
-            %}
+                {% set navigation = [
+                    {'href': 'settings', 'caption': 'Settings'},
+                    {'href': 'profile', 'caption': 'Profile'},
+                    {'href': 'subscribers', 'caption': 'Subscribers'},
+                    {'href': 'subscriptions', 'caption': 'Subscriptions'}
+                    ]
+                    %}
 
             {% include "navtabs.html" with {'current_page': 'settings'} %}
 

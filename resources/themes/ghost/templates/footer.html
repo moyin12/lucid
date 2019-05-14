@@ -192,7 +192,10 @@
     let currentPage = window.localStorage.getItem('page');
     const formData = new FormData(document.querySelector('#editor-form'));
     const blogBody = document.querySelector('.ql-editor').innerHTML;
-
+    
+   
+      
+    
     const title = document.querySelector("#new-post-title").value;
     
     if(title != ""){
@@ -210,7 +213,7 @@
     const gfm = turndownPluginGfm.gfm;
     turndownService.use(gfm);
     let markdown = turndownService.turndown(blogBody);
-
+    if(markdown !== ""){
     // check if the form is being submitted
     // which would mean a new post is being created rather than saving a draft
     const newPostIsBeingCreated = event.target instanceof HTMLFormElement;
@@ -296,7 +299,11 @@
       });
     }
     
-  };
+  }
+  else{
+    swal("Sorry,the post field is required");
+  }
+  }
   // sleekx code ends here
 
 

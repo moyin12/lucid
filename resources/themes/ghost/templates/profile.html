@@ -81,9 +81,9 @@
                 {% else %}
                 <label for="email" class="font-weight-bold profile-edit-label">Contact Email</label>
                 {% endif %}
-                <input class="form-control" value="{{ settings.email }}" type="email" name="email" id="email"
+                <input class="form-control" value="{{ settings.email }}" type="email" name="new_email" id="new_email"
                   placeholder="Email" />
-
+                  <input class="form-control" value="{{ settings.email }}" type="hidden" name="email" id="email" />
               </div>
               <button type="submit"
                 class="btn float-md-right profile-submit-btn text-white d-block mx-auto mt-3 text-upppercase">update</button>

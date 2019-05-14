@@ -1,5 +1,6 @@
 {% set title = "About"%} {% extends 'layout.html' %} {% block page_content %}
 <div class="container-fluid px-5" id="content">
+        {% include "navbar-auth.html" %}
         <div class="row d-block">
             {% if about %}
             <div class="mb-4">

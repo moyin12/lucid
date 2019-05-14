@@ -240,60 +240,6 @@ class SendContactMail{
         }
     }
 
-    public function updateAbout($request)
-    {
-        if(empty(trim($request['about'])))
-        {
-            $this->error['aboutError'] = 'This field Shouldn\'t be empty';
-        }
-        else
-        {
-            $this->about = strip_tags($request['about']);
-        }
-
-
-        if(empty($this->error))
-        {
-            $dir = './storage/page/';
-            if(file_exists($dir))
-            {
-                $page = $dir.'about.md';
-                if(file_put_contents($page,$this->about))
-                {
-                    $this->successMsg['success']='Successfully saved';
-                    return $this->successMsg;
-                }
-                else
-                {
-                    return $this->error['serverError'] = 'Settings could not be saved due technical issues! please try again later.';
-                }
-            }
-            else
-            {
-                if(mkdir($dir))
-                {
-                    $page = $dir.'about.md';
-                    if(file_put_contents($page,$this->about))
-                    {
-                        $this->successMsg['success']='Successfully saved';
-                        return $this->successMsg;
-                    }
-                    else
-                    {
-                        return $this->error['serverError'] = 'Settings could not be saved due technical issues! please try again later.';
-                    }
-                }
-            }
-                
-            
-        }
-        else
-        {
-            $this->error['FormFieldError']='Your changes could not be saved due to the errors below!';
-            return $this->error;
-        }
-    }
-
     public function getPage()
     {
         $page = './storage/page/about.md';

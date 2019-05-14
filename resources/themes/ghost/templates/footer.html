@@ -266,11 +266,8 @@
 
         if(res.error == false && res.action == 'update')
         {
-          // $('#UpdateModal').modal('show');
-          // setTimeout(function(){ 
-          //   window.location = '/published-posts';
-          // }, 2000);
-          swal("Good job!", "You posts was successfully updated", "success");
+          
+          swal("Good job!", "You posts was successfully updated.", "success");
         }
         
       }).catch((err) => {
@@ -282,13 +279,18 @@
       fetch(newPostIsBeingCreated ? '/publish' : '/saveDraft', {
       method: 'POST',
       body: formData
-      }).then(res => res.text()).then((res) => {
-        //console.log(res);
-        // if (window.confirm(`Check console for response.
-        // Redirect to view new post?`)) {
-        //   window.location = '/timeline';
-        // }
-        swal("Good job!", "Your post was successfully created", "success");
+      }).then(res => res.json()).then((res) => {
+        //console.log(JSON.stringify(res));
+
+        if(res.error == false && res.action == 'publish')
+        {
+          swal("Good job!", "Your post was successfully created.", "success");
+        }
+        else if(res.error == false && res.action == 'savedToDrafts')
+        {
+          swal("Good job!", "Your post was successfully created and saved to drafts.", "success");
+        }
+
       }).catch((err) => {
         alert(`Failed with the following message: ${err.message}`);
       });

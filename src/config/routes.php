@@ -175,7 +175,7 @@ Router::post('/publish', function ($request) {
 
     $directory = "./storage/contents/";
     $data = $request->getBody();
-    $title = $data['title'];
+    $title = isset($data['title'])?$data['title']:'';
     $body = $data['postVal'];
     $tags = $data['tags'];
     // filter out non-image data
@@ -190,9 +190,10 @@ Router::post('/publish', function ($request) {
         $images[$newKey] = $value;
     }
     //return json_encode([$images]);
+    $extra="";
     $ziki = new Ziki\Core\Document($directory);
     $result = $ziki->create($title, $body, $tags, $images, $extra);
-    return $this->template->render('timeline.html', ['ziki' => $result, 'host' => $host, 'count' => $count, 'fcount' => $fcount]);
+    return json_encode($result);
 });
 //this are some stupid working code written by porh please don't edit
 //without notifying me
@@ -692,7 +693,7 @@ Router::post('/saveDraft', function ($request) {
     }
     $directory = "./storage/drafts/";
     $data = $request->getBody();
-    $title = $data['title'];
+    $title = isset($data['title'])?$data['title']:'';
     $body = $data['postVal'];
     $tags = $data['tags'];
     $initial_images = array_filter($data, function ($key) {
@@ -710,7 +711,7 @@ Router::post('/saveDraft', function ($request) {
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();
-    return $this->template->render('drafts.html', ['ziki' => $result]);
+    return json_encode($result);
 });
 
 /* Save draft */

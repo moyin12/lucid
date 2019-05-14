@@ -49,7 +49,30 @@ class Profile {
             }
             else
             {
-                $email= $this->filterString($request['email']);
+                $old_email= $this->filterString($request['email']);
+                $new_email = $this->filterString($request['new_email']);
+                $url = "https://auth.techteel.com/api/update_email?old_email={$old_email}&new_email={$new_email}";
+                $ch = curl_init();
+                //Set the URL that you want to GET by using the CURLOPT_URL option.
+                curl_setopt($ch, CURLOPT_URL, $url);
+                
+                //Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                
+                //Set CURLOPT_FOLLOWLOCATION to true to follow redirects.
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                
+                //Execute the request.
+                $result = curl_exec($ch);
+                
+                //Close the cURL handle.
+                curl_close($ch);
+                $res = json_decode($result);
+                //Save User data to auth.json
+                $dir = "./src/config/auth.json";
+                $check_settings = FileSystem::read($dir);
+                $check_prev = json_decode($check_settings);
+                // would write the new data into the auth.json updating the email read in #check_prev with $res->email
             }
         }
             // Get Image Dimension

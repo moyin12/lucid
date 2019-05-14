@@ -186,16 +186,20 @@ Router::post('/setcontactemail', function ($request) {
     return $SetContactEmail->redirect('/profile');
 });
 Router::post('/updateabout', function ($request) {
-    $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in() || !$user->is_admin()) {
+    /*$user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in()) {
         return $user->redirect('/');
-    }
-    include ZIKI_BASE_PATH . "/src/core/SendMail.php";
+    }*/
+    $try = new Ziki\Core\Profile();
     $request = $request->getBody();
+    $post = $try->updateProfile($request);
+    /*include ZIKI_BASE_PATH . "/src/core/SendMail.php";
+    
     $updateabout = new SendContactMail();
     $updateabout->updateAbout($request);
     $updateabout->clientMessage();
-    return $updateabout->redirect('/profile');
+    return $updateabout->redirect('/profile');*/
+    return $post;
 });
 Router::get('/deletepost/{postId}', function ($request, $postId) {
     $user = new Ziki\Core\Auth();
@@ -433,11 +437,11 @@ Router::get('/profile', function ($request) {
     ///please don't remove or change the included path
     include ZIKI_BASE_PATH . "/src/core/SendMail.php";
     //please don't rename the variables
-    $userSiteDetails = new  SendContactMail();
+    //$userSiteDetails = new  SendContactMail();
     //this  gets the owners email address
-    $userEmailAddr = $userSiteDetails->getOwnerEmail();
+   // $userEmailAddr = $userSiteDetails->getOwnerEmail();
     //this gets the page content
-    $getAboutPageContent = $userSiteDetails->getPage();
+    //$getAboutPageContent = $userSiteDetails->getPage();
     $user = new Ziki\Core\Auth();
     if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
@@ -452,7 +456,7 @@ Router::get('/profile', function ($request) {
     $fcount = $count->fcount();
     $count = $count->count();
 
-    return $this->template->render('profile.html', ['message' => $message, 'userEmailAddr' => $userEmailAddr, 'about' => $getAboutPageContent]);
+    return $this->template->render('profile.html');
 });
 
 // following page

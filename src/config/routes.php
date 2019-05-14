@@ -5,6 +5,10 @@ session_start();
 $directory = "./storage/contents/";
 $ziki = new Ziki\Core\Document($directory);
 $posts = $ziki->get();
+if(empty($posts))
+{
+    $posts = [];
+}
 Router::get('/', function ($request) {
     $user = new Ziki\Core\Auth();
     if ($user::isInstalled() == true) {
@@ -171,7 +175,7 @@ Router::post('/publish', function ($request) {
 
     $directory = "./storage/contents/";
     $data = $request->getBody();
-    $title = $data['title'];
+    $title = isset($data['title'])?$data['title']:'';
     $body = $data['postVal'];
     $tags = $data['tags'];
     // filter out non-image data
@@ -186,9 +190,10 @@ Router::post('/publish', function ($request) {
         $images[$newKey] = $value;
     }
     //return json_encode([$images]);
+    $extra="";
     $ziki = new Ziki\Core\Document($directory);
     $result = $ziki->create($title, $body, $tags, $images, $extra);
-    //return $this->template->render('timeline.html', ['ziki' => $result, 'host' => $host, 'count' => $count, 'fcount' => $fcount]);
+    return json_encode($result);
 });
 //this are some stupid working code written by porh please don't edit
 //without notifying me
@@ -232,13 +237,13 @@ Router::post('/setcontactemail', function ($request) {
     return $SetContactEmail->redirect('/profile');
 });
 Router::post('/updateabout', function ($request) {
-    /*$user = new Ziki\Core\Auth();
+    $user = new Ziki\Core\Auth();
     if (!$user->is_logged_in()) {
         return $user->redirect('/');
-    }*/
-    $try = new Ziki\Core\Profile();
+    }
+    $update = new Ziki\Core\Profile();
     $request = $request->getBody();
-    $post = $try->updateProfile($request);
+    $profile = $update->updateProfile($request);
     /*include ZIKI_BASE_PATH . "/src/core/SendMail.php";
     
     $updateabout = new SendContactMail();
@@ -257,6 +262,19 @@ Router::get('/deletepost/{postId}', function ($request, $postId) {
     $directory = "./storage/contents/";
     $ziki = new Ziki\Core\Document($directory);
     $ziki->deletePost($post);
+    return $user->redirect('/published-posts');
+});
+Router::get('/deletedraft/{postId}', function ($request, $postId) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in() || !$user->is_admin()) {
+        return $user->redirect('/');
+    }
+    $postid = explode('-', $postId);
+    $post = end($postid);
+    $directory = "./storage/drafts/";
+    $ziki = new Ziki\Core\Document($directory);
+    $ziki->deletePost($post);
+    return $user->redirect('/drafts');
 });
 //the stupid codes ends here
 Router::get('delete/{id}', function ($request, $id) {
@@ -675,7 +693,7 @@ Router::post('/saveDraft', function ($request) {
     }
     $directory = "./storage/drafts/";
     $data = $request->getBody();
-    $title = $data['title'];
+    $title = isset($data['title'])?$data['title']:'';
     $body = $data['postVal'];
     $tags = $data['tags'];
     $initial_images = array_filter($data, function ($key) {
@@ -693,7 +711,7 @@ Router::post('/saveDraft', function ($request) {
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();
-    return $this->template->render('drafts.html', ['ziki' => $result]);
+    return json_encode($result);
 });
 
 /* Save draft */

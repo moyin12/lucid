@@ -60,7 +60,7 @@ Router::get('/post/{post_id}', function ($request, $post_id) {
 
 Router::post('/edit-post', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/contents/";
@@ -91,7 +91,7 @@ Router::post('/edit-post', function ($request) {
 
 Router::get('/timeline', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/contents/";
@@ -105,7 +105,7 @@ Router::get('/timeline', function ($request) {
 
 Router::get('/tags/{id}', function ($request, $id) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $count = new Ziki\Core\Subscribe();
@@ -119,7 +119,7 @@ Router::get('/tags/{id}', function ($request, $id) {
 });
 Router::post('/publish', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
 
@@ -175,7 +175,7 @@ Router::post('/send', function ($request) {
 });
 Router::post('/setcontactemail', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     include ZIKI_BASE_PATH . "/src/core/SendMail.php";
@@ -203,7 +203,7 @@ Router::post('/updateabout', function ($request) {
 });
 Router::get('/deletepost/{postId}', function ($request, $postId) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $postid = explode('-', $postId);
@@ -215,7 +215,7 @@ Router::get('/deletepost/{postId}', function ($request, $postId) {
 //the stupid codes ends here
 Router::get('delete/{id}', function ($request, $id) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return new RedirectResponse("/");
     }
     $directory = "./storage/contents/";
@@ -225,7 +225,7 @@ Router::get('delete/{id}', function ($request, $id) {
 });
 Router::get('/published-posts', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/contents/";
@@ -239,7 +239,7 @@ Router::get('/published-posts', function ($request) {
 // Start- Portfolio_expanded page
 Router::get('/portfolio-expanded', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $count = new Ziki\Core\Subscribe();
@@ -253,7 +253,7 @@ Router::get('/portfolio-expanded', function ($request) {
 // route to create-portfolio page
 Router::get('/new-portfolio', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $count = new Ziki\Core\Subscribe();
@@ -265,7 +265,7 @@ Router::get('/new-portfolio', function ($request) {
 // logic for creating a new portfolio 
 Router::post('/newportfolio', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/portfolio/";
@@ -292,7 +292,7 @@ Router::post('/newportfolio', function ($request) {
 // route to create-portfolio page
 Router::get('/portfolio', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $count = new Ziki\Core\Subscribe();
@@ -342,7 +342,7 @@ Router::get('/deleteportfolio/{postId}', function ($request, $postId) {
 
 Router::get('delete/{id}', function ($request, $id) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return new RedirectResponse("/");
     }
     $directory = "./storage/portfolio/";
@@ -353,7 +353,7 @@ Router::get('delete/{id}', function ($request, $id) {
 
 Router::get('/portfolio-editor/{postID}', function ($request, $postID) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $postid = explode('-', $postID);
@@ -370,7 +370,7 @@ Router::get('/portfolio-editor/{postID}', function ($request, $postID) {
 // ahmzyjazzy add this (^_^) : setting page
 Router::get('/settings', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $count = new Ziki\Core\Subscribe();
@@ -381,12 +381,6 @@ Router::get('/settings', function ($request) {
 
 // ahmzyjazzy add this (^_^) : setting api
 Router::post('/appsetting', function ($request) {
-
-    //create middleware to protect api from non auth user
-    //$user = new Ziki\Core\Auth();
-    //if (!$user->is_logged_in()) {
-    //    return json_encode(array("msg" => "Authentication failed, pls login.", "status" => "error", "data" => null));
-    //}
 
     $data = $request->getBody();
     $field = $data['field']; //field to update in  app.json
@@ -422,7 +416,7 @@ Router::post('/sidebar ', function ($request ){
   //this gets the page content
 //   $getAboutPageContent = $userSiteDetails->getPage();
   $user = new Ziki\Core\Auth();
-  if (!$user->is_logged_in()) {
+  if (!$user->is_logged_in() || !$user->is_admin()) {
       return $user->redirect('/');
   }
   //this for error and successs messages
@@ -449,7 +443,7 @@ Router::get('/profile', function ($request) {
     //this gets the page content
     //$getAboutPageContent = $userSiteDetails->getPage();
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     //this for error and successs messages
@@ -468,7 +462,7 @@ Router::get('/profile', function ($request) {
 // following page
 Router::get('/following', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/contents/";
@@ -484,7 +478,7 @@ Router::get('/following', function ($request) {
 // followers page
 Router::get('/followers', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/contents/";
@@ -500,7 +494,7 @@ Router::get('/followers', function ($request) {
 // Subscription page
 Router::post('/subscriptions', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/contents/";
@@ -518,7 +512,7 @@ Router::post('/subscriptions', function ($request) {
 // Subscribers page
 Router::get('/subscribers', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/contents/";
@@ -532,7 +526,7 @@ Router::get('/subscribers', function ($request) {
 });
 Router::get('/unsubscribe', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
 
@@ -541,17 +535,16 @@ Router::get('/unsubscribe', function ($request) {
     $list = $ziki->unfollow($id);
     return $user->redirect('/subscriptions');
 });
+
 //stupid code by problemSolved
-Router::get('/editor/{postID}', function ($request, $postID) {
+Router::get('/editor/{post_id}', function ($request, $post_id) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
-    $postid = explode('-', $postID);
-    $post = end($postid);
-    $directory = "./storage/contents/";
+    $directory = "./storage/drafts/";
     $ziki = new Ziki\Core\Document($directory);
-    $post_details = $ziki->getPost($post);
+    $post_details = $ziki->getPost($post_id);
     return $this->template->render('editor.html', ['post' => $post_details]);
 });
 //ends here again;
@@ -575,7 +568,7 @@ Router::get('/blog-details', function ($request) {
 Router::get('/followers', function ($request) {
 
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $count = new Ziki\Core\Subscribe();
@@ -590,7 +583,7 @@ Router::get('/followers', function ($request) {
 Router::get('/following', function ($request) {
 
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/contents/";
@@ -608,7 +601,7 @@ Router::get('/following', function ($request) {
 /* Save draft*/
 Router::post('/saveDraft', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/drafts/";
@@ -638,7 +631,7 @@ Router::post('/saveDraft', function ($request) {
 /* Get all saved draft */
 Router::get('/drafts', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/drafts/";
@@ -664,7 +657,7 @@ Router::get('/videos', function ($request) {
 });
 Router::get('/microblog', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     //print_r($Videos);
@@ -728,6 +721,11 @@ Router::post('/setup', function ($request) {
     }
 });
 
+Router::post('/setup/email/login/{address}', function ($request) {
+    $user = new Ziki\Core\Auth();
+    die("good");
+});
+
 Router::get('/install', function ($request) {
     $user = new Ziki\Core\Auth();
     $system = new Ziki\Core\System();
@@ -757,7 +755,7 @@ Router::post('/addrss', function ($request) {
 /* Add Video*/
 Router::post('/addvideo', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
+    if (!$user->is_logged_in() || !$user->is_admin()) {
         return $user->redirect('/');
     }
     $directory = "./storage/videos/";

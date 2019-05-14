@@ -617,7 +617,6 @@ class Document
             ///coming back for some modifications
             unlink($this->file.$post.'.md');
             $this->createRSS();
-            return $this->redirect('/published-posts');
         }
     }
 

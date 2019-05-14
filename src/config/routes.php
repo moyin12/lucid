@@ -261,6 +261,19 @@ Router::get('/deletepost/{postId}', function ($request, $postId) {
     $directory = "./storage/contents/";
     $ziki = new Ziki\Core\Document($directory);
     $ziki->deletePost($post);
+    return $user->redirect('/published-posts');
+});
+Router::get('/deletedraft/{postId}', function ($request, $postId) {
+    $user = new Ziki\Core\Auth();
+    if (!$user->is_logged_in() || !$user->is_admin()) {
+        return $user->redirect('/');
+    }
+    $postid = explode('-', $postId);
+    $post = end($postid);
+    $directory = "./storage/drafts/";
+    $ziki = new Ziki\Core\Document($directory);
+    $ziki->deletePost($post);
+    return $user->redirect('/drafts');
 });
 //the stupid codes ends here
 Router::get('delete/{id}', function ($request, $id) {

@@ -160,6 +160,11 @@
     .blog-posts {
         margin-top: 3em;
     }
+
+    .blog-posts img{
+        width:788px;
+        height: 406px;
+    }
     
     span.more-post {
         font-family: Lato;
@@ -210,10 +215,27 @@
         .blog-post-title h1 {
             font-size: 28px;
         }
+
+        .blog-posts img{
+            width:345px;
+            height: 177px;
+        }
     }
+
+    @media screen and (max-width:900px) and (min-width:700px) {
+        .blog-posts img{
+            width:546px;
+            height: 281px;
+        }
+
+    }
+   
+
     p img{
         width:100%;
     }
+
+
     
     @media (min-width:767px) {
         .about-blog-source {
@@ -224,6 +246,7 @@
     /*media queries*/
 </style>
 <div class="container-fluid blog-details">
+    {% include "navbar-auth.html" %}
     <div class="row justify-content-lg-left justify-content-sm-left">
         <div class="col-lg-0 col-md-1 col-sm-1 col-xs-7">
 

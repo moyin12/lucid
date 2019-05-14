@@ -3,6 +3,9 @@
 
 <!-- Page Content section -->
 <div id="content">
+  <!-- nav bar here -->
+  {% include "navbar-auth.html" %}
+
   <!-- editor -->
   <div class="row">
     <div class="col-12">
@@ -42,16 +45,17 @@
         </div>
       </div>
       {% endif %}
-      
-     {% else %}
+
+      {% else %}
       <div class="row">
         <div class="no-post-alert mx-auto my-4">
-            <p class="text-grey">
-                You have no published posts yet. Click <a href="/timeline" style="color:#280A66;"><span class="badge badge-info">here</span></a> to start publishing.
-            </p>
+          <p class="text-grey">
+            You have no published posts yet. Click <a href="/timeline" style="color:#280A66;"><span
+                class="badge badge-info">here</span></a> to start publishing.
+          </p>
         </div>
       </div>
-    {% endfor %}
+      {% endfor %}
     </div>
   </div>
   <!-- Feed section ends here -->

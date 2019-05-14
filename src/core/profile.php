@@ -1,37 +1,10 @@
 <?php
-
 namespace Ziki\Core;
+use Ziki\Core\FileSystem;
 
-Class profileUpdate {
-
-Public $fullName;
-Public $shortBio;
+class Profile {
 
 
-Public function __construct ($fullName, $shortBio){
-     $this->fullname =$fullName;
-     $this->shortBio =$shortBio;
-
-   }
-
-// Public function profile_setter (){
-//  //checking for POST
-// if ($_SERVER ['REQUEST METHOD'] == 'POST'){
-// //process form
-// }
-// Else {
-// //init data
-//    $data  =[
-//         'fullName' => ' ',
-//          'shortBio' =>' ',
-//          'fullName_err' => ' ', //this is to check and make sure the page is not empty
-//           'shortBio_err' => ' ' //same with this also
-//         ];
-// }
-// //loading profile in view (mercy side it's sidebar and the last time I checked, I didn't see anything like that)
-
-// $this->view('resource/theme/ghost/template/sidebar.html');
-// }
         private function filterString($string)
         {
             $string=htmlspecialchars($string);
@@ -41,73 +14,95 @@ Public function __construct ($fullName, $shortBio){
             return $string;
         }
 
-    public function getUser(){
-        $this->fullname;
-        $this->shortbio;
-
-        if(empty(trim($request['fullname'] && $request['shortbio'])))
+    public function updateProfile($request){
+        //check if the name is not empty.
+       
+        $error=[];
+        if(empty(trim($request['name'])))
         {
-            $this->error['fullname'] = 'This field Shouldn\'t be empty';
-            $this->error['shortbio'] = 'This field Shouldn\'t be empty';
+            $error['nameError']= 'This is a required field';
         }
         else
         {
-            $this->fullname = strip_tags($request['fullname']);
-            $this->shortbio = strip_tags($request['shortbio']);
+            $name = $this->filterString($request['name']);
         }
-
-        if(empty($this->error))
+        //check if bio aint empty
+        if(empty(trim($request['bio'])))
         {
-            $dir = './storage/page/';
-            if(file_exists($dir))
+            $error['bioError']= 'This is a required field';
+        }
+        else
+        {
+            $bio = $this->filterString($request['bio']);
+        }
+        //checks if email is not empty
+        if(empty(trim($request['email'])))
+        {
+            $error['emailError']= 'This is a required field';
+        }
+        else
+        {
+            if(filter_var($request['email'],FILTER_VALIDATE_EMAIL) === false)
             {
-                $page = $dir.'profileupdate.md';
-                if(file_put_contents($page,$this->fullname, $this->shortbio))
-                {
-                    $this->successMsg['success']='Successfully saved';
-                    return $this->successMsg;
-                }
-                else
-                {
-                    return $this->error['serverError'] = 'Settings could not be saved due technical issues! please try again later.';
-                }
+                $error['emailError'] = 'Please input a valid email address';
+                //$email = $request['email'];
             }
             else
             {
-                if(mkdir($dir))
-                {
-                    $page = $dir.'profileupdate.md';
-                    if(file_put_contents($page,$this->fullname,$this->shortbio))
-                    {
-                        $this->successMsg['success']='Successfully saved';
-                        return $this->successMsg;
-                    }
-                    else
-                    {
-                        return $this->error['serverError'] = 'Settings could not be saved due technical issues! please try again later.';
-                    }
+                $email= $this->filterString($request['email']);
+            }
+        }
+            // Get Image Dimension
+            $fileinfo = getimagesize($_FILES["image"]["tmp_name"]);
+            
+            
+            $allowed_image_extension = array(
+                "png",
+                "jpg",
+                "jpeg"
+            );
+            
+            // Get image file extension
+            $file_extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+            
+            // Validate file input to check if is not empty
+            if (! file_exists($_FILES["image"]["tmp_name"])) {
+                $response ="Choose image file to upload.";
+            
+            }   
+             // Validate file input to check if is with valid extension
+            else if (! in_array($file_extension, $allowed_image_extension)) {
+                $response =  "Upload valid images. Only PNG, JPG and JPEG are allowed.";
+            
+            }    // Validate image file size
+            else if (($_FILES["image"]["size"] > 1000000)) {
+                $response = "Image size exceeds 1MB";
+                
+            }    // Validate image file dimension
+            else {
+                $target = basename($_FILES["image"]["name"]);
+                if (move_uploaded_file($_FILES["file-input"]["tmp_name"], $target)) {
+                    $response =  "Image uploaded successfully.";
+                    
+                } else {
+                    $response = "Problem in uploading image files.";
+                    
                 }
             }
-                
-            
-        }
-        else
-        {
-            $this->error['FormFieldError']='Your changes could not be saved due to the errors below!';
-            return $this->error;
-        }
+            $error['imageError']= $response;
+     
+        $data['name'] = $name;
+        $data['bio'] = $bio;
+        $data['email'] = $email;
+        $data['image'] = $target;
+        $data['error'] = $error;
+        $result = json_encode($data);
+        return $result;
     }
-
-    public function getPage()
-    {
-        $page = './storage/page/profileupdate.md';
-        if(file_exists($page))
-        {
-            return file_get_contents($page);
-        }
-    }
-
-    
-
-    
 }
+
+
+     
+
+
+    

@@ -152,6 +152,10 @@ class Document
                 $filename = $file[count($file) - 1];
                 $content['filename'] = $filename;
                 //content['timestamp'] = $time;
+                $SlugArray = explode('-',$this->clean($slug));
+                $content['post_id']=end($SlugArray);
+                array_pop($SlugArray);
+                $content['post_title']=implode('-',array_filter(array_map('trim', $SlugArray)));
                 $content['image'] = $image;
                 $content['date'] = date('d M Y ', $filename);
                 $content['created_at'] = date('F j, Y, g:i a',$filename);
@@ -334,7 +338,7 @@ class Document
 
                 $parsedown  = new Parsedown();
 
-                $title = $parsedown->text($yaml['title']);
+                $title = isset($yaml['title']) ? $parsedown->text($yaml['title']) : '';
                 $slug = $parsedown->text($yaml['slug']);
                 $image = isset($yaml['image']) ? $parsedown->text($yaml['image']) : '';
                 $slug = preg_replace("/<[^>]+>/", '', $slug);
@@ -661,6 +665,10 @@ class Document
                 $content['date'] = date('d M Y ', $post);
                 $content['crawlerImage'] = $first_img;
                 $content['slug'] = $this->clean($slug);
+                $SlugArray = explode('-',$this->clean($slug));
+                $content['post_id']=end($SlugArray);
+                array_pop($SlugArray);
+                $content['post_title']=implode('-',array_filter(array_map('trim', $SlugArray)));
             }
             return $content;
         }
@@ -798,12 +806,16 @@ class Document
                 $filename = $file[count($file) - 1];
                 $content['filename'] = $filename;
                 //content['timestamp'] = $time;
+                $SlugArray = explode('-',$this->clean($slug));
+                $content['post_id']=end($SlugArray);
+                array_pop($SlugArray);
+                $content['post_title']=implode('-',array_filter(array_map('trim', $SlugArray)));
                 $content['image'] = $image;
                 $content['date'] = date('d M Y ', $filename);
-
+                $content['created_at'] = date('F j, Y, g:i a',$filename);
                 array_push($posts, $content);
             }
-            krsort($posts);
+            $this->array_sort_by_column($posts,'created_at');
             $countPosts = count($posts);
             if ($countPosts > $limit)
                 array_shift($posts);

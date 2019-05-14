@@ -175,7 +175,7 @@
 <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
 <script src="https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js"></script>
 <!-- convert to markdown script ends -->
- 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
   
   // added by sleekX
@@ -266,10 +266,11 @@
 
         if(res.error == false && res.action == 'update')
         {
-          $('#UpdateModal').modal('show');
-          setTimeout(function(){ 
-            window.location = '/published-posts';
-          }, 2000);
+          // $('#UpdateModal').modal('show');
+          // setTimeout(function(){ 
+          //   window.location = '/published-posts';
+          // }, 2000);
+          swal("Good job!", "You posts was successfully updated", "success");
         }
         
       }).catch((err) => {
@@ -282,11 +283,12 @@
       method: 'POST',
       body: formData
       }).then(res => res.text()).then((res) => {
-        console.log(res);
-        if (window.confirm(`Check console for response.
-        Redirect to view new post?`)) {
-          window.location = '/timeline';
-        }
+        //console.log(res);
+        // if (window.confirm(`Check console for response.
+        // Redirect to view new post?`)) {
+        //   window.location = '/timeline';
+        // }
+        swal("Good job!", "Your post was successfully created", "success");
       }).catch((err) => {
         alert(`Failed with the following message: ${err.message}`);
       });

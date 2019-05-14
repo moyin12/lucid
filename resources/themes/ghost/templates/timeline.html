@@ -23,6 +23,15 @@
     border-radius: 5px;
   }
   
+  .ql-toolbar.ql-snow + .ql-container.ql-snow {
+    border-top: 1px !important;
+    border-bottom: 0px;
+  }
+
+  .ql-editor {
+      border:1px solid #ccc !important;
+  }
+
   .editor-btns {
   background: #280a66;
   border-radius: 5px;
@@ -200,6 +209,7 @@
 
       <!-- Page Content section -->
       <div id="content">
+       {% include "navbar-auth.html" %}
         <!-- editor -->
         <div class="row">
           <div class="col-12">
@@ -224,10 +234,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="row pt-5">
+                <div class="row mt-4">
                   <div class="col-12">
                   <div class="row">
-                    <div class="col-12 pb-5 collapse" id="collapseExample">
+                    <div class="col-12 collapse" id="collapseExample">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Politics">
                         <label class="form-check-label" for="inlineCheckbox1">Politics</label>

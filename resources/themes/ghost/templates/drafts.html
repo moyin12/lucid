@@ -231,10 +231,10 @@
 </head>
 
 <div class="container-fluid drafts">
-    <div class="row">
+    <div class="row mt-5">
         <div class="col-12 col-sm-1"></div>
         <div class="col-12 col-sm-11">
-            <div class="row">
+            <div class="row mt-5">
                 <div class="col-12">
                     {% for key, draft in drafts %}
                     <div class="row pt-4 pb-4 draft-bottom  draft-content">
@@ -302,17 +302,18 @@
 
 
 
-                   
+                    {% else %}
+                    <div class="row">
+                            <div class="no-drafts-alert mx-auto">
+                                <p class="text-grey">
+                                    You have no drafts
+                                </p>
+                            </div>
+                        </div>
                     {% endfor %}
 
 
-                    <div class="row">
-                        <div class="no-drafts-alert mx-auto">
-                            <p class="text-grey">
-                                You have no more drafts
-                            </p>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             <!-- modal begins here -->

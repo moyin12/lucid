@@ -293,12 +293,12 @@
 
               <div class="published-post-date">{{ post.date }}</div>
               <h6 class="published-post-title">
-                <a href="/post/{{ post.slug |lower }}">{{ post.title|raw  }}</a>
+                <a href="/post/{{post.post_id}}/{{ post.post_title |lower }}">{{ post.title|raw  }}</a>
               </h6>
               <div class="published-post-content">
                 <p>
-                  {{ post.body|raw  }}
-                  <span> <a href="/post/{{ post.slug |lower }}" class="read-more">Read More</a> </span>
+                  {{ post.body|striptags  }}
+                  <span> <a href="/post/{{post.post_id}}/{{ post.post_title |lower }}" class="read-more">Read More</a> </span>
                 </p>
               </div>
 
@@ -310,7 +310,7 @@
 
                 </span>
                 <div class="dropdown-menu">
-                  <button class="dropdown-item"> <a href="/editor/{{ post.slug |lower }}" class="edit-post">Edit
+                  <button class="dropdown-item"> <a href="/editor/{{post.post_id}}/{{ post.post_title |lower }}" class="edit-post">Edit
                       Post</a></button>
                   <button class="dropdown-item" id="{{ post.slug |lower }}" onclick="deletePost(this)" data-toggle="modal" data-target="#cancelModal">Delete
                     Post</button>
@@ -325,12 +325,12 @@
   
                 <div class="published-post-date">{{ post.date }}</div>
                 <h6 class="published-post-title">
-                  <a href="/post/{{ post.slug |lower }}">{{ post.title |raw }}</a>
+                  <a href="/post/{{post.post_id}}/{{ post.post_title |lower }}">{{ post.title |raw }}</a>
                 </h6>
                 <div class="published-post-content">
                   <p>
-                      {{ post.body|raw  }}
-                    <span> <a href="/post/{{ post.slug |lower }}" class="read-more">Read More</a> </span>
+                      {{ post.body|striptags  }}
+                    <span> <a href="/post/{{post.post_id}}/{{ post.post_title |lower }}" class="read-more">Read More</a> </span>
                   </p>
                 </div>
   
@@ -342,7 +342,7 @@
   
                   </span>
                   <div class="dropdown-menu">
-                    <button class="dropdown-item"> <a href="/editor/{{ post.slug |lower }}" class="edit-post">Edit
+                    <button class="dropdown-item"> <a href="/editor/{{post.post_id}}/{{ post.post_title |lower }}" class="edit-post">Edit
                         Post</a></button>
                     <button class="dropdown-item" data-toggle="modal" id="{{ post.slug |lower }}" onclick="deletePost(this)" data-target="#cancelModal">Delete
                       Post</button>

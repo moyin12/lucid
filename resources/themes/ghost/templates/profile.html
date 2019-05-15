@@ -36,11 +36,11 @@
               <div class="form-group">
                 <label for="fullName" class="font-weight-bold profile-edit-label d-none">Full Name</label>
                 <input type="text" class="form-control " name="name" id="fullname" aria-describedby="fullname"
-                  value="{{settings.name}}" placeholder="Full Name">
+                  value="{{settings.name}}" placeholder="Full Name" required>
               </div>
               <div class="form-group">
                 <label for="shortbio" class="font-weight-bold profile-edit-label d-none">Short Bio</label>
-                <textarea class="form-control" name="bio" id="shortbio" placeholder="Short Bio" rows="3"></textarea>
+                <textarea class="form-control" value ="{{settings.siteTagline}}" name="bio" id="shortbio" placeholder="Short Bio" rows="3"></textarea>
               </div>
 
               {% if alert.Success %}
@@ -71,8 +71,8 @@
                 <label for="email" class="font-weight-bold profile-edit-label">Contact Email</label>
                 
                 <input class="form-control" value="{{ settings.email }}" type="email" name="new_email" id="new_email"
-                  placeholder="Email"/>
-                  <input class="form-control" value="{{ settings.email }}" type="hidden" name="old_email" id="old_email" required/>
+                  placeholder="Email"/ required>
+                  <input class="form-control" value="{{ settings.email }}" type="hidden" name="old_email" id="old_email" />
               </div>
               <button type="submit"
                 class="btn float-md-right profile-submit-btn text-white d-block mx-auto mt-3 text-upppercase">update</button>

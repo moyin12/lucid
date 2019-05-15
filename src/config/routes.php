@@ -237,13 +237,13 @@ Router::post('/setcontactemail', function ($request) {
     return $SetContactEmail->redirect('/profile');
 });
 Router::post('/updateabout', function ($request) {
-    /*$user = new Ziki\Core\Auth();
+    $user = new Ziki\Core\Auth();
     if (!$user->is_logged_in()) {
         return $user->redirect('/');
-    }*/
-    $try = new Ziki\Core\Profile();
+    }
+    $update = new Ziki\Core\Profile();
     $request = $request->getBody();
-    $post = $try->updateProfile($request);
+    $profile = $update->updateProfile($request);
     /*include ZIKI_BASE_PATH . "/src/core/SendMail.php";
     
     $updateabout = new SendContactMail();

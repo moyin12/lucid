@@ -17,10 +17,10 @@ class Profile {
     public function updateProfile($request){
         //check if the name is not empty.
        
-        $error=[];
+        $results=[];
         if(empty(trim($request['name'])))
         {
-            $error['Error']= 'This is a required field';
+            $results['Error'] = 'This is a required field';
         }
         else
         {
@@ -29,7 +29,7 @@ class Profile {
         //check if bio aint empty
         if(empty(trim($request['bio'])))
         {
-            $error['Error']= 'This is a required field';
+            $results['Error'] = 'This is a required field';
         }
         else
         {
@@ -38,13 +38,13 @@ class Profile {
         //checks if email is not empty
         if(empty(trim($request['new_email'])))
         {
-            $error['Error']= 'This is a required field';
+            $results['Error'] = 'This is a required field';
         }
         else
         {
             if(filter_var($request['new_email'],FILTER_VALIDATE_EMAIL) === false)
             {
-                $error['Error'] = 'Please input a valid email address';
+                $results['Error'] = 'Please input a valid email address';
                 //$email = $request['email'];
             }
             else
@@ -68,16 +68,16 @@ class Profile {
             
             // Validate file input to check if is not empty
             if (! file_exists($_FILES["image"]["tmp_name"])) {
-                $error['Error']  ="Choose image file to upload.";
+                $results['Error']  ="Choose image file to upload.";
             
             }   
              // Validate file input to check if is with valid extension
             else if (! in_array($file_extension, $allowed_image_extension)) {
-                $error['Error']  =  "Upload valid images. Only PNG, JPG and JPEG are allowed.";
+                $results['Error']  =  "Upload valid images. Only PNG, JPG and JPEG are allowed.";
             
             }    // Validate image file size
             else if (($_FILES["image"]["size"] > 1000000)) {
-                $error['Error']  = "Image size exceeds 1MB";
+                $results['Error']  = "Image size exceeds 1MB";
                 
             }    // Validate image file dimension
             else {
@@ -96,7 +96,7 @@ class Profile {
                 $target =  './storage/user/user.'.$file_extension;
             //if(FileSystem::write($url, $_FILES["image"]["tmp_name"])){
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target)) {
-                $error['Success']  =  "Image uploaded successfully.";
+            
                 // make curl call if image upload is successful
                 $url = "https://auth.techteel.com/api/update_email?old_email={$old_email}&new_email={$new_email}";
                 $ch = curl_init();
@@ -115,14 +115,12 @@ class Profile {
                 //Close the cURL handle.
                 curl_close($ch);
                 $res = json_decode($result);
-                //var_dump($result);
-                //die();
                 //Save User data to auth.json
                 $dir = "./src/config/auth.json";
                 $check_settings = FileSystem::read($dir);
                 $check_prev = json_decode($check_settings);
                 //update email
-                $check_prev->email = $result->email;
+                $check_prev->email = $res->email;
                 //update name
                 $fullname = explode(" ", $name);
                 $check_prev->firstname = $fullname[0];
@@ -132,21 +130,23 @@ class Profile {
                 //update image
                 $check_prev->image = $target;
                 //write back the updated result
-                $json_user = FileSystem::write($dir, $check_prev);
+                $data = json_encode($check_prev);
+                $json_user = FileSystem::write($dir, $data);
                 if($json_user){
                     $result = $check_prev;
+                    $results['Success'] = "profile detail updated succesfully"; 
                 }
                 else{
                     $result = array("error" => true, "message" => "error while updatng auth.json");
                 }
-                return $result; 
+                //return $result; 
                 } else {
-                    $error['Error']  = "Problem in updating profile, please try again.";
+                    $results['Error']  = "Problem in updating profile, please try again.";
                     
                 }
             }
             
-     return $error;
+     return $results;
        
     }
 }

@@ -49,30 +49,8 @@ class Profile {
             }
             else
             {
-                $old_email= $this->filterString($request['email']);
+                $old_email= $this->filterString($request['old_email']);
                 $new_email = $this->filterString($request['new_email']);
-                $url = "https://auth.techteel.com/api/update_email?old_email={$old_email}&new_email={$new_email}";
-                $ch = curl_init();
-                //Set the URL that you want to GET by using the CURLOPT_URL option.
-                curl_setopt($ch, CURLOPT_URL, $url);
-                
-                //Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                
-                //Set CURLOPT_FOLLOWLOCATION to true to follow redirects.
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-                
-                //Execute the request.
-                $result = curl_exec($ch);
-                
-                //Close the cURL handle.
-                curl_close($ch);
-                $res = json_decode($result);
-                //Save User data to auth.json
-                $dir = "./src/config/auth.json";
-                $check_settings = FileSystem::read($dir);
-                $check_prev = json_decode($check_settings);
-                // would write the new data into the auth.json updating the email read in #check_prev with $res->email
             }
         }
             // Get Image Dimension
@@ -119,6 +97,47 @@ class Profile {
             //if(FileSystem::write($url, $_FILES["image"]["tmp_name"])){
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target)) {
                 $error['Success']  =  "Image uploaded successfully.";
+                // make curl call if image upload is successful
+                $url = "https://auth.techteel.com/api/update_email?old_email={$old_email}&new_email={$new_email}";
+                $ch = curl_init();
+                //Set the URL that you want to GET by using the CURLOPT_URL option.
+                curl_setopt($ch, CURLOPT_URL, $url);
+                
+                //Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                
+                //Set CURLOPT_FOLLOWLOCATION to true to follow redirects.
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                
+                //Execute the request.
+                $result = curl_exec($ch);
+                
+                //Close the cURL handle.
+                curl_close($ch);
+                $res = json_decode($result);
+                //var_dump($result);
+                //die();
+                //Save User data to auth.json
+                $dir = "./src/config/auth.json";
+                $check_settings = FileSystem::read($dir);
+                $check_prev = json_decode($check_settings);
+                /*
+                //update email
+                $check_prev->email = $result->email;
+                //update name
+                $fullname = explode(" ", $name);
+                $check_prev->firstname = $fullname[0];
+                $check_prev->lastname = $fullname[1];
+                //update bio
+                $check_prev->siteTagline = $bio;
+                //update image
+                $check_prev->image = $target;
+                //write back the updated result
+                $json_user = FileSystem::write($dir, $check_prev);
+                */
+                var_dump($check_prev);
+                die();
+                // would write the new data into the auth.json updating the email read in #check_prev with $res->email
                 $data['name'] = $name;
                 $data['bio'] = $bio;
                 $data['email'] = $email;

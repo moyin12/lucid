@@ -69,7 +69,7 @@ class Document
             $yamlfile['post_dir'] = SITE_URL . "/storage/contents/{$unix}";
         } else {
             $yamlfile['post_dir'] = SITE_URL . "/storage/drafts/{$unix}";
-            $yamlfile['image'] = "./storage/images/" . $key;
+            //$yamlfile['image'] = "./storage/images/" . $key;
         }
 
         // create slug by first removing spaces
@@ -86,16 +86,16 @@ class Document
         $doc = FileSystem::write($dir, $yaml);
         if (!$extra) {
             if ($doc) {
-                $result = array("error" => false, "message" => "Post published successfully");
+                $result = array("error" => false, "action"=>"publish", "message" => "Post published successfully");
                 $this->createRSS();
             } else {
-                $result = array("error" => true, "message" => "Fail while publishing, please try again");
+                $result = array("error" => true, "action"=>"publish", "message" => "Fail while publishing, please try again");
             }
         } else {
             if ($doc) {
-                $result = array("error" => false, "message" => "Draft saved successfully");
+                $result = array("error" => false, "action"=>"savedToDrafts", "message" => "Draft saved successfully");
             } else {
-                $result = array("error" => true, "message" => "Fail while publishing, please try again");
+                $result = array("error" => true,"action"=>"savedToDrafts", "message" => "Fail while publishing, please try again");
             }
         }
 

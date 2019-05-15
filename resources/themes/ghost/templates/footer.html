@@ -212,7 +212,10 @@
     let currentPage = window.localStorage.getItem('page');
     const formData = new FormData(document.querySelector('#editor-form'));
     const blogBody = document.querySelector('.ql-editor').innerHTML;
-
+    
+   
+      
+    
     const title = document.querySelector("#new-post-title").value;
     
     if(title != ""){
@@ -230,7 +233,7 @@
     const gfm = turndownPluginGfm.gfm;
     turndownService.use(gfm);
     let markdown = turndownService.turndown(blogBody);
-
+    if(markdown !== ""){
     // check if the form is being submitted
     // which would mean a new post is being created rather than saving a draft
     const newPostIsBeingCreated = event.target instanceof HTMLFormElement;
@@ -304,11 +307,14 @@
 
         if(res.error == false && res.action == 'publish')
         {
-          swal("Good job!", "Your post was successfully created.", "success");
+          window.localStorage.setItem('publish','success');
+          window.location = '/timeline';
+          
         }
         else if(res.error == false && res.action == 'savedToDrafts')
         {
-          swal("Good job!", "Your post was successfully created and saved to drafts.", "success");
+          window.localStorage.setItem('savedToDrafts','success');
+          window.location = '/timeline';
         }
 
       }).catch((err) => {
@@ -316,9 +322,35 @@
       });
     }
     
-  };
+  }
+  else{
+    swal({
+          text: "Sorry,the post field is required!",
+          icon: "error",
+        });
+  }
+  }
   // sleekx code ends here
-
+  $(document).ready(function () {
+    const published =window.localStorage.getItem('publish');
+    const savedToDrafts =window.localStorage.getItem('savedToDrafts');
+    if(published == 'success')
+    {
+      window.localStorage.removeItem('publish');
+      swal({
+          text: "Your post was successfully created!",
+          icon: "success",
+        });
+    }
+    else if (savedToDrafts == 'savedToDrafts' )
+    {
+      window.localStorage.removeItem('savedToDrafts');
+      swal({
+          text: "Your post was successfully created and saved to drafts!",
+          icon: "success",
+        });
+    }
+  });
 
 
 </script>

@@ -266,10 +266,7 @@
 
         if(res.error == false && res.action == 'update')
         {
-          // $('#UpdateModal').modal('show');
-          // setTimeout(function(){ 
-          //   window.location = '/published-posts';
-          // }, 2000);
+          
           swal("Good job!", "You posts was successfully updated.", "success");
         }
         
@@ -283,7 +280,7 @@
       method: 'POST',
       body: formData
       }).then(res => res.json()).then((res) => {
-        console.log(JSON.stringify(res));
+        //console.log(JSON.stringify(res));
 
         if(res.error == false && res.action == 'publish')
         {

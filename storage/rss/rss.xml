@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule">
+<channel>
+<title>firstname lastname</title>
+<link>http://localhost:8000</link>
+<description><![CDATA[]]></description>
+<image><title>firstname lastname</title>
+<link></link>
+<url>https://res.cloudinary.com/dc9kfp5gt/image/upload/v1556862782/business-color_business-contact-86_icon-icons.com_53469_ckkqq7.png</url>
+</image>
+<language>en-US</language>
+<lastBuildDate>Wed, 15 May 2019 06:01:59 +0000</lastBuildDate>
+<pubDate>Sat, 06 Apr 2013 00:00:00 +0000</pubDate>
+<atom:link href="http://localhost:8000storage/rss/rss.xml" rel="self" type="application/rss+xml"></atom:link>
+<atom:link href="http://pubsubhubbub.appspot.com" rel="hub"></atom:link>
+<creativeCommons:license>http://www.creativecommons.org/licenses/by/1.0</creativeCommons:license>
+<generator>Ziki</generator>
+<item>
+<title>Hello  world war three </title>
+<link>/post/hello--world-war-three--1557875387</link>
+<description><![CDATA[is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39]]></description>
+<pubDate>Tue, 14 May 2019 23:09:47 +0000</pubDate>
+<author>paulchibiukeigweze@gmail.com (firstname lastname)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000/storage/contents/1557875387&quot;&gt;http://localhost:8000/storage/contents/1557875387&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000">firstname lastname's page</source>
+<image>/storage/images/img-hap6cv8z57.jpeg</image>
+</item>
+<item>
+<title></title>
+<link>/post/-1557896851</link>
+<description><![CDATA[Yeah yeah no loa]]></description>
+<pubDate>Wed, 15 May 2019 05:07:31 +0000</pubDate>
+<author>paulchibiukeigweze@gmail.com (firstname lastname)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000/storage/contents/1557896851&quot;&gt;http://localhost:8000/storage/contents/1557896851&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000">firstname lastname's page</source>
+<image></image>
+</item>
+<item>
+<title></title>
+<link>/post/-1557896890</link>
+<description><![CDATA[Hello wor]]></description>
+<pubDate>Wed, 15 May 2019 05:08:10 +0000</pubDate>
+<author>paulchibiukeigweze@gmail.com (firstname lastname)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000/storage/contents/1557896890&quot;&gt;http://localhost:8000/storage/contents/1557896890&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000">firstname lastname's page</source>
+<image></image>
+</item>
+<item>
+<title></title>
+<link>/post/-1557900006</link>
+<description><![CDATA[]]></description>
+<pubDate>Wed, 15 May 2019 06:00:06 +0000</pubDate>
+<author>paulchibiukeigweze@gmail.com (firstname lastname)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000/storage/contents/1557900006&quot;&gt;http://localhost:8000/storage/contents/1557900006&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000">firstname lastname's page</source>
+<image></image>
+</item>
+<item>
+<title></title>
+<link>/post/-1557900019</link>
+<description><![CDATA[]]></description>
+<pubDate>Wed, 15 May 2019 06:00:19 +0000</pubDate>
+<author>paulchibiukeigweze@gmail.com (firstname lastname)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000/storage/contents/1557900019&quot;&gt;http://localhost:8000/storage/contents/1557900019&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000">firstname lastname's page</source>
+<image></image>
+</item>
+<item>
+<title></title>
+<link>/post/-1557900119</link>
+<description><![CDATA[Hello]]></description>
+<pubDate>Wed, 15 May 2019 06:01:59 +0000</pubDate>
+<author>paulchibiukeigweze@gmail.com (firstname lastname)</author>
+<guid isPermaLink="true">&lt;p&gt;&lt;a href=&quot;http://localhost:8000/storage/contents/1557900119&quot;&gt;http://localhost:8000/storage/contents/1557900119&lt;/a&gt;&lt;/p&gt;</guid>
+<source url="http://localhost:8000">firstname lastname's page</source>
+<image></image>
+</item>
+</channel>
+</rss>

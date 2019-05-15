@@ -236,6 +236,7 @@ Router::post('/updateabout', function ($request) {
     $update = new Ziki\Core\Profile();
     $request = $request->getBody();
     $profile = $update->updateProfile($request);
+    $_SESSION['alert']=$profile;
     return $user->redirect('/profile');
 });
 Router::get('/deletepost/{postId}', function ($request, $postId) {
@@ -476,16 +477,15 @@ Router::get('/profile', function ($request) {
         return $user->redirect('/');
     }
     //this for error and successs messages
-    $message = [];
-    if (isset($_SESSION['messages'])) {
-        $message = $_SESSION['messages'];
-        unset($_SESSION['messages']);
+    $alert = [];
+    if (isset($_SESSION['alert'])) {
+        $alert = $_SESSION['alert'];
+        unset($_SESSION['alert']);
     }
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();
-
-    return $this->template->render('profile.html');
+    return $this->template->render('profile.html',['alert'=>$alert]);
 });
 
 // following page

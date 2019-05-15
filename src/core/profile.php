@@ -121,7 +121,6 @@ class Profile {
                 $dir = "./src/config/auth.json";
                 $check_settings = FileSystem::read($dir);
                 $check_prev = json_decode($check_settings);
-                /*
                 //update email
                 $check_prev->email = $result->email;
                 //update name
@@ -134,16 +133,12 @@ class Profile {
                 $check_prev->image = $target;
                 //write back the updated result
                 $json_user = FileSystem::write($dir, $check_prev);
-                */
-                var_dump($check_prev);
-                die();
-                // would write the new data into the auth.json updating the email read in #check_prev with $res->email
-                $data['name'] = $name;
-                $data['bio'] = $bio;
-                $data['email'] = $email;
-                $data['image'] = $target;
-               
-                $result = json_encode($data);
+                if($json_user){
+                    $result = $check_prev;
+                }
+                else{
+                    $result = array("error" => true, "message" => "error while updatng auth.json");
+                }
                 return $result; 
                 } else {
                     $error['Error']  = "Problem in updating profile, please try again.";

@@ -115,14 +115,12 @@ class Profile {
                 //Close the cURL handle.
                 curl_close($ch);
                 $res = json_decode($result);
-                //var_dump($result);
-                //die();
                 //Save User data to auth.json
                 $dir = "./src/config/auth.json";
                 $check_settings = FileSystem::read($dir);
                 $check_prev = json_decode($check_settings);
                 //update email
-                $check_prev->email = $result->email;
+                $check_prev->email = $res->email;
                 //update name
                 $fullname = explode(" ", $name);
                 $check_prev->firstname = $fullname[0];
@@ -132,7 +130,8 @@ class Profile {
                 //update image
                 $check_prev->image = $target;
                 //write back the updated result
-                $json_user = FileSystem::write($dir, $check_prev);
+                $data = json_encode($check_prev);
+                $json_user = FileSystem::write($dir, $data);
                 if($json_user){
                     $result = $check_prev;
                 }

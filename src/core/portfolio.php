@@ -110,7 +110,7 @@ class Portfolio
                     // there are images
                     $first_img = $matches[1];
                     // strip all images from the text
-                    $bd = preg_replace("/<img[^>]+\>/i", " (image) ", $bd);
+                    $bd = preg_replace("/<img[^>]+\>/i", "", $bd);
                 }
                 $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);
@@ -125,6 +125,12 @@ class Portfolio
                 $file = explode("-", $slug);
                 $filename = $file[count($file) - 1];
                 $content['filename'] = $filename;
+
+                $SlugArray = explode('-', $this->clean($slug));
+                $content['portfolio_id'] = end($SlugArray);
+                array_pop($SlugArray);
+                $content['post_title'] = implode('-', array_filter(array_map('trim', $SlugArray)));
+
                 // content['timestamp'] = $time;
                 $content['image'] = $image;
                 // $content['date'] = date('d M Y ', $filename);
@@ -160,7 +166,7 @@ class Portfolio
     }
 
     //code for returnng details of each portfolio
-    public function getEachPortfolio($id)
+    public function getEachPortfolio($id)   //mimics the getEach function in document.php
     {
         $finder = new Finder();
         // find all files in the current directory
@@ -194,7 +200,7 @@ class Portfolio
     }
     //end of get a portfolio function
 
-    public function getOnePortfolio($portf)
+    public function getOnePortfolio($portf) //mimics getPost function in document.php
     {
         $finder = new Finder();
         // find portfolio in the current directory
@@ -230,6 +236,10 @@ class Portfolio
                 $contentP['date'] = date('d M Y ', $portf);
                 $contentP['crawlerImage'] = $first_img;
                 $contentP['slug'] = $this->clean($slug);
+                $SlugArray = explode('-', $this->clean($slug));
+                $content['portfolio_id'] = end($SlugArray);
+                array_pop($SlugArray);
+                $content['post_title'] = implode('-', array_filter(array_map('trim', $SlugArray)));
             }
             return $contentP;
         }
@@ -255,17 +265,41 @@ class Portfolio
     }
 
     //delete a portfolio
-    public function deletePost($post)
+    public function deletePortfolio($portf)
     {
         $finder = new Finder();
         // find post in the current directory
-        $finder->files()->in($this->file)->name($post . '.md');
+        $finder->files()->in($this->file)->name($portf . '.md');
         if (!$finder->hasResults()) {
             return $this->redirect('/404');
         } else {
             ///coming back for some modifications
-            unlink($this->file . $post . '.md');
-            return $this->redirect('/portfolio');
+            unlink($this->file . $portf . '.md');
+            // $this->createRSS();
+        }
+    }
+
+    public function delete($id)
+    {
+        $finder = new Finder();
+        // find all files in the current directory
+        $finder->files()->in($this->file);
+        if ($finder->hasResults()) {
+            foreach ($finder as $file) {
+                $document = $file->getContents();
+                $parser = new Parser();
+                $document = $parser->parse($document);
+                $yaml = $document->getYAML();
+                $body = $document->getContent();
+                $parsedown  = new Parsedown();
+                $slug = $parsedown->text($yaml['slug']);
+                $slug = preg_replace("/<[^>]+>/", '', $slug);
+                if ($slug == $id) {
+                    unlink($file);
+                    $delete = "File deleted successfully";
+                }
+            }
+            return $delete;
         }
     }
 

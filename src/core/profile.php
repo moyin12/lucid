@@ -149,7 +149,7 @@ class Profile {
                 //return $result; 
                 } 
                 else {
-                    $results['Error']  = "Problem in updating profile, please try again.";
+                    $results['MainError']  = "Problem in updating profile, please try again.";
                     
                 }
             

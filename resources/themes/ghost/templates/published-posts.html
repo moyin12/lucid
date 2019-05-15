@@ -297,7 +297,7 @@
               </h6>
               <div class="published-post-content">
                 <p>
-                  {{ post.body|striptags  }}
+                  {{ post.body|striptags|raw  }}
                   <span> <a href="/post/{{post.post_id}}/{{ post.post_title |lower }}" class="read-more">Read More</a> </span>
                 </p>
               </div>
@@ -329,7 +329,7 @@
                 </h6>
                 <div class="published-post-content">
                   <p>
-                      {{ post.body|striptags  }}
+                      {{ post.body|striptags|raw  }}
                     <span> <a href="/post/{{post.post_id}}/{{ post.post_title |lower }}" class="read-more">Read More</a> </span>
                   </p>
                 </div>

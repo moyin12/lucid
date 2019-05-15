@@ -62,6 +62,16 @@
                       style="text-decoration:none;color:#111;">&times;</a></div>
                 </div>
               </div>
+              {% elseif alert.MainError %}
+  
+              <div class="alert alert-danger" id="msgContainer"
+                style="width:40%;top:120px;right:10px;position:fixed;z-index: 9999999;">
+                <div class="row">
+                  <div class="col-11">{{ alert.MainError }}</div>
+                  <div class="col-1 text-right"><a id="closebtn" href="javascript:void(0)"
+                      style="text-decoration:none;color:#111;">&times;</a></div>
+                </div>
+              </div>
               {% endif %}
 
            

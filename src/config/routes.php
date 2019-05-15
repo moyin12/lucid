@@ -233,19 +233,10 @@ Router::post('/setcontactemail', function ($request) {
 });
 Router::post('/updateabout', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
-        return $user->redirect('/');
-    }
     $update = new Ziki\Core\Profile();
     $request = $request->getBody();
     $profile = $update->updateProfile($request);
-    /*include ZIKI_BASE_PATH . "/src/core/SendMail.php";
-    
-    $updateabout = new SendContactMail();
-    $updateabout->updateAbout($request);
-    $updateabout->clientMessage();
-    return $updateabout->redirect('/profile');*/
-    return $post;
+    return $user->redirect('/profile');
 });
 Router::get('/deletepost/{postId}', function ($request, $postId) {
     $user = new Ziki\Core\Auth();

@@ -239,6 +239,12 @@ Router::post('/updateabout', function ($request) {
     $_SESSION['alert']=$profile;
     return $user->redirect('/profile');
 });
+Router::post('/edit-about', function ($request) {
+    $request = $request->getBody();
+    $page = new Ziki\Core\Page();
+    $response = $page->setAboutPage($request);
+    return json_encode($response);
+});
 Router::get('/deletepost/{postId}', function ($request, $postId) {
     $user = new Ziki\Core\Auth();
     if (!$user->is_logged_in() || !$user->is_admin()) {

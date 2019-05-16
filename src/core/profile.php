@@ -21,30 +21,25 @@ class Profile {
         if(empty(trim($request['name'])))
         {
             $results['Error'] = 'This is a required field';
+            
         }
         else
         {
             $name = $this->filterString($request['name']);
         }
-        //check if bio aint empty
-        if(empty(trim($request['bio'])))
-        {
-            $results['Error'] = 'This is a required field';
-        }
-        else
-        {
-            $bio = $this->filterString($request['bio']);
-        }
+        
         //checks if email is not empty
         if(empty(trim($request['new_email'])))
         {
             $results['Error'] = 'This is a required field';
+            
         }
         else
         {
             if(filter_var($request['new_email'],FILTER_VALIDATE_EMAIL) === false)
             {
                 $results['Error'] = 'Please input a valid email address';
+                
                 //$email = $request['email'];
             }
             else
@@ -68,16 +63,18 @@ class Profile {
             
             // Validate file input to check if is not empty
             if (! file_exists($_FILES["image"]["tmp_name"])) {
-                $results['Error']  ="Choose image file to upload.";
+                $target = "";
             
             }   
              // Validate file input to check if is with valid extension
             else if (! in_array($file_extension, $allowed_image_extension)) {
                 $results['Error']  =  "Upload valid images. Only PNG, JPG and JPEG are allowed.";
+                
             
             }    // Validate image file size
             else if (($_FILES["image"]["size"] > 1000000)) {
                 $results['Error']  = "Image size exceeds 1MB";
+                
                 
             }    // Validate image file dimension
             else {
@@ -91,12 +88,14 @@ class Profile {
                     $url = "./storage/user/";
                     FileSystem::makeDir($url);
                 }
-                
-                
-                $target =  './storage/user/user.'.$file_extension;
-            //if(FileSystem::write($url, $_FILES["image"]["tmp_name"])){
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target)) {
-            
+                 $target =  './storage/user/user.'.$file_extension;
+                 if(!move_uploaded_file($_FILES["image"]["tmp_name"], $target)){
+                     $results['Error'] = "problem occured when uploading images";
+                     
+                 } 
+            } 
+                //check if error messages are not fixed before saving
+                if($results['Error'] == "" ){
                 // make curl call if image upload is successful
                 $url = "https://auth.techteel.com/api/update_email?old_email={$old_email}&new_email={$new_email}";
                 $ch = curl_init();
@@ -126,9 +125,17 @@ class Profile {
                 $check_prev->firstname = $fullname[0];
                 $check_prev->lastname = $fullname[1];
                 //update bio
+                  //check if bio aint empty
+        if(!empty(trim($request['bio'])))
+        {
+            $bio = $this->filterString($request['bio']);
+        }
+      
                 $check_prev->siteTagline = $bio;
                 //update image
+                if($target != ""){
                 $check_prev->image = $target;
+                }
                 //write back the updated result
                 $data = json_encode($check_prev);
                 $json_user = FileSystem::write($dir, $data);
@@ -140,11 +147,12 @@ class Profile {
                     $result = array("error" => true, "message" => "error while updatng auth.json");
                 }
                 //return $result; 
-                } else {
-                    $results['Error']  = "Problem in updating profile, please try again.";
+                } 
+                else {
+                    $results['MainError']  = "Problem in updating profile, please try again.";
                     
                 }
-            }
+            
             
      return $results;
        

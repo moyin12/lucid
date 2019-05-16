@@ -36,11 +36,11 @@
               <div class="form-group">
                 <label for="fullName" class="font-weight-bold profile-edit-label d-none">Full Name</label>
                 <input type="text" class="form-control " name="name" id="fullname" aria-describedby="fullname"
-                  value="{{settings.name}}" placeholder="Full Name">
+                  value="{{settings.name}}" placeholder="Full Name" required>
               </div>
               <div class="form-group">
                 <label for="shortbio" class="font-weight-bold profile-edit-label d-none">Short Bio</label>
-                <textarea class="form-control" name="bio" id="shortbio" placeholder="Short Bio" rows="3"></textarea>
+                <textarea class="form-control" value ="{{settings.siteTagline}}" name="bio" id="shortbio" placeholder="Short Bio" rows="3"></textarea>
               </div>
 
               {% if alert.Success %}
@@ -62,6 +62,16 @@
                       style="text-decoration:none;color:#111;">&times;</a></div>
                 </div>
               </div>
+              {% elseif alert.MainError %}
+  
+              <div class="alert alert-danger" id="msgContainer"
+                style="width:40%;top:120px;right:10px;position:fixed;z-index: 9999999;">
+                <div class="row">
+                  <div class="col-11">{{ alert.MainError }}</div>
+                  <div class="col-1 text-right"><a id="closebtn" href="javascript:void(0)"
+                      style="text-decoration:none;color:#111;">&times;</a></div>
+                </div>
+              </div>
               {% endif %}
 
            
@@ -71,8 +81,8 @@
                 <label for="email" class="font-weight-bold profile-edit-label">Contact Email</label>
                 
                 <input class="form-control" value="{{ settings.email }}" type="email" name="new_email" id="new_email"
-                  placeholder="Email"/>
-                  <input class="form-control" value="{{ settings.email }}" type="hidden" name="old_email" id="old_email" required/>
+                  placeholder="Email"/ required>
+                  <input class="form-control" value="{{ settings.email }}" type="hidden" name="old_email" id="old_email" />
               </div>
               <button type="submit"
                 class="btn float-md-right profile-submit-btn text-white d-block mx-auto mt-3 text-upppercase">update</button>

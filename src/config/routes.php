@@ -48,7 +48,7 @@ foreach ($posts as $post) {
                 //echo $url;
                 $url = isset($_GET['d']) ? trim(base64_decode($_GET['d'])) : "";
                 //echo $url;
-                $url = $url . "storage/rss/rss.xml";
+                $url = $url . "/storage/rss/rss.xml";
                 $rss = Ziki\Core\Subscribe::subc($url);
                 //echo $url;
             }
@@ -83,7 +83,7 @@ foreach ($posts as $post) {
                 //echo $url;
                 $url = isset($_GET['d']) ? trim(base64_decode($_GET['d'])) : "";
                 //echo $url;
-                $url = $url . "storage/rss/rss.xml";
+                $url = $url . "/storage/rss/rss.xml";
                 $rss = Ziki\Core\Subscribe::subc($url);
                 //echo $url;
             }
@@ -300,7 +300,7 @@ Router::get('/portfolio-expanded', function ($request) {
 });
 // End- Portfolio_expanded
 
-// logic for creating a new portfolio 
+// logic for creating a new portfolio
 Router::post('/newportfolio', function ($request) {
     $user = new Ziki\Core\Auth();
     if (!$user->is_logged_in() || !$user->is_admin()) {

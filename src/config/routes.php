@@ -48,7 +48,7 @@ foreach ($posts as $post) {
                 //echo $url;
                 $url = isset($_GET['d']) ? trim(base64_decode($_GET['d'])) : "";
                 //echo $url;
-                $url = $url . "storage/rss/rss.xml";
+                $url = $url . "/storage/rss/rss.xml";
                 $rss = Ziki\Core\Subscribe::subc($url);
                 //echo $url;
             }
@@ -83,7 +83,7 @@ foreach ($posts as $post) {
                 //echo $url;
                 $url = isset($_GET['d']) ? trim(base64_decode($_GET['d'])) : "";
                 //echo $url;
-                $url = $url . "storage/rss/rss.xml";
+                $url = $url . "/storage/rss/rss.xml";
                 $rss = Ziki\Core\Subscribe::subc($url);
                 //echo $url;
             }
@@ -233,19 +233,11 @@ Router::post('/setcontactemail', function ($request) {
 });
 Router::post('/updateabout', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
-        return $user->redirect('/');
-    }
     $update = new Ziki\Core\Profile();
     $request = $request->getBody();
     $profile = $update->updateProfile($request);
-    /*include ZIKI_BASE_PATH . "/src/core/SendMail.php";
-    
-    $updateabout = new SendContactMail();
-    $updateabout->updateAbout($request);
-    $updateabout->clientMessage();
-    return $updateabout->redirect('/profile');*/
-    return $post;
+    $_SESSION['alert']=$profile;
+    return $user->redirect('/profile');
 });
 Router::get('/deletepost/{postId}', function ($request, $postId) {
     $user = new Ziki\Core\Auth();
@@ -308,7 +300,7 @@ Router::get('/portfolio-expanded', function ($request) {
 });
 // End- Portfolio_expanded
 
-// logic for creating a new portfolio 
+// logic for creating a new portfolio
 Router::post('/newportfolio', function ($request) {
     $user = new Ziki\Core\Auth();
     if (!$user->is_logged_in() || !$user->is_admin()) {
@@ -485,16 +477,15 @@ Router::get('/profile', function ($request) {
         return $user->redirect('/');
     }
     //this for error and successs messages
-    $message = [];
-    if (isset($_SESSION['messages'])) {
-        $message = $_SESSION['messages'];
-        unset($_SESSION['messages']);
+    $alert = [];
+    if (isset($_SESSION['alert'])) {
+        $alert = $_SESSION['alert'];
+        unset($_SESSION['alert']);
     }
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();
-
-    return $this->template->render('profile.html');
+    return $this->template->render('profile.html',['alert'=>$alert]);
 });
 
 // following page

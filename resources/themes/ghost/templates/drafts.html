@@ -250,7 +250,7 @@
                                     <a href=""> {{ draft.title | raw}} </a>
                                 </h6>
                                 <p class="draft-content">
-                                    {{ draft.body | striptags }}
+                                    {{ draft.body | striptags|raw }}
                                 </p>
                             </div>
                         </div>
@@ -277,7 +277,7 @@
                                     <a href=""> {{ draft.title | raw}} </a>
                                 </h6>
                                 <p class="draft-content">
-                                    {{ draft.body | striptags }}
+                                    {{ draft.body | striptags|raw }}
                                 </p>
                             </div>
                         </div>

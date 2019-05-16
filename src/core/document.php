@@ -76,7 +76,8 @@ class Document
         $striped = str_replace(' ', '-', $title);
         // then removing encoded html chars
         $striped = preg_replace("/(&#[0-9]+;)/", "", $striped);
-        $yamlfile['slug'] = $striped . "-{$unix}";
+        //$yamlfile['slug'] = $striped . "-{$unix}";
+        $yamlfile['slug'] = $unix;
         $yamlfile['timestamp'] = $time;
         $yamlfile->setContent($content);
         $yaml = FrontMatter::dump($yamlfile);
@@ -109,9 +110,9 @@ class Document
         // $finder->reverseSorting();
 
         // find all files in the current directory
-        
+
         $finder->files()->in($this->file);
-        
+
         $posts = [];
         if ($finder->hasResults()) {
             foreach ($finder as $file) {
@@ -242,7 +243,7 @@ class Document
                             'img'  => $url['img'],
                             'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
                             'desc'  => $node->getElementsByTagName('description')->item(0)->nodeValue,
-                            'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue . "?d=" . base64_encode(SITE_URL),
+                            'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
                             'date'  => date("F j, Y, g:i a", strtotime($node->getElementsByTagName('pubDate')->item(0)->nodeValue)),
                             'image'  => $node->getElementsByTagName('image')->item(0)->nodeValue,
                         );
@@ -259,7 +260,7 @@ class Document
     //RSS designed By DMAtrix;
     public function fetchRss()
     {
-        
+
         $xml = file_get_contents("./storage/rss/rss.xml");
 
         if (strlen($xml !== "")) {
@@ -728,7 +729,7 @@ class Document
         {
             $doc = fwrite($fopen, $yamlTextContent.PHP_EOL);
         }
-        
+
         if (!$extra) {
             if ($doc) {
                 $result =  array("error" => false, "action"=>"update", "message" => "Post Updated successfully");
@@ -746,7 +747,7 @@ class Document
 
         return $result;
 
-        
+
     }
 
 

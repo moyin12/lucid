@@ -27,15 +27,11 @@ class System {
     }
 
     public static function checkSystem () {
-        if((self::isCurl() == true) && (self::validPHPVersion() == true)) {
+        if((self::validPHPVersion() == true)) {
             return true;
         }
-        elseif((self::isCurl() == true) && (self::validPHPVersion() == false)){
-            $result = array("error" => true, "message" => "Please upgrade your php version before installing.", "version" => phpversion());
-            return $result;
-        }
         else{
-            $result = array("error" => true, "message" => "Please install or enable curl to use lucid.");
+            $result = array("error" => true, "message" => "System requires php 7+.");
             return $result;
         }
     }

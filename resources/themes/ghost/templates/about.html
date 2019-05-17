@@ -4,31 +4,32 @@
     <div class="row d-block">
         {% if user.role == 'admin' %}
         <div class="mb-4">
-            
-            <h3 class="about__heading">About</h3>
+            <h3 class="">About <button type="button" style="outline:none;" class="btn" data-toggle="modal" data-target="#aboutModal">
+                    <i class="fas fa-edit fa-lg"></i>
+                </button></h3>
             <!-- Button trigger modal -->
-            
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Edit
-            </button>
-            
+
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">About Me</h5>
-                            <button type="button" class="close" style="outline:none;" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title" id="aboutModalLabel">Edit About</h5>
+                            <button type="button" class="close" style="outline:none;" data-dismiss="modal"
+                                aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <form method="POST" class="edit-about" id="aboutFormField">
+                                <div class="form-group">
+                                    <textarea type="text" class="form-control " name="aboutMe" id="aboutMe" aria-describedby="aboutMe"
+                                    placeholder="About Me"  rows="5" style="outline:none;">{{ about | raw }}</textarea>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -36,7 +37,7 @@
         </div>
         {% elseif about %}
         <div class="mb-4">
-                <h3 class="about__heading">About</h3>
+            <h3 class="about__heading">About</h3>
         </div>
         {% endif %}
         <div class="w-100">
@@ -49,31 +50,8 @@
         </div>
         <div class="row justify-content-lg-start justify-content-md-start justify-content-sm-center">
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                {% if message.success %}
-                <div class="alert alert-success" id="msgContainer" style="margin-top:20px;">
-                    <div class="row">
-                        <div class="col-11">{{ message.success }}</div>
-                        <div class="col-1 text-right"><a id="closebtn" href="javascript:void(0)"
-                                style="text-decoration:none;color:#111;">&times;</a></div>
-                    </div>
-                </div>
-                {% elseif message.FormFieldError %}
-                <div class="alert alert-danger" id="msgContainer" style="margin-top:20px;">
-                    <div class="row">
-                        <div class="col-11">{{ message.FormFieldError }}</div>
-                        <div class="col-1 text-right"><a id="closebtn" href="javascript:void(0)"
-                                style="text-decoration:none;color:#111;">&times;</a></div>
-                    </div>
-                </div>
-                {% elseif message.serverError %}
-                <div class="alert alert-warning" id="msgContainer" style="margin-top:20px;">
-                    <div class="row">
-                        <div class="col-11">{{ message.serverError }}</div>
-                        <div class="col-1 text-right"><a id="closebtn" href="javascript:void(0)"
-                                style="text-decoration:none;color:#111;">&times;</a></div>
-                    </div>
-                </div>
-                {% elseif message.ownerEmailNotProvided %}
+                
+                {% if message.ownerEmailNotProvided %}
                 <div class="alert alert-info" id="msgContainer" style="margin-top:20px;">
                     <div class="row">
                         <div class="col-11">Oops,Sorry you can't send your feedback yet!</div>
@@ -82,38 +60,32 @@
                     </div>
                 </div>
                 {% endif %}
-                <form class="contact-us-form mt-5" action="/send" method="POST">
+                <form class="contact-us-form mt-5 contact-form" id="contactFormFields" method="POST">
                     <div class="form-group">
-                        <input type="text" name="guestName" placeholder="Name" value="{{ message.name }}"
+                        <input type="text" name="guestName" id="guestName" placeholder="Name" value=""
                             class="form-control">
-                        {% if message.nameError %}
-                        <span class="text-danger">{{ message.nameError }}</span>
-                        {% endif %}
+                        
+                        <span class="text-danger" id="nameError" style="display:none;"></span>
+                        
                     </div>
                     <div class="form-group">
-                        <input type="email" name="guestEmail" placeholder="Email" value="{{ message.email }}"
+                        <input type="email" name="guestEmail" id="guestEmail" placeholder="Email" value=""
                             class="form-control">
-                        {% if message.emailError %}
-                        <span class="text-danger">{{ message.emailError }}</span>
-                        {% endif %}
+                            <span class="text-danger" id="emailError" style="display:none;"></span>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="guestSubject" placeholder="Subject" value="{{ message.subject }}"
+                        <input type="text" name="guestSubject" id="guestSubject" placeholder="Subject" value=""
                             class="form-control">
-                        {% if message.subjectError %}
-                        <span class="text-danger">{{ message.subjectError }}</span>
-                        {% endif %}
+                            <span class="text-danger" id="SubjectError" style="display:none;"></span>
                     </div>
                     <div class="form-group">
                         <textarea class="form-control" placeholder="Message" name="guestMsg" rows="5"
-                            cols="10">{{ message.msg }}</textarea>
-                        {% if message.msgError %}
-                        <span class="text-danger">{{ message.msgError }}</span>
-                        {% endif %}
+                            cols="10"></textarea>
+                            <span class="text-danger" id="msgError" style="display:none;"></span>
                     </div>
                     <div class="form-group text-right">
-                        <button class="btn btn-primary" name="send" {% if message.ownerEmailNotProvided %} disabled
-                            style="cursor:not-allowed;" {% endif %} type="submit">Submit</button>
+                        <button type="submit" class="btn btn-primary" name="sendMail" {% if message.ownerEmailNotProvided %} disabled
+                            style="cursor:not-allowed;" {% endif %} >Submit</button>
                     </div>
                 </form>
             </div>

@@ -215,9 +215,9 @@ Router::post('/send', function ($request) {
     $request = $request->getBody();
     $SendMail = new SendContactMail();
     $SendMail->mailBody = $this->template->render('mail-template.html', ['guestName' => $request['guestName'], 'guestEmail' => $request['guestEmail'], 'guestMsg' => $request['guestMsg']]);
-    $SendMail->sendMail($request);
-    $SendMail->clientMessage();
-    return $SendMail->redirect('/about');
+    $response = $SendMail->sendMail($request);
+    
+    return json_encode($response);
 });
 Router::post('/setcontactemail', function ($request) {
     $user = new Ziki\Core\Auth();
@@ -238,6 +238,12 @@ Router::post('/updateabout', function ($request) {
     $profile = $update->updateProfile($request);
     $_SESSION['alert']=$profile;
     return $user->redirect('/profile');
+});
+Router::post('/edit-about', function ($request) {
+    $request = $request->getBody();
+    $page = new Ziki\Core\Page();
+    $response = $page->setAboutPage($request);
+    return json_encode($response);
 });
 Router::get('/deletepost/{postId}', function ($request, $postId) {
     $user = new Ziki\Core\Auth();

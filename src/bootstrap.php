@@ -1,5 +1,6 @@
 <?php
 defined('ZIKI') or die('Direct access not permitted!');
+date_default_timezone_set("Africa/Lagos");
 // Autoloading.
 require ZIKI_BASE_PATH .'/vendor/autoload.php';
 

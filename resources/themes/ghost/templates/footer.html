@@ -357,7 +357,7 @@
 <script>
   //submit about section form starts here
   var editAboutForm = document.querySelector('.edit-about');
-  editAboutForm.onsubmit = document.querySelector('button[type="submit"]').addEventListener('click', function(event){
+  editAboutForm.onsubmit = document.querySelector('button[name="editAbout"]').addEventListener('click', function(event){
     event.preventDefault();
     const AboutFormData = new FormData(document.querySelector('#aboutFormField'));
     const about = document.querySelector("#aboutMe").value;

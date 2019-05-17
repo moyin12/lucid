@@ -34,6 +34,7 @@ class Document
     //kjarts code here
     public function create($title, $content, $tags, $image, $extra)
     {
+       
         $time = date(DATE_RSS, time());
         $unix = strtotime($time);
         // Write md file

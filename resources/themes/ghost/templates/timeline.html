@@ -305,7 +305,7 @@
             <div class="row pt-4 pb-4">
               <!-- <div class="col-12 text-right"></div> -->
               <div class="col-2 col-sm-1 text-right">
-                <img src="...." alt="{{feed.title | raw}}" class="blogger-image img-fluid" />
+                <img src="{{feed.img | raw}}" alt="{{feed.title | raw}}" class="blogger-image img-fluid" />
               </div>
               <div class="col-10 col-sm-11">
                 <div class="row second">
@@ -314,7 +314,7 @@
                     <a href="{{feed.link}}">
                         <h3><b>{{feed.title | raw}}</b></h3>
                     </a>
-                    <img src="{{ feed.img | raw }}" alt="" class="img-fluid blog-image w-100" height="30%" />
+                    <img src="" alt="" class="img-fluid blog-image w-100" height="30%" />
                     <p>{{feed.desc | raw}}</p>
                   </div>
                 </div>

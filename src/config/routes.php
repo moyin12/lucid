@@ -215,9 +215,9 @@ Router::post('/send', function ($request) {
     $request = $request->getBody();
     $SendMail = new SendContactMail();
     $SendMail->mailBody = $this->template->render('mail-template.html', ['guestName' => $request['guestName'], 'guestEmail' => $request['guestEmail'], 'guestMsg' => $request['guestMsg']]);
-    $SendMail->sendMail($request);
-    $SendMail->clientMessage();
-    return $SendMail->redirect('/about');
+    $response = $SendMail->sendMail($request);
+    
+    return json_encode($response);
 });
 Router::post('/setcontactemail', function ($request) {
     $user = new Ziki\Core\Auth();

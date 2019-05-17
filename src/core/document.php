@@ -34,6 +34,7 @@ class Document
     //kjarts code here
     public function create($title, $content, $tags, $image, $extra)
     {
+        date_default_timezone_set("Africa/Lagos");
         $time = date(DATE_RSS, time());
         $unix = strtotime($time);
         // Write md file
@@ -233,7 +234,8 @@ class Document
                             'img'  => $url['img'],
                             'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
                             'desc'  => $node->getElementsByTagName('description')->item(0)->nodeValue,
-                            'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue . "?d=" . base64_encode(SITE_URL),
+                            //'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue . "?d=" . base64_encode(SITE_URL),
+                            'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
                             'date'  => date("F j, Y, g:i a", strtotime($node->getElementsByTagName('pubDate')->item(0)->nodeValue)),
 
                         );
@@ -302,7 +304,7 @@ class Document
         $user = file_get_contents("./src/config/auth.json");
         $user = json_decode($user, true);
 
-        //  date_default_timezone_set('UTC');
+          date_default_timezone_set("Africa/Lagos");
         $Feed = new RSS2;
         // Setting some basic channel elements. These three elements are mandatory.
         $Feed->setTitle($user['name']);

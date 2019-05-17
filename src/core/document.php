@@ -34,6 +34,7 @@ class Document
     //kjarts code here
     public function create($title, $content, $tags, $image, $extra)
     {
+        date_default_timezone_set("Africa/Lagos");
         $time = date(DATE_RSS, time());
         $unix = strtotime($time);
         // Write md file
@@ -303,7 +304,7 @@ class Document
         $user = file_get_contents("./src/config/auth.json");
         $user = json_decode($user, true);
 
-        //  date_default_timezone_set('UTC');
+          date_default_timezone_set("Africa/Lagos");
         $Feed = new RSS2;
         // Setting some basic channel elements. These three elements are mandatory.
         $Feed->setTitle($user['name']);

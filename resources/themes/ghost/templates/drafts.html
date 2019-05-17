@@ -210,7 +210,7 @@
                 max-height: 627px;
             }
 
-            
+
         }
 
         @media screen and (max-width:900px) and (min-width:700px) {
@@ -231,18 +231,18 @@
 </head>
 
 <div class="container-fluid drafts">
-    <div class="row">
+    <div class="row mt-5">
         <div class="col-12 col-sm-1"></div>
         <div class="col-12 col-sm-11">
-            <div class="row">
+            <div class="row mt-5">
                 <div class="col-12">
-                    {% for key, draft in drafts %}
+                    {% for draft in drafts %}
                     <div class="row pt-4 pb-4 draft-bottom  draft-content">
-                        {% if draft.image != "" %}
+                        {% if draft.preview_img  %}
                         <div class="col-lg-3 col-md-5 col-sm-12 col-xs-12 p-0 m-0 ">
-                            <img src="{{ draft.image }}" alt="the-image-for-drafts" class="img-fluid draft-img">
+                            <img src="{{ draft.image }}" alt="the-imagxce-for-drafts" class="img-fluid draft-img">
                         </div>
-                       
+
                         <div class="col-lg-7 col-md-5 col-sm-12 col-xs-12">
                             <div class="second">
                                 <div class="draft-date ">{{ draft.timestamp | raw }}</div>
@@ -250,7 +250,7 @@
                                     <a href=""> {{ draft.title | raw}} </a>
                                 </h6>
                                 <p class="draft-content">
-                                    {{ draft.body | raw }}
+                                    {{ draft.body | striptags|raw }}
                                 </p>
                             </div>
                         </div>
@@ -261,15 +261,22 @@
 
                                 </span>
                                 <div class="dropdown-menu">
-                                    <button class="dropdown-item"> <a href="/editor/{{ draft.filename | raw }}"
-                                            class="edit-post">Edit
-                                            draft</a></button>
-                                    <button class="dropdown-item" data-toggle="modal" data-target="#cancelModal">Delete
+                                     <!-- the edit post modal here -->
+                                     <button class="dropdown-item" data-toggle="modal" data-target="#editModal">Edit
+                                            Draft</button>
+                                        <!-- the edit post modal here -->
+                                        <!-- <button class="dropdown-item"> <a href="/editor/{{ draft.filename | raw }}"
+                                                class="edit-post">Edit
+                                                draft</a></button> -->
+    
+                                    <button class="dropdown-item" id="{{ draft.slug |lower }}"
+                                        onclick="deleteDraft(this)" data-toggle="modal"
+                                        data-target="#cancelModal">Delete
                                         draft</button>
                                 </div>
                             </div>
                         </div>
-                        {% elseif draft.image == "" %}
+                        {%  else  %}
                         <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
                             <div class="second">
                                 <div class="draft-date ">{{ draft.timestamp | raw }}</div>
@@ -277,7 +284,7 @@
                                     <a href=""> {{ draft.title | raw}} </a>
                                 </h6>
                                 <p class="draft-content">
-                                    {{ draft.body | raw }}
+                                    {{ draft.body | striptags|raw }}
                                 </p>
                             </div>
                         </div>
@@ -288,31 +295,39 @@
 
                                 </span>
                                 <div class="dropdown-menu">
-                                    <button class="dropdown-item"> <a href="/editor/{{ draft.filename | raw }}"
+                                    <!-- the edit post modal here -->
+                                    <button class="dropdown-item" data-toggle="modal" data-target="#editModal">Edit
+                                        Draft</button>
+                                    <!-- the edit post modal here -->
+                                    <!-- <button class="dropdown-item"> <a href="/editor/{{ draft.filename | raw }}"
                                             class="edit-post">Edit
-                                            draft</a></button>
-                                    <button class="dropdown-item" data-toggle="modal" data-target="#cancelModal">Delete
+                                            draft</a></button> -->
+
+                                    <button class="dropdown-item" id="{{ draft.slug |lower }}"
+                                        onclick="deleteDraft(this)" data-toggle="modal"
+                                        data-target="#cancelModal">Delete
                                         draft</button>
                                 </div>
                             </div>
                         </div>
                         {% endif %}
                     </div>
-                    
 
 
 
-                   
-                    {% endfor %}
 
-
+                    {% else %}
                     <div class="row">
-                        <div class="no-drafts-alert mx-auto">
+                        <div class="no-drafts-alert mx-auto my-5">
                             <p class="text-grey">
-                                You have no more drafts
+                                You have no drafts
                             </p>
                         </div>
                     </div>
+                    {% endfor %}
+
+
+
                 </div>
             </div>
             <!-- modal begins here -->
@@ -320,7 +335,8 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content no-border">
                         <div class="modal-header no-border">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <button type="button" class="close" data-dismiss="modal"
+                                style="outline: none;">&times;</button>
                         </div>
                         <div class="modal-body no-border">
                             <img src="/resources/themes/ghost/assets/img/cancel-post-modal.png"
@@ -330,18 +346,160 @@
                         </div>
                         <div class="modal-footer no-border mx-auto d-block">
 
-                            <button class="btn btn-primary canel-post">Delete</button>
+                            <a class="btn btn-primary canel-post" id="deleteDraftBtn"
+                                style="cursor: pointer;">Delete</a>
                         </div>
 
                     </div>
                 </div>
             </div>
             <!-- modal ends here -->
+
+            <!-- second modal begins here -->
+
+            <div class="modal fade" id="editModal" tabindex="-1" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" style="outline:none;" class="close" data-dismiss="modal"
+                                aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                        </div>
+
+                        <div id="form-container">
+                            <form method="POST" class="timeline-editor" id="editor-form">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12 text-right">
+                                            <span id="num_char" class="badge badge-warning">Micro-Blog Mode</span>
+                                        </div>
+                                    </div>
+                                    <div class="row pt-3 pb-2">
+                                        <div class="col-12">
+                                            <div class="row form-group">
+                                                <div class="col-12" id="titleBox">
+                                                    <label for="new-post-title" class="sr-only">Title</label>
+                                                    <input type="text" id="new-post-title" value=""
+                                                        class="form-control hide" placeholder="Title" />
+                                                    <input type="hidden" id="postid" value=""
+                                                        class="form-control hide" />
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div id="editor"></div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row pt-5">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-12 pb-5 collapse" id="collapseExample">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input tags" type="checkbox"
+                                                            id="inlineCheckbox1" value="#Politics">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox1">Politics</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input tags" type="checkbox"
+                                                            id="inlineCheckbox1" value="#Sports">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox1">Sports</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input tags" type="checkbox"
+                                                            id="inlineCheckbox1" value="#Health">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox1">Health</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input tags" type="checkbox"
+                                                            id="inlineCheckbox1" value="#Technology">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox1">Technology</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input tags" type="checkbox"
+                                                            id="inlineCheckbox1" value="#Music">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox1">Music</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input tags" type="checkbox"
+                                                            id="inlineCheckbox1" value="#News/Lifestyle">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox1">News/Lifestyle</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input tags" type="checkbox"
+                                                            id="inlineCheckbox1" value="#Movies">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox1">Movies</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input tags" type="checkbox"
+                                                            id="inlineCheckbox1" value="#Fitness">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox1">Fitness</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <input type="reset"
+                                                        class="form-control btn-sm btn btn-primary canel-post"
+                                                        value="Cancel">
+                                                </div>
+                                                <div class="col-3">
+                                                    <input type="button"
+                                                        class="form-control btn-sm btn btn-primary save-draft"
+                                                        value="Save Draft" />
+                                                </div>
+                                                <div class="col-3">
+                                                    <input type="submit"
+                                                        class="form-control btn-sm btn btn-primary publish-post"
+                                                        value="Update">
+                                                </div>
+                                                <div class="col-3">
+                                                    <input class="form-control btn-sm btn btn-primary add-tags"
+                                                        type="button" data-toggle="collapse"
+                                                        data-target="  #collapseExample" aria-expanded="false"
+                                                        aria-controls="collapseExample" value="Add Tags">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- second modal ends here -->
+
     </div>
 </div>
 </div>
 </div>
 </div>
-
+</div>
+<script>
+    ///js code to append post id to pop up modal for deleting posts
+    function deleteDraft(button) {
+        let postSlug = button.id;
+        let deletePostBtn = document.getElementById('deleteDraftBtn');
+        deletePostBtn.setAttribute('href', '/deletedraft/' + postSlug);
+    }
+</script>
 {% endblock page_content %}

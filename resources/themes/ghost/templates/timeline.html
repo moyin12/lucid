@@ -23,6 +23,15 @@
     border-radius: 5px;
   }
   
+  .ql-toolbar.ql-snow + .ql-container.ql-snow {
+    border-top: 1px !important;
+    border-bottom: 0px;
+  }
+
+  .ql-editor {
+      border:1px solid #ccc !important;
+  }
+
   .editor-btns {
   background: #280a66;
   border-radius: 5px;
@@ -124,8 +133,6 @@
     height: 60px;
   }
 
-
-
   .mb-title {
     color: #000000;
     line-height: 1.3em;
@@ -200,9 +207,11 @@
 
       <!-- Page Content section -->
       <div id="content">
+       {% include "navbar-auth.html" %}
         <!-- editor -->
         <div class="row">
-          <div class="col-12">
+          <div class="col-12 col-sm-1"></div>
+          <div class="col-12 col-sm-10">
             <!-- The editor code goes here -->
             <div id="form-container">
               <form method="POST" class="timeline-editor" id="editor-form">
@@ -224,10 +233,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="row pt-5">
+                <div class="row mt-4">
                   <div class="col-12">
                   <div class="row">
-                    <div class="col-12 pb-5 collapse" id="collapseExample">
+                    <div class="col-12 collapse" id="collapseExample">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Politics">
                         <label class="form-check-label" for="inlineCheckbox1">Politics</label>
@@ -249,8 +258,8 @@
                         <label class="form-check-label" for="inlineCheckbox1">Music</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#News/Lifestyle">
-                        <label class="form-check-label" for="inlineCheckbox1">News/Lifestyle</label>
+                        <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#News-Lifestyle">
+                        <label class="form-check-label" for="inlineCheckbox1">News-Lifestyle</label>
                       </div>
                       <div class="form-check form-check-inline">
                         <input class="form-check-input tags" type="checkbox" id="inlineCheckbox1" value="#Movies">
@@ -285,42 +294,42 @@
               </form>
             </div>
           </div>
+          <div class="col-12 col-sm-1"></div>
         </div>
 
         <!-- Feed listing -->
         {% for key, feed in posts %}
         <div class="row pt-4 pb-4">
-          <div class="col-12">
+          <div class="col-12 col-sm-1"></div>
+          <div class="col-12 col-sm-10">
             <div class="row pt-4 pb-4">
-              <div class="col-12 col-sm-1 text-right"></div>
+              <!-- <div class="col-12 text-right"></div> -->
               <div class="col-2 col-sm-1 text-right">
                 <img src="{{feed.img | raw}}" alt="{{feed.title | raw}}" class="blogger-image img-fluid" />
               </div>
-              <div class="col-10 col-sm-9">
+              <div class="col-10 col-sm-11">
                 <div class="row second">
                   <div class="col-12">
                     <h6 class="purple"><b>{{feed.date | raw}}</b></h6>
                     <a href="{{feed.link}}">
                         <h3><b>{{feed.title | raw}}</b></h3>
                     </a>
+                    <img src="{{feed.image | raw}}" alt="{{feed.title | raw}}" class="img-fluid blog-image w-100" height="30%" />
                     <p>{{feed.desc | raw}}</p>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-6">{{feed.site | raw}}</div>
-                  <div class="col-6 text-right">Comment</div>
+                  <a class="col-6 text-right" href="{{feed.link}}"><div>Comment</div></a>
                 </div>
               </div>
             </div>
           </div>
+          <div class="col-12 col-sm-1"></div>
         </div>
         {% endfor %}
         <!-- Feed section ends here -->
-
       </div>
-
-      </div>
-    </div>
   </div>
 </div>
 </div>

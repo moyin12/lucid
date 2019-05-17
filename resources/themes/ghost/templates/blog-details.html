@@ -160,6 +160,11 @@
     .blog-posts {
         margin-top: 3em;
     }
+
+    .blog-posts p img{
+        width:788px;
+        height: 406px;
+    }
     
     span.more-post {
         font-family: Lato;
@@ -210,10 +215,22 @@
         .blog-post-title h1 {
             font-size: 28px;
         }
+
+        .blog-posts p img{
+            width:345px;
+            height: 177px;
+        }
     }
-    p img{
-        width:100%;
+
+    @media screen and (max-width:900px) and (min-width:700px) {
+        .blog-posts p img{
+            width:546px;
+            height: 281px;
+        }
+
     }
+
+
     
     @media (min-width:767px) {
         .about-blog-source {
@@ -224,6 +241,7 @@
     /*media queries*/
 </style>
 <div class="container-fluid blog-details">
+    {% include "navbar-auth.html" %}
     <div class="row justify-content-lg-left justify-content-sm-left">
         <div class="col-lg-0 col-md-1 col-sm-1 col-xs-7">
 
@@ -267,7 +285,7 @@
                         <div class="post-tags">
                             <span>TOPICS: </span>
                             {% for tag in post.tags %}
-                            <a href="/tags/{{ tag }}">{{ tag }}  </a>
+                            <a href="/tags/{{ tag }}" style="margin-right:10px;">{{ tag }}  </a>
                             {% endfor %}
                         </div>
                         {% endif %}
@@ -277,12 +295,7 @@
                         </div>-->
                         <div class="social-media mt-5">
                             <span><i class="fa fa-share-square "style="font-size:24px; margin-left: 10px; color: grey; font-weight: 200; height: 21px; width: 21px; fill: #7d7d7d;"></i>SHARE</span>
-                            <!-- <a href="#"><img src="/resources/themes/ghost/assets/img/facebookicon.png" alt="tag-label">
-                            </a>
-                            <a href="#"><img src="/resources/themes/ghost/assets/img/twitter (1).png" alt="tag-label">
-                            </a>
-                            <a href="#"><img src="/resources/themes/ghost/assets/img/linkedin.png" alt="tag-label">
-                            </a> -->
+                            
                             <div id="share"></div>
                         </div>
                     </div>
@@ -297,7 +310,7 @@
                                 <img src="{{ relatedPost.preview_img }}" alt="" class="blog-image w-100" height="30%" />
                                 <div class="" style="background-color: #F9F9F9; margin-top: 0px;">
                                     <p style="font-size: 12px; color: grey; padding-top: 10px; padding-left: 10px; margin: 0px;">{{ relatedPost.tags }}</p>
-                                    <a class="related-posts" href="/post/{{ relatedPost.slug|lower }}">
+                                    <a class="related-posts" href="/post/{{ relatedPost.post_id }}/{{ relatedPost.post_title|lower }}">
                                         <h6 style="color: black; padding: 15px;">{{ relatedPost.title|striptags }}</h6>
                                     </a>
                                 </div>
@@ -306,7 +319,7 @@
                             <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 mt-3">
                                     <div class="" style="background-color: #F9F9F9; margin-top: 0px;">
                                         <p style="font-size: 12px; color: grey; padding-top: 10px; padding-left: 10px; margin: 0px;">{{ relatedPost.tags }}</p>
-                                        <a class="related-posts" href="/post/{{ relatedPost.slug|lower }}">
+                                        <a class="related-posts" href="/post/{{ relatedPost.post_id }}/{{ relatedPost.post_title|lower }}">
                                             <h6 style="color: black; padding: 15px;">{{ relatedPost.title|striptags }}</h6>
                                         </a>
                                     </div>
@@ -371,7 +384,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
 <script>
     
-    var linkurl = '{{ siteUrl }}/post/{{ post.slug|lower }}';
+    var linkurl = '{{ siteUrl }}/post/{{ post.post_id }}/{{ post.post_title|lower }}';
         $("#share").jsSocials({
             url:linkurl,
             showLabel:false,
@@ -380,7 +393,7 @@
             shares: [{share:"twitter",logo:'/resources/themes/ghost/assets/img/twitter (1).png',css:'customStyle'},{share:"facebook",logo:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAaVBMVEU6VZ////81Up0yT5xgc61+jbsvTZyXo8hFXaOirM0nSJmlrs7O1OUkRpkfQ5doerLr7fTHzeE9WKHV2umHlcDy9Pnd4eyut9O1vtdZbat5ibmWoceGk7/M0eSrs9G/xtxMY6ZvgLVIYaWJ8OFBAAAC40lEQVR4nO3c63KqMBRAYU9iqaLg/d7W2vd/yE5nzt/ihjTsvTNrPQDDNxIDJDqZEBERERERERERERERERFZL4QYqydF7ZMcXKyadju97m/zzhZ7n8SqCY/T8Z+kXa19sv2LdbztRLqflu6EsXm8i3kOhbF9WffxeROG9tHT50xYbTd9fb6E7Vt/nydhqO9DgH6EcdZ7BPoSVpdhPjfCajUU6EQYhwN9COPncKALYdgeChe2socIv8LmnAJ0IIzXJKADYZMyCD0IE69R+8Iw+F7Gi7CVv67wKQzTVKB1YbMsXBhSbtdcCOtT6cLUudC8MD7SgbaFdepsb17YDHw140YYZn8ANC2M+78QWl57qvoMw8PuvHC3fljL70k3q7qu/a0Bt9LZ8HhpgvbJDioKgffWp28SvqRA7TMdmvDJ6egWKBV+Ob1EJ1LhyfB09yyZ0PFHKBMeG+3TTEgkPFXap5mQSGj5nuxpIuELQsshRGg/hAjthxCh/RAitB9ChPZDiNB+CBHarwxh6PiJci3ZWnptnv3SWRm4ev2920IgPN86jvDTfKsqrD4EiMR0V98qyceU1kF3iXgEofLy2wjCe/FX6Yful+kIwn3xwpXuOv8Iws/ihcr3NPmFa+UdU/mFS+XdKPmFZ+UtU/mFr8WPQ+3nx/zCi/K2t/xC7VcA2YUH7b2Z2YXqWxezCzfFf4bqmzOzC2/Ff9M8ihdqT4f5hdrDMLtQ+VXiCEL93x7mFiq/ShxBOC9+HL5pTxbZhVPtySK7UNuXXXhQH4a5hWvtZ6fswnf1ySL3GvBZ/yqdbGcdSf4O8q3rCLpL+P8LvxdFu02qjiNo455Vxn6arhAitB9ChPZDiNB+CBHaDyFC+yFEaD+ECO2HEKH9ECK0H0KE9kOI0H4IEdoPIUL7IURoP4QI7YcQof0QIrQfQoT2Q4jQfggR2g8hQvshRGg/hAjthxCh/RAitB9ChPZDiNB+CBH26BsaQkVVLImVewAAAABJRU5ErkJggg=='}]
         });
     window.onload = function(){
-        metaTags = [{'property':'og:title','content':'{{ post.title|striptags }}'},{'property':'og:image','content':'{{ siteUrl }}{{ post.crawlerImage }}'},{'property':'og:url','content':'{{ siteUrl }}/post/{{ post.slug|lower }}'}];
+        metaTags = [{'property':'og:title','content':'{{ post.title|striptags }}'},{'property':'og:image','content':'{{ siteUrl }}{{ post.crawlerImage }}'},{'property':'og:url','content':'{{ siteUrl }}/post/{{ post.post_id }}/{{ post.post_title|lower }}'}];
          metaTags.forEach(function(metaTag){ 
         var meta = document.createElement('meta');
         meta.setAttribute('property', metaTag.property);

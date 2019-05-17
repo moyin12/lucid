@@ -39,6 +39,7 @@ class Auth {
          $variables = array();
          $variables['name'] = $name;
          $variables['address'] = $address;
+         $variables['email-address'] = $destination;
          $email_temp = "./src/config/email.php";
          $template = file_get_contents($email_temp);
          foreach($variables as $key => $value) {
@@ -67,7 +68,7 @@ class Auth {
             if($check_settings == true) {
                 $s_file = "./src/config";
                 $data['name'] = $data['firstname']." ".$data['lastname'];
-                $site_url = $data['domainName'].$data['domain'];
+                $site_url = $data['domainName'];
                 $data['image'] = "https://res.cloudinary.com/dc9kfp5gt/image/upload/v1556862782/business-color_business-contact-86_icon-icons.com_53469_ckkqq7.png";
                 $save = json_encode($data);
                 $doc = FileSystem::write("{$s_file}/auth.json", $save);
@@ -131,6 +132,15 @@ class Auth {
         // echo json_encode($_SESSION); -- it shows that the SESSION is empty because you login owner after install and you never setup session for them
         if (isset($_SESSION['login_user']) && ($_SESSION['login_user']['login_token'] != '')) {
             return $_SESSION;
+        }
+    }
+    // session checks
+    public function is_admin() {
+        if ($_SESSION['login_user']['role'] == 'admin'){
+            return true;
+        }
+        else{
+            return false;
         }
     }
     // Log out user

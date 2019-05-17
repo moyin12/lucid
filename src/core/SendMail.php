@@ -73,18 +73,19 @@ class SendContactMail{
             
                 if($this->sendMailToOwner())
                 {
-                    $this->successMsg['success']='Feedback Successfully Sent!';
+                    $this->successMsg['success']='Thanks for sending your feedback,i hope to reply  soon!';
                     return $this->successMsg;
                 }
                 else
                 {
-                    return $this->error['serverError'] = 'FeedBack could not be sent please make sure your data connection is on!';
+                    $this->error['serverError'] = 'FeedBack could not be sent, please make sure you have an active internet  connection!';
+                    return $this->error;
                 }
             
         }
         else
         {
-            $this->error['FormFieldError']='Please Fix The Errors Below To Send Your FeedBack!';
+            $this->error['FormFieldError']='Please Fix The Errors On The Input Fields To Send Your FeedBack!';
             return $this->error;
         }
     }
@@ -232,60 +233,6 @@ class SendContactMail{
             {
                 return $this->error['serverError'] = 'Settings could not be saved due technical issues! please try again later.';
             }
-        }
-        else
-        {
-            $this->error['FormFieldError']='Your changes could not be saved due to the errors below!';
-            return $this->error;
-        }
-    }
-
-    public function updateAbout($request)
-    {
-        if(empty(trim($request['about'])))
-        {
-            $this->error['aboutError'] = 'This field Shouldn\'t be empty';
-        }
-        else
-        {
-            $this->about = strip_tags($request['about']);
-        }
-
-
-        if(empty($this->error))
-        {
-            $dir = './storage/page/';
-            if(file_exists($dir))
-            {
-                $page = $dir.'about.md';
-                if(file_put_contents($page,$this->about))
-                {
-                    $this->successMsg['success']='Successfully saved';
-                    return $this->successMsg;
-                }
-                else
-                {
-                    return $this->error['serverError'] = 'Settings could not be saved due technical issues! please try again later.';
-                }
-            }
-            else
-            {
-                if(mkdir($dir))
-                {
-                    $page = $dir.'about.md';
-                    if(file_put_contents($page,$this->about))
-                    {
-                        $this->successMsg['success']='Successfully saved';
-                        return $this->successMsg;
-                    }
-                    else
-                    {
-                        return $this->error['serverError'] = 'Settings could not be saved due technical issues! please try again later.';
-                    }
-                }
-            }
-                
-            
         }
         else
         {

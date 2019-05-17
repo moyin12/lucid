@@ -21,7 +21,8 @@ class Document
 
     public function __construct($file)
     {
-        $this->file       = $file;
+        FileSystem::makeDir($file);
+        $this->file   = $file;
     }
 
     public function file()
@@ -33,6 +34,7 @@ class Document
     //kjarts code here
     public function create($title, $content, $tags, $image, $extra)
     {
+        date_default_timezone_set("Africa/Lagos");
         $time = date(DATE_RSS, time());
         $unix = strtotime($time);
         // Write md file
@@ -68,14 +70,15 @@ class Document
             $yamlfile['post_dir'] = SITE_URL . "/storage/contents/{$unix}";
         } else {
             $yamlfile['post_dir'] = SITE_URL . "/storage/drafts/{$unix}";
-            $yamlfile['image'] = "./storage/images/" . $key;
+            //$yamlfile['image'] = "./storage/images/" . $key;
         }
 
         // create slug by first removing spaces
         $striped = str_replace(' ', '-', $title);
         // then removing encoded html chars
         $striped = preg_replace("/(&#[0-9]+;)/", "", $striped);
-        $yamlfile['slug'] = $striped . "-{$unix}";
+        //$yamlfile['slug'] = $striped . "-{$unix}";
+        $yamlfile['slug'] = $unix;
         $yamlfile['timestamp'] = $time;
         $yamlfile->setContent($content);
         $yaml = FrontMatter::dump($yamlfile);
@@ -85,16 +88,16 @@ class Document
         $doc = FileSystem::write($dir, $yaml);
         if (!$extra) {
             if ($doc) {
-                $result = array("error" => false, "message" => "Post published successfully");
+                $result = array("error" => false, "action"=>"publish", "message" => "Post published successfully");
                 $this->createRSS();
             } else {
-                $result = array("error" => true, "message" => "Fail while publishing, please try again");
+                $result = array("error" => true, "action"=>"publish", "message" => "Fail while publishing, please try again");
             }
         } else {
             if ($doc) {
-                $result = array("error" => false, "message" => "Draft saved successfully");
+                $result = array("error" => false, "action"=>"savedToDrafts", "message" => "Draft saved successfully");
             } else {
-                $result = array("error" => true, "message" => "Fail while publishing, please try again");
+                $result = array("error" => true,"action"=>"savedToDrafts", "message" => "Fail while publishing, please try again");
             }
         }
 
@@ -108,9 +111,9 @@ class Document
         // $finder->reverseSorting();
 
         // find all files in the current directory
-        
+
         $finder->files()->in($this->file);
-        
+
         $posts = [];
         if ($finder->hasResults()) {
             foreach ($finder as $file) {
@@ -151,6 +154,10 @@ class Document
                 $filename = $file[count($file) - 1];
                 $content['filename'] = $filename;
                 //content['timestamp'] = $time;
+                $SlugArray = explode('-',$this->clean($slug));
+                $content['post_id']=end($SlugArray);
+                array_pop($SlugArray);
+                $content['post_title']=implode('-',array_filter(array_map('trim', $SlugArray)));
                 $content['image'] = $image;
                 $content['date'] = date('d M Y ', $filename);
                 $content['created_at'] = date('F j, Y, g:i a',$filename);
@@ -200,7 +207,6 @@ class Document
 
     public function fetchAllRss()
     {
-
         $xml = file_get_contents("./storage/rss/rss.xml");
         $feed = [];
         if (strlen($xml != "")) {
@@ -228,7 +234,8 @@ class Document
                             'img'  => $url['img'],
                             'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
                             'desc'  => $node->getElementsByTagName('description')->item(0)->nodeValue,
-                            'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue . "?d=" . base64_encode(SITE_URL),
+                            //'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue . "?d=" . base64_encode(SITE_URL),
+                            'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
                             'date'  => date("F j, Y, g:i a", strtotime($node->getElementsByTagName('pubDate')->item(0)->nodeValue)),
 
                         );
@@ -238,7 +245,7 @@ class Document
                             'img'  => $url['img'],
                             'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
                             'desc'  => $node->getElementsByTagName('description')->item(0)->nodeValue,
-                            'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue . "?d=" . base64_encode(SITE_URL),
+                            'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
                             'date'  => date("F j, Y, g:i a", strtotime($node->getElementsByTagName('pubDate')->item(0)->nodeValue)),
                             'image'  => $node->getElementsByTagName('image')->item(0)->nodeValue,
                         );
@@ -288,6 +295,8 @@ class Document
         } else {
             return false;
         }
+        krsort($feed);
+        return $feed;
     }
     //store rss By DMAtrix
     public function createRSS()
@@ -295,7 +304,7 @@ class Document
         $user = file_get_contents("./src/config/auth.json");
         $user = json_decode($user, true);
 
-        //  date_default_timezone_set('UTC');
+          date_default_timezone_set("Africa/Lagos");
         $Feed = new RSS2;
         // Setting some basic channel elements. These three elements are mandatory.
         $Feed->setTitle($user['name']);
@@ -332,7 +341,7 @@ class Document
 
                 $parsedown  = new Parsedown();
 
-                $title = $parsedown->text($yaml['title']);
+                $title = isset($yaml['title']) ? $parsedown->text($yaml['title']) : '';
                 $slug = $parsedown->text($yaml['slug']);
                 $image = isset($yaml['image']) ? $parsedown->text($yaml['image']) : '';
                 $slug = preg_replace("/<[^>]+>/", '', $slug);
@@ -611,7 +620,6 @@ class Document
             ///coming back for some modifications
             unlink($this->file.$post.'.md');
             $this->createRSS();
-            return $this->redirect('/published-posts');
         }
     }
 
@@ -659,6 +667,10 @@ class Document
                 $content['date'] = date('d M Y ', $post);
                 $content['crawlerImage'] = $first_img;
                 $content['slug'] = $this->clean($slug);
+                $SlugArray = explode('-',$this->clean($slug));
+                $content['post_id']=end($SlugArray);
+                array_pop($SlugArray);
+                $content['post_title']=implode('-',array_filter(array_map('trim', $SlugArray)));
             }
             return $content;
         }
@@ -719,7 +731,7 @@ class Document
         {
             $doc = fwrite($fopen, $yamlTextContent.PHP_EOL);
         }
-        
+
         if (!$extra) {
             if ($doc) {
                 $result =  array("error" => false, "action"=>"update", "message" => "Post Updated successfully");
@@ -737,7 +749,7 @@ class Document
 
         return $result;
 
-        
+
     }
 
 
@@ -796,12 +808,16 @@ class Document
                 $filename = $file[count($file) - 1];
                 $content['filename'] = $filename;
                 //content['timestamp'] = $time;
+                $SlugArray = explode('-',$this->clean($slug));
+                $content['post_id']=end($SlugArray);
+                array_pop($SlugArray);
+                $content['post_title']=implode('-',array_filter(array_map('trim', $SlugArray)));
                 $content['image'] = $image;
                 $content['date'] = date('d M Y ', $filename);
-
+                $content['created_at'] = date('F j, Y, g:i a',$filename);
                 array_push($posts, $content);
             }
-            krsort($posts);
+            $this->array_sort_by_column($posts,'created_at');
             $countPosts = count($posts);
             if ($countPosts > $limit)
                 array_shift($posts);

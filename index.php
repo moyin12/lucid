@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Front to the Ziki app. This file doesn't do anything, but bootstraps

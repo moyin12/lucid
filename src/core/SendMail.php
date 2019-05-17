@@ -73,18 +73,19 @@ class SendContactMail{
             
                 if($this->sendMailToOwner())
                 {
-                    $this->successMsg['success']='Feedback Successfully Sent!';
+                    $this->successMsg['success']='Thanks for sending your feedback,i hope to reply  soon!';
                     return $this->successMsg;
                 }
                 else
                 {
-                    return $this->error['serverError'] = 'FeedBack could not be sent please make sure your data connection is on!';
+                    $this->error['serverError'] = 'FeedBack could not be sent, please make sure you have an active internet  connection!';
+                    return $this->error;
                 }
             
         }
         else
         {
-            $this->error['FormFieldError']='Please Fix The Errors Below To Send Your FeedBack!';
+            $this->error['FormFieldError']='Please Fix The Errors On The Input Fields To Send Your FeedBack!';
             return $this->error;
         }
     }

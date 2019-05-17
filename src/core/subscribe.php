@@ -208,9 +208,10 @@ public function extract($url)
 
     $file = FileSystem::read($db);
     $data=json_decode($file,true);
-    unset($file);
-   return count($data);
-
+    if(!empty($data)){
+      unset($file);
+      return count($data);
+    }
   }
   public function fcount()
   {
@@ -222,7 +223,7 @@ public function extract($url)
       unset($file);
       return count($data);
     }
-    
+
 
   }
 }
